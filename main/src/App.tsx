@@ -1,10 +1,14 @@
 import React from 'react';
-import {Typography} from "@mui/material";
+import {Card} from 'react-bootstrap';
 
 function App() {
   return (
     <div>
-      <Typography variant={"h1"} component={"h1"}>Hello, World!</Typography>
+       <Card>
+        <Card.Body>
+          Hello, World!
+        </Card.Body>
+      </Card>
     </div>
   );
 }
