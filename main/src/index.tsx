@@ -14,7 +14,7 @@ import './assets/css/sideBar.css';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-    <div className="d-flex row" style={{backgroundColor:"#F2FAED",height:"100%"}}>
+    <div className="d-flex row" style={{overflowX:"hidden", backgroundColor:"#F2FAED",height:"100%"}}>
       <div className='col p-0' style={{maxWidth:"250px"}}>
         <SideBar/>  
       </div> 
