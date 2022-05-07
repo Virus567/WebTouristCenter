@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card} from 'react-bootstrap';
 
-function App() {
+function Login() {
   return (
     <div>
        <Card>
@@ -13,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default Login;

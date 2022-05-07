@@ -1,6 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "WebServer\WebServer.csproj", "{D836D69F-2F31-4A65-95AB-4968F39CDD25}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebServer", "WebServer\WebServer.csproj", "{D836D69F-2F31-4A65-95AB-4968F39CDD25}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouristСenterLibrary", "TouristСenterLibrary\TouristСenterLibrary.csproj", "{74DD78FF-2646-4CDB-B569-77990375EB1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +17,15 @@ Global
 		{D836D69F-2F31-4A65-95AB-4968F39CDD25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D836D69F-2F31-4A65-95AB-4968F39CDD25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D836D69F-2F31-4A65-95AB-4968F39CDD25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74DD78FF-2646-4CDB-B569-77990375EB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74DD78FF-2646-4CDB-B569-77990375EB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74DD78FF-2646-4CDB-B569-77990375EB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74DD78FF-2646-4CDB-B569-77990375EB1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E3F8577-78A7-4A8E-827B-25A355055D57}
 	EndGlobalSection
 EndGlobal
