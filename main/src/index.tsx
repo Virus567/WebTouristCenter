@@ -10,9 +10,12 @@ import Instructors from './Instructors';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/sideBar.css';
+import {Provider} from "react-redux";
+import {store} from './redux/store';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Provider store={store}>
     <BrowserRouter>
     <div className="d-flex row" style={{overflowX:"hidden", backgroundColor:"#F2FAED",height:"100%"}}>
       <div className='col p-0' style={{maxWidth:"250px"}}>
@@ -29,6 +32,7 @@ ReactDOM.render(
       </div>
     </div>   
     </BrowserRouter> 
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -37,14 +37,14 @@ namespace WebServer.Requests
                 return;
             }
 
-            //var client = User.GeUserAuth(body.login, body.password);
-            //if (client is null)
-            //{
-            //    Send(new AnswerModel(false, null, 401, "incorrect request body"));
-            //    return;
-            //}
+            var client = User.GeUserAuth(body.login, body.password);
+            if (client is null)
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request body"));
+                return;
+            }
 
-            //Send(new AnswerModel(true, new { token = GenerateToken(client.Profile!) }, null, null));
+            Send(new AnswerModel(true, new { token = GenerateToken(client) }, null, null));
         }
 
         [Post("/signon")]
@@ -57,17 +57,20 @@ namespace WebServer.Requests
                 return;
             }
 
-            //var user = new User(body!.lastname, body.firstname, body.phone)
-            //{
-            //    Middlename = body.middlename == "" ? null : body.middlename,
-            //    Email = body.email == "" ? null : body.email,
-            //}, body.login, body.password);
-            //if (RegClient())
-            //{
-            //    Send(new AnswerModel(false, null, 401, "incorrect request"));
-            //    return;
-            //}
-            //Send(new AnswerModel(true, new { token = GenerateToken(profile) }, null, null));
+            var user = new User(body!.surname, body.name, body.middlename, body.phoneNumber)
+            {
+                NameOfCompany = body.nameOfCompany == "" ? null : body.middlename,
+                Middlename = body.middlename == "" ? null : body.middlename,
+                Email = body.email == "" ? null : body.email,
+                Login = body.login,
+                Password = body.password
+            };
+            if (user.Add())
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request"));
+                return;
+            }
+            Send(new AnswerModel(true, new { token = GenerateToken(user) }, null, null));
         }
     }
 }

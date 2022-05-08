@@ -12,9 +12,13 @@ import {
 import  UncontrolledDropdown from"react-bootstrap/Dropdown";
 import forest from './assets/img/forest.png';
 import avatar from './assets/img/avatar.png';
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "./redux/store";
 
 
 function Header() {
+  const user = useSelector((state: RootState) => state);
+  const dispatch = useDispatch<AppDispatch>();
   return (
     <div style={{
       width:"100%",
@@ -28,8 +32,9 @@ function Header() {
                       alt="..."
                       src="/img/kolokol.svg"
                     />
+                    {user.auth?(
             <UncontrolledDropdown>
-              <Dropdown.Toggle className="pr-0 d-flex"
+              <Dropdown.Toggle className="rr pr-0 d-flex"
                style={{
               border:"0px",
               backgroundColor:"#B5C2B1",
@@ -39,7 +44,7 @@ function Header() {
                 <div className="align-items-center d-flex" >
                   <div className="ml-2 d-none d-lg-block">
                     <span className="mb-0 mx-2 text-black  font-bold">
-                      @pomidorkin1
+                      pomidorkin1
                     </span>
                   </div>
                   <span className="avatar ml-2 avatar-sm rounded-circle">
@@ -64,6 +69,7 @@ function Header() {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </UncontrolledDropdown>
+            ):(<></>)}
           </Nav>
         </Container>
       </Navbar>
