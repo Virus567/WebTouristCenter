@@ -7,6 +7,7 @@ import MyTeam from './MyTeam';
 import MyHikes from './MyHikes';
 import HikeRoutes from './HikeRoutes';
 import Instructors from './Instructors';
+import HikeRoute from './HikeRoute';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/sideBar.css';
@@ -28,6 +29,7 @@ ReactDOM.render(
           <Route path={"/my-hikes"} element={<MyHikes/>} />
           <Route path={"/routes"} element={<HikeRoutes/>} />
           <Route path={"/instructors"} element={<Instructors/>} />
+          <Route path={"/route"} element={<HikeRoute/>} />
         </Routes>
       </div>
     </div>   

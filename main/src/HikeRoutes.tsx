@@ -52,16 +52,16 @@ function HikeRoutes() {
       <Container className="mt-4 mb-4 d-flex justify-content-between">
         <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
           <Card.Img variant="top" src={route} />
-          <Card.ImgOverlay className='d-flex flex-column align-items-end'>
-            <Card.Text>
-              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+          <Card.Body style={{backgroundColor:"#F2FAED"}}>
+            <Card.Title className='d-flex justify-content-between'>
+              <span>
+                Любимая Немда
+              </span>
+              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
               textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   3 дня
               </div>
-            </Card.Text>
-          </Card.ImgOverlay>
-          <Card.Body style={{backgroundColor:"#F2FAED"}}>
-            <Card.Title>Любимая Немда</Card.Title>
+            </Card.Title>
             <Card.Text>
               Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
             </Card.Text>
@@ -78,16 +78,16 @@ function HikeRoutes() {
 
         <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
           <Card.Img variant="top" src={route} />
-          <Card.ImgOverlay className='d-flex flex-column align-items-end'>
-            <Card.Text>
-              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+          <Card.Body style={{backgroundColor:"#F2FAED"}}>
+            <Card.Title className='d-flex justify-content-between'>
+              <span>
+                Любимая Немда
+              </span>
+              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
               textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   3 дня
               </div>
-            </Card.Text>
-          </Card.ImgOverlay>
-          <Card.Body style={{backgroundColor:"#F2FAED"}}>
-            <Card.Title>Любимая Немда</Card.Title>
+            </Card.Title>
             <Card.Text>
               Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
             </Card.Text>
@@ -101,47 +101,96 @@ function HikeRoutes() {
             
           </Card.Body>
         </Card>
-        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
-          <Card.Img variant="top" src={route} />
-          <Card.ImgOverlay className='d-flex flex-column align-items-end'>
-            <Card.Text>
-              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                  3 дня
-              </div>
-            </Card.Text>
-          </Card.ImgOverlay>
-          <Card.Body style={{backgroundColor:"#F2FAED"}}>
-            <Card.Title>Любимая Немда</Card.Title>
-            <Card.Text>
-              Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
-            </Card.Text>
-            <div className='d-flex flex-column align-items-end'>
-              <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-              >
-                Перейти
-              </Button>
-            </div>
-            
-          </Card.Body>
-        </Card>
-        
 
+         <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
+          <Card.Img variant="top" src={route} />
+          <Card.Body style={{backgroundColor:"#F2FAED"}}>
+            <Card.Title className='d-flex justify-content-between'>
+              <span>
+                Любимая Немда
+              </span>
+              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
+              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                  3 дня
+              </div>
+            </Card.Title>
+            <Card.Text>
+              Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
+            </Card.Text>
+            <div className='d-flex flex-column align-items-end'>
+              <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+              >
+                Перейти
+              </Button>
+            </div>
+            
+          </Card.Body>
+        </Card>
       </Container> 
       <Container className="mt-4 mb-4 d-flex justify-content-between">
-        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
+      <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
           <Card.Img variant="top" src={route} />
-          <Card.ImgOverlay className='d-flex flex-column align-items-end'>
-            <Card.Text>
-              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+          <Card.Body style={{backgroundColor:"#F2FAED"}}>
+            <Card.Title className='d-flex justify-content-between'>
+              <span>
+                Любимая Немда
+              </span>
+              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
               textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   3 дня
               </div>
+            </Card.Title>
+            <Card.Text>
+              Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
             </Card.Text>
-          </Card.ImgOverlay>
+            <div className='d-flex flex-column align-items-end'>
+              <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+              >
+                Перейти
+              </Button>
+            </div>
+            
+          </Card.Body>
+        </Card>
+        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
+          <Card.Img variant="top" src={route} />
           <Card.Body style={{backgroundColor:"#F2FAED"}}>
-            <Card.Title>Любимая Немда</Card.Title>
+            <Card.Title className='d-flex justify-content-between'>
+              <span>
+                Любимая Немда
+              </span>
+              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
+              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                  3 дня
+              </div>
+            </Card.Title>
+            <Card.Text>
+              Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
+            </Card.Text>
+            <div className='d-flex flex-column align-items-end'>
+              <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+              >
+                Перейти
+              </Button>
+            </div>
+            
+          </Card.Body>
+        </Card>
+        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
+          <Card.Img variant="top" src={route} />
+          <Card.Body style={{backgroundColor:"#F2FAED"}}>
+            <Card.Title className='d-flex justify-content-between'>
+              <span>
+                Любимая Немда
+              </span>
+              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
+              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                  3 дня
+              </div>
+            </Card.Title>
             <Card.Text>
               Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
             </Card.Text>
@@ -156,55 +205,6 @@ function HikeRoutes() {
           </Card.Body>
         </Card>
 
-        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
-          <Card.Img variant="top" src={route} />
-          <Card.ImgOverlay className='d-flex flex-column align-items-end'>
-            <Card.Text>
-              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                  3 дня
-              </div>
-            </Card.Text>
-          </Card.ImgOverlay>
-          <Card.Body style={{backgroundColor:"#F2FAED"}}>
-            <Card.Title>Любимая Немда</Card.Title>
-            <Card.Text>
-              Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
-            </Card.Text>
-            <div className='d-flex flex-column align-items-end'>
-              <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-              >
-                Перейти
-              </Button>
-            </div>
-            
-          </Card.Body>
-        </Card>
-        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
-          <Card.Img variant="top" src={route} />
-          <Card.ImgOverlay className='d-flex flex-column align-items-end'>
-            <Card.Text>
-              <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                  3 дня
-              </div>
-            </Card.Text>
-          </Card.ImgOverlay>
-          <Card.Body style={{backgroundColor:"#F2FAED"}}>
-            <Card.Title>Любимая Немда</Card.Title>
-            <Card.Text>
-              Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
-            </Card.Text>
-            <div className='d-flex flex-column align-items-end'>
-              <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-              >
-                Перейти
-              </Button>
-            </div> 
-          </Card.Body>
-        </Card>
       </Container> 
     </div>
   );

@@ -30,6 +30,7 @@ namespace WebServer.Requests
         [Post("/signin")]
         public void LoginUser()
         {
+
             var body = Bind<AuthModel>();
             if (body is null || string.IsNullOrEmpty(body.login) || string.IsNullOrEmpty(body.password))
             {
@@ -44,12 +45,13 @@ namespace WebServer.Requests
                 return;
             }
 
-            Send(new AnswerModel(true, new { token = GenerateToken(client) }, null, null));
+            Send(new AnswerModel(true, new { access_token = GenerateToken(client), user = client }, null, null));
         }
 
         [Post("/signon")]
         public void RegisterUser()
         {
+            
             var body = Bind<RegModel>();
             if (RegModel.Check(body))
             {
@@ -57,20 +59,20 @@ namespace WebServer.Requests
                 return;
             }
 
-            var user = new User(body!.surname, body.name, body.middlename, body.phoneNumber)
+            var user = new User(body!.surname, body.name, body.phone)
             {
-                NameOfCompany = body.nameOfCompany == "" ? null : body.middlename,
+                NameOfCompany = body.nameOfCompany == "" ? null : body.nameOfCompany,
                 Middlename = body.middlename == "" ? null : body.middlename,
                 Email = body.email == "" ? null : body.email,
                 Login = body.login,
                 Password = body.password
             };
-            if (user.Add())
+            if (!user.Add())
             {
                 Send(new AnswerModel(false, null, 401, "incorrect request"));
                 return;
             }
-            Send(new AnswerModel(true, new { token = GenerateToken(user) }, null, null));
+            Send(new AnswerModel(true, new { access_token = GenerateToken(user), user = user }, null, null));
         }
     }
 }

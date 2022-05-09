@@ -21,6 +21,13 @@ namespace TouristСenterLibrary.Entity
 
         }
 
+        public User(string Surname, string Name, string PhoneNumber)
+        {
+            this.Surname = Surname;
+            this.Name = Name;
+            this.PhoneNumber = PhoneNumber;
+        }
+
         public User(string NameOfCompany, string Surname, string Name, string Middlename,
             string PhoneNumber) : base(Surname, Name, Middlename, PhoneNumber)
         {
