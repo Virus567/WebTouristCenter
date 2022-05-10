@@ -20,7 +20,7 @@ function MyHikes() {
   // }
   return (
     <div className="p-4" style={{height:"100%"}}>
-      <div style={{height:"580px"}}>
+      <div style={{height:"81%"}}>
         <div>
           <h4>Заявки</h4>
           <hr style={{margin:"0 0 20px 0"}}/>

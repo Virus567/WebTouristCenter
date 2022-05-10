@@ -68,7 +68,7 @@ function MyTeam() {
                     </div>
                 </Container>          
             </Container>
-            <Container className='rounded mt-5 mb-2 mx-0 pt-2 px-3' style={{ height:"320px", padding:"0 12px 0 12px", backgroundColor:"#B4C3B1"}}>
+            <Container className='rounded mt-5 mb-2 mx-0 pt-2 px-3' style={{ height:"260px", padding:"0 12px 0 12px", backgroundColor:"#B4C3B1"}}>
                 <h4 className='text-white p-0' 
                 style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                     Мои команды
@@ -94,7 +94,7 @@ function MyTeam() {
                 </Container>     
             </Container>
         </Container>
-        <Container className='rounded mt-4 ml-2  pt-2 px-3' style={{ width:"33%",marginRight:"30px" ,height:"617px",backgroundColor:"#B6D3B0"}}> 
+        <Container className='rounded mt-4 ml-2  pt-2 px-3' style={{ width:"33%",marginRight:"30px" ,height:"557px",backgroundColor:"#B6D3B0"}}> 
                 <h4 className='text-white'
                 style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                     Команда
@@ -126,7 +126,7 @@ function MyTeam() {
                             </div>
                         </Container> 
                     </div>
-                    <div className='h-100 d-flex flex-column align-items-center'>
+                    <div className=' d-flex flex-column align-items-center'>
                        <Button onClick={handleShow} className='p-0 rounded-circle'style={{ backgroundColor:"#F2FAED", border:"0", height:"32px", width:"32px"}}>
                             <BsPlusCircle style={{margin:"0 1px 2px 0", color:"#89A889", height:"100%", width:"100%"}}/>
                        </Button>  
