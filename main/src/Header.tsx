@@ -15,9 +15,9 @@ import {
   Navbar,
   Nav,
   Container,
-  Image,
   Button,
-  Modal
+  Modal,
+  Form
 } from "react-bootstrap";
 interface State {
 	login: string,
@@ -100,11 +100,20 @@ function Header() {
             </UncontrolledDropdown>
                       </div>
               
-            ):(<Button className="m-2" style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+            ):(
+              <>
+              <Button className="m-2" style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
             textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}} 
             onClick={handleShow}>
               Войти
-              </Button>)}
+              </Button>
+              <Button className="m-2" style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+              textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}} 
+              onClick={() =>{navigate("/register")}}>
+                Регистрация
+              </Button>
+              </>
+            )}
           </Nav>
         </Container>
       </Navbar>
@@ -118,9 +127,19 @@ function Header() {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className='d-flex flex-column align-items-center' style={{backgroundColor:"#B6D3B0"}}>
-              <input type="text" placeholder='Логин' value={values.login} onChange={handleChange('login')} className='row mt-2'/>
-              <input type="password" placeholder='Пароль' value={values.password} onChange={handleChange('password')} className='row mt-2'/>
-              <Button variant='outline-success' className='row mt-2' onClick={onClick}>Войти</Button>
+              <Form>
+                <Form.Floating>  
+                  <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingInput" value={values.login} onChange={handleChange('login')} type="text" placeholder="Login"/>
+                  <Form.Label for="floatingInput">Login</Form.Label>
+                </Form.Floating> 
+                <Form.Floating className='mt-3'> 
+                  <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingPassword" value={values.password} onChange={handleChange('password')} type="password" placeholder="Password"/>
+                  <Form.Label for="floatingPassword">Password</Form.Label>
+                </Form.Floating>  
+
+                <Button variant='outline-success' className='mt-3 w-100 btn btn-lg' style={{backgroundColor:"#F2FAED", borderColor:"#89A889", color:"#89A889"}} onClick={onClick}>Войти</Button>
+              </Form>
+              
             </Modal.Body>           
         </Modal>                    
 

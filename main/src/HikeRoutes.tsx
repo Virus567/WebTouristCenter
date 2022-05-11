@@ -8,7 +8,7 @@ function HikeRoutes() {
   return (
     <div>
       <Container className='mt-2 mb-3  d-flex justify-content-between p-2 rounded'
-                style={{ margin:"0 0 0 35px",
+                style={{ margin:"0 0 0 40px",
                 width:"94%",
                 backgroundColor:"#B6D3B0"
                 }}>
@@ -50,7 +50,7 @@ function HikeRoutes() {
                   </div>                                        
         </Container>  
       <Container className="mt-4 mb-4 d-flex justify-content-between">
-        <Card style={{ width: '22rem', border:" 2px solid #89A889" }}>
+        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
           <Card.Img variant="top" src={route} />
           <Card.Body style={{backgroundColor:"#F2FAED"}}>
             <Card.Title className='d-flex justify-content-between'>
@@ -76,7 +76,7 @@ function HikeRoutes() {
           </Card.Body>
         </Card>
 
-        <Card style={{ width: '22rem', border:" 2px solid #89A889" }}>
+        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
           <Card.Img variant="top" src={route} />
           <Card.Body style={{backgroundColor:"#F2FAED"}}>
             <Card.Title className='d-flex justify-content-between'>
@@ -102,7 +102,7 @@ function HikeRoutes() {
           </Card.Body>
         </Card>
 
-         <Card style={{ width: '22rem', border:" 2px solid #89A889" }}>
+         <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
           <Card.Img variant="top" src={route} />
           <Card.Body style={{backgroundColor:"#F2FAED"}}>
             <Card.Title className='d-flex justify-content-between'>
@@ -129,7 +129,7 @@ function HikeRoutes() {
         </Card>
       </Container> 
       <Container className="mt-4 mb-4 d-flex justify-content-between">
-      <Card style={{ width: '22rem', border:" 2px solid #89A889" }}>
+      <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
           <Card.Img variant="top" src={route} />
           <Card.Body style={{backgroundColor:"#F2FAED"}}>
             <Card.Title className='d-flex justify-content-between'>
@@ -154,7 +154,7 @@ function HikeRoutes() {
             
           </Card.Body>
         </Card>
-        <Card style={{ width: '22rem', border:" 2px solid #89A889" }}>
+        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
           <Card.Img variant="top" src={route} />
           <Card.Body style={{backgroundColor:"#F2FAED"}}>
             <Card.Title className='d-flex justify-content-between'>
@@ -179,7 +179,7 @@ function HikeRoutes() {
             
           </Card.Body>
         </Card>
-        <Card style={{ width: '22rem', border:" 2px solid #89A889" }}>
+        <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
           <Card.Img variant="top" src={route} />
           <Card.Body style={{backgroundColor:"#F2FAED"}}>
             <Card.Title className='d-flex justify-content-between'>
