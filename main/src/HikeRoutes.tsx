@@ -2,9 +2,19 @@ import React from 'react';
 import {Card, Container,Button, Form} from 'react-bootstrap';
 import route from './assets/img/loveNemda.png';
 import {useNavigate} from 'react-router-dom';
+import RouteService from './redux/services/RouteService';
+import {HikeRoute} from "./models/RoutesModel";
 
 function HikeRoutes() {
   const navigate = useNavigate();
+  const [routes, setRoutes] = React.useState<HikeRoute[]>([]);
+
+  React.useEffect(() => {
+    if (routes.length !== 0) return;
+    RouteService.GetRoutes().then((res) => {
+      setRoutes(res);
+    })
+  }, [routes])
   return (
     <div>
       <Container className='mt-2 mb-3  d-flex justify-content-between p-2 rounded'

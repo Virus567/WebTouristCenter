@@ -14,12 +14,12 @@ namespace WebServer.Requests
     [RequestHandlerPath("/routes")]
     public class GetRoutesHandler : RequestHandler
     {
-        [Get]
+        [Get("get")]
         public void GetRoutes()
         {
             List<Route> routes = Route.GetRouters();
 
-            if (routes == null) {
+            if (!routes.Any()) {
                 Send(new AnswerModel(false, null, 401, "incorrect request body"));
                 return;
             }

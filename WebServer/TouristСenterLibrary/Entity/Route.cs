@@ -16,6 +16,7 @@ namespace TouristСenterLibrary.Entity
         [Required] public CheckpointRoute CheckpointFinish { get; set; }
         public int CheckpointFinishID { get; set; }
         [Required] public string River { get; set; }
+        //[Required] public List<string> Images { get; set; }
 
         public Route()
         {

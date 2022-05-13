@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {Answer, LoginModel, RegistrationModel} from "../../models/RequestModels";
 import {removeCookie, setCookie} from "typescript-cookie";
 import {RegisterSuccess, RegisterFail, LoginSuccess, LoginFail, Logout} from "../actions/authActions"
