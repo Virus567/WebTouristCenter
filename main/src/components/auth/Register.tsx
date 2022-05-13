@@ -45,8 +45,9 @@ function Registration() {
 		};
 		AuthService.register(data).then((res) => {
 			dispatch(res)
+      navigate("/");
 			if (res.type === RegisterSuccess.type){
-				navigate("/");
+				//navigate("/");
 			}
 		});
 	};

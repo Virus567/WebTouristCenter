@@ -40,10 +40,8 @@ function Header() {
 		};
 		AuthService.login(data).then((res) => {
 			dispatch(res)
-			if (res.type === LoginSuccess.type) {
-				navigate("/");
-        handleClose();
-			}
+      handleClose();
+      navigate("/");
 		})
 	};
   const [show, setShow] = useState(false);
@@ -62,7 +60,7 @@ function Header() {
         <Container fluid style={{justifyContent:"end"}}>
           <Nav className="align-items-center d-none d-md-flex" navbar>
 
-          {user.auth?(
+          {user.client.isAuth?(
             <div  className="align-items-center d-none d-md-flex">
               <img style={{height: "16px"}} 
               alt="..."
@@ -79,7 +77,7 @@ function Header() {
                 <div className="align-items-center d-flex" >
                   <div className="ml-2 d-none d-lg-block">
                     <span className="mb-0 mx-2 text-black  font-bold">
-                      {user.client!.Login}
+                      {user.client.client!.Login}
                     </span>
                   </div>
                   <span className="avatar ml-2 avatar-sm text-grey rounded-circle">
