@@ -61,162 +61,34 @@ function HikeRoutes() {
                   </div>                                        
         </Container>  
       <Container className='mt-4 mb-4 row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 col-lg-11 col-md-8 mx-auto'>
-        <div className='col'>
-          <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
-            <Card.Img variant="top" src={route} />
-            <Card.Body style={{backgroundColor:"#F2FAED"}}>
-              <Card.Title className='d-flex justify-content-between'>
-                <span>
-                  Любимая Немда
-                </span>
-                <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    3 дня
+        {routes.map((route)=>(
+            <div className='col'>
+            <Card style={{ width: '24rem', height:'28rem', border:" 2px solid #89A889" }}>
+              <Card.Img variant="top" style={{height:"255px"}} src={route.Images[0]} />
+              <Card.Body style={{backgroundColor:"#F2FAED"}}>
+                <Card.Title className='d-flex justify-content-between'>
+                  <span>
+                    {route.Name}
+                  </span>
+                  <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
+                  textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                     {route.NumberDays} дня
+                  </div>
+                </Card.Title>
+                <Card.Text style={{height:"40%"}}>
+                 {route.Description}
+                </Card.Text>
+                <div className='d-flex flex-column align-items-end'>
+                  <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+                  textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+                  >
+                    Перейти
+                  </Button>
                 </div>
-              </Card.Title>
-              <Card.Text>
-                Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
-              </Card.Text>
-              <div className='d-flex flex-column align-items-end'>
-                <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-                >
-                  Перейти
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        </div> 
-        <div className='col'>
-          <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
-            <Card.Img variant="top" src={route} />
-            <Card.Body style={{backgroundColor:"#F2FAED"}}>
-              <Card.Title className='d-flex justify-content-between'>
-                <span>
-                  Любимая Немда
-                </span>
-                <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    3 дня
-                </div>
-              </Card.Title>
-              <Card.Text>
-                Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
-              </Card.Text>
-              <div className='d-flex flex-column align-items-end'>
-                <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-                >
-                  Перейти
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>  
-        <div className='col'>
-          <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
-            <Card.Img variant="top" src={route} />
-            <Card.Body style={{backgroundColor:"#F2FAED"}}>
-              <Card.Title className='d-flex justify-content-between'>
-                <span>
-                  Любимая Немда
-                </span>
-                <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    3 дня
-                </div>
-              </Card.Title>
-              <Card.Text>
-                Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
-              </Card.Text>
-              <div className='d-flex flex-column align-items-end'>
-                <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-                >
-                  Перейти
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>  
-        <div className='col'>
-          <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
-            <Card.Img variant="top" src={route} />
-            <Card.Body style={{backgroundColor:"#F2FAED"}}>
-              <Card.Title className='d-flex justify-content-between'>
-                <span>
-                  Любимая Немда
-                </span>
-                <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    3 дня
-                </div>
-              </Card.Title>
-              <Card.Text>
-                Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
-              </Card.Text>
-              <div className='d-flex flex-column align-items-end'>
-                <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-                >
-                  Перейти
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>  
-        <div className='col'>
-          <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
-            <Card.Img variant="top" src={route} />
-            <Card.Body style={{backgroundColor:"#F2FAED"}}>
-              <Card.Title className='d-flex justify-content-between'>
-                <span>
-                  Любимая Немда
-                </span>
-                <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    3 дня
-                </div>
-              </Card.Title>
-              <Card.Text>
-                Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
-              </Card.Text>
-              <div className='d-flex flex-column align-items-end'>
-                <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-                >
-                  Перейти
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>  
-        <div className='col'>
-          <Card style={{ width: '24rem', border:" 2px solid #89A889" }}>
-            <Card.Img variant="top" src={route} />
-            <Card.Body style={{backgroundColor:"#F2FAED"}}>
-              <Card.Title className='d-flex justify-content-between'>
-                <span>
-                  Любимая Немда
-                </span>
-                <div className='rounded d-flex flex-column align-items-center px-1' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    3 дня
-                </div>
-              </Card.Title>
-              <Card.Text>
-                Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы скал, самый высокий водопад Кировской области.
-              </Card.Text>
-              <div className='d-flex flex-column align-items-end'>
-                <Button onClick= {() => {navigate("/route")}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-                >
-                  Перейти
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        </div> 
+              </Card.Body>
+            </Card>
+          </div>
+        ))}
       </Container>
     </div>
   );
