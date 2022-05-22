@@ -63,7 +63,7 @@ function HikeRoutes() {
       <Container className='mt-4 mb-4 row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 col-lg-11 col-md-8 mx-auto'>
         {routes.map((route)=>(
             <div className='col'>
-            <Card style={{ width: '24rem', height:'28rem', border:" 2px solid #89A889" }}>
+            <Card style={{ width: '22rem', height:'28rem', border:" 2px solid #89A889" }}>
               <Card.Img variant="top" style={{height:"255px"}} src={route.Images[0]} />
               <Card.Body style={{backgroundColor:"#F2FAED"}}>
                 <Card.Title className='d-flex justify-content-between'>
