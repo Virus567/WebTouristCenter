@@ -1,8 +1,8 @@
 import React from 'react';
 import {Container,Button, Form, Dropdown} from 'react-bootstrap';
-import green from './assets/img/green.png';
-import red from './assets/img/red.png';
-import yellow from './assets/img/yellow.png';
+import green from '../assets/img/green.png';
+import red from '../assets/img/red.png';
+import yellow from '../assets/img/yellow.png';
 import {useNavigate} from 'react-router-dom';
 
 const dateStart = "05.07.2022";

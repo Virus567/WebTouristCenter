@@ -1,4 +1,4 @@
-export interface HikeRoute {
+export interface Route {
 	ID: number
 	Name: string,
     NumberDays: number,

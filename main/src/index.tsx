@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Routes, Route } from 'react-router-dom';
-import SideBar from './SideBar';
-import Header from './Header';
-import MyTeam from './MyTeam';
-import MyHikes from './MyHikes';
-import HikeRoutes from './HikeRoutes';
-import Instructors from './Instructors';
-import HikeRoute from './HikeRoute';
-import Registration from './components/auth/Register';
+import SideBar from './components/SideBar';
+import Header from './components/Header';
+import MyTeam from './routes/MyTeam';
+import MyHikes from './routes/MyHikes';
+import HikeRoutes from './routes/HikeRoutes';
+import Instructors from './routes/Instructors';
+import HikeRoute from './routes/HikeRoute';
+import Order from './routes/Order';
+import Registration from './components/Register';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/sideBar.css';
@@ -31,6 +32,7 @@ ReactDOM.render(
           <Route path={"/routes"} element={<HikeRoutes/>} />
           <Route path={"/instructors"} element={<Instructors/>} />
           <Route path={"/route"} element={<HikeRoute/>} />
+          <Route path={"/order"} element={<Order/>} />
           <Route path={"/register"} element={<Registration/>} />
         </Routes>
       </div>

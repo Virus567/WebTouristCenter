@@ -2,16 +2,16 @@ import React from 'react';
 import {Card, Container,Button, Form} from 'react-bootstrap';
 import route from './assets/img/loveNemda.png';
 import {useNavigate} from 'react-router-dom';
-import RouteService from './redux/services/RouteService';
-import {HikeRoute} from "./models/RoutesModel";
+import RouteService from '../redux/services/RouteService';
+import {Route} from "../models/RoutesModel";
 
 function HikeRoutes() {
   const navigate = useNavigate();
-  const [routes, setRoutes] = React.useState<HikeRoute[]>([]);
+  const [routes, setRoutes] = React.useState<Route[]>([]);
 
   React.useEffect(() => {
     if (routes.length !== 0) return;
-    RouteService.GetRoutes().then((res) => {
+    RouteService.getRoutes().then((res) => {
       setRoutes(res);
     })
   }, [routes])

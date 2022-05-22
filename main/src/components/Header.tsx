@@ -1,13 +1,13 @@
-import './assets/css/header.css';
+import '../assets/css/header.css';
 import React, { useState } from 'react';
 import sha256 from "sha256";
-import {LoginModel} from './models/RequestModels';
-import {LoginSuccess} from "./redux/actions/authActions";
+import {LoginModel} from '../models/RequestModels';
+import {LoginSuccess} from "../redux/actions/authActions";
 import {FaUserCircle} from 'react-icons/fa';
 import  UncontrolledDropdown from"react-bootstrap/Dropdown";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "./redux/store";
-import AuthService from "./redux/services/AuthService";
+import {AppDispatch, RootState} from "../redux/store";
+import AuthService from "../redux/services/AuthService";
 import {useNavigate} from 'react-router-dom';
 // reactstrap components
 import {
@@ -41,7 +41,9 @@ function Header() {
 		AuthService.login(data).then((res) => {
 			dispatch(res)
       handleClose();
-      navigate("/");
+			if (res.type === LoginSuccess.type) {
+				navigate("/");
+			}
 		})
 	};
   const [show, setShow] = useState(false);

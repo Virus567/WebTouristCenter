@@ -59,5 +59,19 @@ namespace WebServer.Requests
 
             Send(new AnswerModel(true, new { routes = routes }, null, null));
         }
+
+        [Post("id")]
+        public void GetRoutesByID()
+        {
+            var id = Bind<int>();
+            var route = Route.GetRouteByID(id);
+            if(route == null)
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request body"));
+                return;
+            }
+
+            Send(new AnswerModel(true, new { route = route }, null, null));
+        }
     }
 }

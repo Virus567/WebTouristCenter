@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
 import {Container, Button, Form} from 'react-bootstrap';
-import AuthService from "../../redux/services/AuthService";
+import AuthService from "../redux/services/AuthService";
 import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../redux/store";
+import {AppDispatch} from "../redux/store";
 import {useNavigate} from 'react-router-dom';
-import {RegisterSuccess} from "../../redux/actions/authActions";
-import {RegistrationModel} from '../../models/RequestModels';
+import {RegisterSuccess} from "../redux/actions/authActions";
+import {RegistrationModel} from '../models/RequestModels';
 import sha256 from "sha256";
 
 interface State {

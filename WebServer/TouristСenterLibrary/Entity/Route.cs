@@ -34,6 +34,11 @@ namespace TouristСenterLibrary.Entity
             return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).ToList();
         }
 
+        public static Route? GetRouteByID(int id)
+        {
+            return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).FirstOrDefault(r => r.ID == id);
+        }
+
         public static List<string> GetNameRoute()
         {
              return db.Route.Select(x => x.Name).ToList();

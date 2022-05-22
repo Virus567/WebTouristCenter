@@ -1,7 +1,7 @@
 import React from "react";
 import {Nav, Navbar,Container, Card, NavItem} from 'react-bootstrap';
-import './assets/css/sideBar.css';
-import forest from './assets/img/forest.png';
+import '../assets/css/sideBar.css';
+import forest from '../assets/img/forest.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {useNavigate} from 'react-router-dom';
@@ -24,7 +24,7 @@ function SideBar() {
       }}
      >
         <Container className="align-middle">
-            <Navbar.Brand href="#home">
+            <Navbar.Brand onClick={() => {navigate("/")}}>
                 <img
                     src = "/img/Logo.svg"
                     className="d-inline-block align-top"
