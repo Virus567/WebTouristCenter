@@ -29,7 +29,7 @@ namespace WebServer.Requests
             {
                 if(Convert.ToInt32(sort) == 1) 
                 {
-                    //routes.OrderBy(r => r.Popularity);
+                    routes.OrderBy(r => r.Popularity);
                 }
                 if(Convert.ToInt32(sort) == 2)
                 {

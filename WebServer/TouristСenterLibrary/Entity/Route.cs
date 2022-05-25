@@ -12,12 +12,14 @@ namespace TouristСenterLibrary.Entity
         [Required] public string Name { get; set; }
         [Required] public int NumberDays { get; set; }
         [Required] public string Description { get; set; }
+        public string FullDescription { get; set; }
         [Required] public CheckpointRoute CheckpointStart { get; set; }
         public int CheckpointStartID { get; set; }
         [Required] public CheckpointRoute CheckpointFinish { get; set; }
         public int CheckpointFinishID { get; set; }
         [Required] public string River { get; set; }
         [Required] public string[] Images { get; set; }
+        [Required] public int Popularity { get; set; }
 
         public Route()
         {

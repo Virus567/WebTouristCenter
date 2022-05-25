@@ -61,7 +61,7 @@ function HikeRoute() {
       <Container className='mt-4'>
         <h4>Описание</h4>
         <div className='mt-2'>
-        {route?.Description}
+        {route?.FullDescription}
         </div> 
         <div className='mt-4 d-flex justify-content-between'>
             <div className='rounded d-flex flex-column align-items-center p-2' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
