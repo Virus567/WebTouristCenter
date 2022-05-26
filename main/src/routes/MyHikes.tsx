@@ -4,6 +4,12 @@ import green from '../assets/img/green.png';
 import red from '../assets/img/red.png';
 import yellow from '../assets/img/yellow.png';
 import {useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../redux/store";
+import HikeService from '../redux/services/HikeService';
+import OrderService from '../redux/services/OrderService';
+import {Hike} from "./../models/HikeModel";
+import {Order} from "./../models/OrderModel";
 
 const dateStart = "05.07.2022";
 const route = "Любимая Немда";
@@ -12,6 +18,24 @@ const img = green;
 
 function MyHikes() {
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state);
+  const [orders, setOrders] = React.useState<Order[]>([]);
+
+  React.useEffect(() => {
+    if (orders.length !== 0) return;
+    OrderService.getOrders(user.client.client!.ID).then((res) => {
+      setOrders(res);
+    })
+  }, [orders])
+
+  const [hikes, setHikes] = React.useState<Hike[]>([]);
+
+  React.useEffect(() => {
+    if (hikes.length !== 0) return;
+    HikeService.getHikes(user.client.client!.ID).then((res) => {
+      setHikes(res);
+    })
+  }, [hikes])
   // if(status == "В сборке"){
   //  img = yellow;
   // }
@@ -25,23 +49,24 @@ function MyHikes() {
           <h4>Заявки</h4>
           <hr style={{margin:"0 0 20px 0"}}/>
         </div>
+        {orders.map((order)=>(
        <Container className='mt-2 mb-2 d-flex justify-content-between p-2 rounded'
                 style={{
                 backgroundColor:"#B4C3B1"
                 }}>
-                    <span style={{width:"8%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{dateStart}</span>
+                    <span style={{width:"8%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.DateTime}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <span className='mx-2' style={{width:"80%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{route}</span>
+                    <span className='mx-2' style={{width:"80%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.RouteName}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
                     <div style={{width:"10%"}}>
-                      <img src={img} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>
-                      <span style={{fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{status}</span>
+                      <img src={green} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>
+                      <span style={{fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.Status}</span>
                     </div>
                     <div
                     style={{width: "0px", 
@@ -54,11 +79,13 @@ function MyHikes() {
                          Подробнее
                      </Button> 
         </Container> 
+         ))}
         <div className='mt-5'>
           <h4>Походы</h4>
           <hr style={{margin:"0 0 20px 0"}}/>     
-        </div>
 
+        </div>
+              
         <Container className='mt-2 mb-3 d-flex justify-content-between p-2 rounded'
                 style={{
                 backgroundColor:"#B6D3B0"
@@ -91,24 +118,27 @@ function MyHikes() {
                   </Form.Group>
                   </div>                                        
         </Container>           
-
+          
+          {hikes.map((hike)=>( 
         <Container className='mt-2 mb-2 d-flex justify-content-between p-2 rounded'
                 style={{
                 backgroundColor:"#B4C3B1"
                 }}>
-                    <span style={{width:"8%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{dateStart}</span>
+                    <span style={{width:"8%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.StartTime}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <span className='mx-2' style={{width:"80%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{route}</span>
+                    <span className='mx-2' style={{width:"80%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.RouteName}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
                     <div style={{width:"10%"}}>
-                      <img src={img} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>
-                      <span style={{fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{status}</span>
+                      {hike.Status === "В сборке"?(
+                      <img src={yellow} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>
+                      ):(<img src={red} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>)}
+                      <span style={{fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.Status}</span>
                     </div>
                     <div
                     style={{width: "0px", 
@@ -121,35 +151,8 @@ function MyHikes() {
                          Подробнее
                      </Button> 
         </Container> 
-        <Container className='mt-2 mb-2 d-flex justify-content-between p-2 rounded'
-                style={{
-                backgroundColor:"#B4C3B1"
-                }}>
-                    <span style={{width:"8%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{dateStart}</span>
-                    <div
-                    style={{width: "0px", 
-                            float: "left", 
-                            border: "1px inset #000000"}} />
-                    <span className='mx-2' style={{width:"80%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{route}</span>
-                    <div
-                    style={{width: "0px", 
-                            float: "left", 
-                            border: "1px inset #000000"}} />
-                    <div style={{width:"10%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>
-                      <img src={img} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>
-                      <span style={{fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{status}</span>
-                    </div>
-                    <div
-                    style={{width: "0px", 
-                            float: "left", 
-                            border: "1px inset #000000"}} />
-                    <Button onClick= {() => {navigate("/instructors")}} className='text-sm mx-2 pt-0 pb-0 px-2'
-                     style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889", height:"27px",
-                     textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-                     >
-                         Подробнее
-                     </Button> 
-        </Container>
+        ))}
+        
       </div> 
       <div className='d-flex flex-column align-items-end'>
         <Button onClick= {() => {navigate("/instructors")}} className='mx-2 pt-0 pb-0 px-2'

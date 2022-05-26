@@ -53,6 +53,11 @@ namespace TouristСenterLibrary.Entity
             return db.User.FirstOrDefault(x => x.Login == login && x.Password == password);
         }
 
+        public static User GetUserByID(int id)
+        {
+            return db.User.FirstOrDefault(u => u.ID == id);
+        }
+
         public User(string? NameOfCompany, string Surname, string Name, string PhoneNumber) : base(Surname, Name, PhoneNumber)
         {
             this.NameOfCompany = NameOfCompany;
