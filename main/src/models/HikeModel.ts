@@ -6,5 +6,5 @@ export interface Hike {
 	WayToTravel: string,
 	PeopleAmount:  number,
     CompanyName: string,
-    Status: string,
+    Status: string
 }

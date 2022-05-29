@@ -19,7 +19,8 @@ namespace WebServer.Requests
             var model = new JsonWebTokenPayload
             {
                 Id = Guid.NewGuid().ToString("n"),
-                Issuer = $"{user.Login},{user.Surname}"
+                Issuer = $"{user.Login}",
+                Expiration = DateTime.Now + new TimeSpan(365, 0, 0, 0)
             };
             var jwt = new JsonWebToken<JsonWebTokenPayload>(model, Program.Sign);
 

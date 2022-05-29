@@ -21,7 +21,7 @@ class RouteService {
             return []
           });
 	  }
-    getRouteById(id: number) {
+    getRouteById(id: string) {
       return axios.post(API_URL + "id", id)
         .then((response) => {
           const data: Answer = response.data;

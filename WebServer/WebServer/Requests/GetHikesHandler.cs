@@ -15,17 +15,23 @@ namespace WebServer.Requests
     public class GetHikesHandler : RequestHandler
     {
 
-        [Post("get")]
+        [Get("get")]
         public void GetHikes()
         {
-            var id = Bind<int>();
-            List<Hike.HikeView> hikes = Hike.GetViewByUserID(id);
-
-            if (!hikes.Any())
+            if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
             {
-                Send(new AnswerModel(false, null, 401, "incorrect request body"));
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
                 return;
             }
+
+            var user = TokenWorker.GetUserByToken(token);
+            if (user is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+            List<Hike.HikeView> hikes = Hike.GetViewByUserID(user.ID);
+            List<Order.OrderView> orders = Order.GetViewByUserId(user.ID);
 
 
             if (Params.TryGetValue("date", out var date))
@@ -43,7 +49,7 @@ namespace WebServer.Requests
                 hikes = hikes.Where(h => h.Status == status).ToList();
             }
 
-            Send(new AnswerModel(true, new { hikes = hikes }, null, null));
+            Send(new AnswerModel(true, new { hikes = hikes, orders = orders }, null, null));
         }
     }
 }

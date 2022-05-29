@@ -7,7 +7,6 @@ import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../redux/store";
 import HikeService from '../redux/services/HikeService';
-import OrderService from '../redux/services/OrderService';
 import {Hike} from "./../models/HikeModel";
 import {Order} from "./../models/OrderModel";
 
@@ -15,33 +14,23 @@ const dateStart = "05.07.2022";
 const route = "Любимая Немда";
 const status = "Активна";
 const img = green;
+let key = false;
 
 function MyHikes() {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state);
   const [orders, setOrders] = React.useState<Order[]>([]);
-
-  React.useEffect(() => {
-    if (orders.length !== 0) return;
-    OrderService.getOrders(user.client.client!.ID).then((res) => {
-      setOrders(res);
-    })
-  }, [orders])
-
   const [hikes, setHikes] = React.useState<Hike[]>([]);
 
   React.useEffect(() => {
-    if (hikes.length !== 0) return;
-    HikeService.getHikes(user.client.client!.ID).then((res) => {
-      setHikes(res);
+    if (key) return;
+    HikeService.getHikes(user.client.client!.ID).then((res:any) => {
+      setHikes(res.hikes);
+      setOrders(res.orders);
     })
-  }, [hikes])
-  // if(status == "В сборке"){
-  //  img = yellow;
-  // }
-  // else if(status =="Завершен"){
-  //     img= red;
-  // }
+    key = true;
+  }, [orders, hikes])
+  
   return (
     <div className="p-4" style={{height:"100%"}}>
       <div style={{height:"580px"}}>

@@ -1,20 +1,26 @@
 import React from 'react';
 import {Container,Carousel,Button} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import RouteService from '../redux/services/RouteService';
 import {Route} from "../models/RoutesModel";
+import { NumberLiteralType } from 'typescript';
 
 function HikeRoute() {
   const navigate = useNavigate();
   const [route, setRoute] = React.useState<Route>();
+  const {search} = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const routeId = searchParams.get("id");
+  let key = false;
 
   React.useEffect(() => {
-    if (route === null) return;
-    RouteService.getRouteById(1).then((res) => {
+    if (key) return;
+    RouteService.getRouteById(routeId!).then((res) => {
       if(res!== undefined){
         setRoute(res);
       }
     })
+    key = true;
   }, [route])
   return (
     <div>
