@@ -9,6 +9,7 @@ import HikeRoutes from './routes/HikeRoutes';
 import Instructors from './routes/Instructors';
 import HikeRoute from './routes/HikeRoute';
 import Order from './routes/Order';
+import OrderParticiapnt from './routes/order/OrderParticiapnt';
 import Registration from './components/Register';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -33,6 +34,7 @@ ReactDOM.render(
           <Route path={"/instructors"} element={<Instructors/>} />
           <Route path={"/route"} element={<HikeRoute/>} />
           <Route path={"/order"} element={<Order/>} />
+          <Route path={"/order-partisipants"} element={<OrderParticiapnt/>} />
           <Route path={"/register"} element={<Registration/>} />
         </Routes>
       </div>

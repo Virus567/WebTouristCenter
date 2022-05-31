@@ -90,11 +90,11 @@ function Header() {
               <Dropdown.Menu className="dropdown-menu-arrow dropdown-toggle-split">
                 <Dropdown.Item>
                   <i className="ni ni-single-02" />
-                  <span>My profile</span>
+                  <span>Мой профиль</span>
                 </Dropdown.Item>
                 <Dropdown.Item onClick={()=>dispatch(AuthService.logout())} >
                   <i className="ni ni-user-run" />
-                  <span>Logout</span>
+                  <span>Выйти</span>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </UncontrolledDropdown>

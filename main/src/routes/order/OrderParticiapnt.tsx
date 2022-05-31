@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
 import {Container, Button, Form} from 'react-bootstrap';
 import {useNavigate, useLocation} from 'react-router-dom';
-import RouteService from '../redux/services/RouteService';
-import {Route} from "../models/RoutesModel";
+import RouteService from '../../redux/services/RouteService';
+import {Route} from "../../models/RoutesModel";
 
 
-function Order() {
+function OrderParticiapnt() {
   const navigate = useNavigate();
   const [route, setRoute] = React.useState<Route>();
   const {search} = useLocation();
@@ -91,7 +91,7 @@ function Order() {
         </div>     
       </div>
       <div className='d-flex flex-column align-items-end mx-5 mt-4'>
-        <Button onClick= {() => {navigate("/order-partisipants?route-id=" + routeId)}} className='mx-2'
+        <Button onClick= {() => {navigate("/instructors")}} className='mx-2'
         style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
         textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
         >
@@ -104,4 +104,4 @@ function Order() {
   );
 }
 
-export default Order;
+export default OrderParticiapnt;
