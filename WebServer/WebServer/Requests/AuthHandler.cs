@@ -68,7 +68,8 @@ namespace WebServer.Requests
                 Login = body.login,
                 Password = body.password
             };
-            if (!user.Add())
+            var team = new Team("Моя команда", user);
+            if (!user.Add() || !team.Add())
             {
                 Send(new AnswerModel(false, null, 401, "incorrect request"));
                 return;
