@@ -41,7 +41,7 @@ namespace TouristСenterLibrary.Entity
         public class OrderView
         {
             public int ID { get; set; }
-            public List<User> Users { get; set; }
+            public List<User> Users { get; set; } = new List<User>();
             public string DateTime { get; set; }
             public string RouteName { get; set; }
             public string WayToTravel { get; set; }
@@ -81,6 +81,10 @@ namespace TouristСenterLibrary.Entity
         public static List<OrderView> GetViewByUserId(int userId)
         {
             List<OrderView> list = (from o in db.Order
+                                    .Include(o=>o.TouristGroup)
+                                    .ThenInclude(o=>o.User)
+                                    .Include(o => o.TouristGroup)
+                                    .ThenInclude(o=>o.ParticipantsList)
                                     select new OrderView()
                                     {
                                         ID = o.ID,
@@ -97,7 +101,6 @@ namespace TouristСenterLibrary.Entity
                                     }).ToList();
             foreach (var l in list)
             {
-                l.IsListParticipants = Participant.IsParticipantsForOrder(TouristGroup.GetGroupByID(l.TouristGroupID));
                 var touristGroup = TouristGroup.GetGroupByID(l.ID);
                 l.Users.Add(touristGroup.User);
                 foreach (var participant in touristGroup.ParticipantsList)

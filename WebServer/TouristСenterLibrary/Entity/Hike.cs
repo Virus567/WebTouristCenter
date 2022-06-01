@@ -61,7 +61,7 @@ namespace TouristСenterLibrary.Entity
         {
             public int ID { get; set; }
             public List<Order> OrdersList { get; set; }
-            public List<User> Users { get; set; }
+            public List<User> Users { get; set; } = new List<User>();
             public string StartTime { get; set; }
             public string FinishTime { get; set; }
             public string RouteName { get; set; }
@@ -99,7 +99,13 @@ namespace TouristСenterLibrary.Entity
 
         public static List<HikeView> GetViewByUserID(int userId)
         {
-            var hikeList = db.Hike.Select(h => new HikeView()
+            var hikeList = db.Hike.Include(h=>h.OrdersList)
+                .ThenInclude(h => h.TouristGroup)
+                .ThenInclude(h => h.User )
+                .Include(h => h.OrdersList)
+                .ThenInclude(h => h.TouristGroup)
+                .ThenInclude(h => h.ParticipantsList) 
+                .Select(h => new HikeView()
             {
                 ID = h.ID,
                 OrdersList = h.OrdersList,
@@ -120,6 +126,7 @@ namespace TouristСenterLibrary.Entity
                     hike.Users.Add(order.TouristGroup.User);
                     foreach (var participant in order.TouristGroup.ParticipantsList)
                     {
+                        participant.TouristGroup = null;
                         hike.Users.Add(participant.User);
                     }
                 }
