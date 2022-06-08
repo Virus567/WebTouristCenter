@@ -10,7 +10,7 @@ import Instructors from './routes/Instructors';
 import HikeRoute from './routes/HikeRoute';
 import Order from './routes/Order';
 import OrderParticiapnt from './routes/order/OrderParticiapnt';
-import Registration from './components/Register';
+import Registration from './routes/Registration';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/sideBar.css';

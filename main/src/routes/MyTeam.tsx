@@ -9,22 +9,6 @@ function MyTeam() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const listUsers = inviteUsers.map((u)=>{
-        // <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
-        // style={{
-        // backgroundColor:"#F2FAED"
-        //  }}>
-        //     <span className='mx-2'>{u}</span>
-        //     <div className='mx-2'>
-        //         <Button variant='outline-success' className='p-0 rounded-circle' style={{height:"16px",margin:"0 6px 0 6px", border:"0px"}}>
-        //             <BsCheckCircle style={{marginBottom:"12px"}}/>
-        //         </Button>
-        //         <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
-        //             <BsXCircle style={{marginBottom:"12px"}}/>
-        //         </Button>
-        //     </div>
-        // </Container>  
-    });
   return (
     <div className='d-flex justify-content-between'>
         <Container className=' mt-4 mb-4 mr-0 ml-4 ' style={{width:"62%"}}>

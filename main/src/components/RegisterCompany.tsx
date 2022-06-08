@@ -5,11 +5,12 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "../redux/store";
 import {useNavigate} from 'react-router-dom';
 import {RegisterSuccess} from "../redux/actions/authActions";
-import {RegistrationModel} from '../models/RequestModels';
+import {CompanyRegistrationModel} from '../models/RequestModels';
 import sha256 from "sha256";
 
 interface State {
 	login: string,
+  nameOfCompany: string,
 	surname: string,
 	name: string,
 	phone: string,
@@ -19,9 +20,10 @@ interface State {
 	passwordcheck: string
 }
 
-function Register() {
+function RegisterCompany() {
   const [values, setValues] = useState<State>({
 		login: '',
+    nameOfCompany: '',
 		surname: '',
 		name: '',
 		phone: '',
@@ -34,14 +36,15 @@ function Register() {
 	const dispatch = useDispatch<AppDispatch>();
   const onClick = (event: any) => {
 		if (values.mainpassword !== values.passwordcheck) return;
-		const data: RegistrationModel = {
+		const data: CompanyRegistrationModel = {
 			login: values.login,
 			password: sha256(values.mainpassword),
 			surname: values.surname,
 			name: values.name,
 			phone: values.phone,
 			middlename: values.middlename,
-			email: values.email
+			email: values.email,
+      nameOfCompany: values.nameOfCompany
 		};
 		AuthService.register(data).then((res) => {
 			dispatch(res)
@@ -67,6 +70,10 @@ function Register() {
       <Form className='d-flex flex-column align-items-center'>
         <Container className='row'>
           <Container className='mr-3 col'>
+          <Form.Floating className='mt-2'> 
+              <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingNameOfCompany"value={values.nameOfCompany} onChange={handleChange("nameOfCompany")} type="text" placeholder="Фамилия"/>
+              <Form.Label for="floatingSurname">Название компании</Form.Label>
+            </Form.Floating>  
             <Form.Floating className='mt-2'> 
               <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingSurname"value={values.surname} onChange={handleChange("surname")} type="text" placeholder="Фамилия"/>
               <Form.Label for="floatingSurname">Фамилия</Form.Label>
@@ -105,17 +112,9 @@ function Register() {
         </Container>
         <Button onClick={onClick} variant='outline-success' className='mt-3 mb-3 w-50 btn btn-lg' style={{backgroundColor:"#F2FAED", borderColor:"#89A889", color:"#89A889"}}>Регистрация</Button>
       </Form>
-      {/* <input type="text" placeholder='Фамилия' value={values.surname} onChange={handleChange("surname")} className='row mt-2' />
-      <input type="text" placeholder='Имя' value={values.name} onChange={handleChange("name")} className='row mt-2'/>
-      <input type="text" placeholder='Отчество' value={values.middlename} onChange={handleChange("middlename")} className='row mt-2' />
-      <input type="text" placeholder='Email' value={values.email} onChange={handleChange("email")} className='row mt-2'/>
-      <input type="text" placeholder='Номер телефона' value={values.phone} onChange={handleChange("phone")} className='row mt-2' />
-      <input type="text" placeholder='Логин' value={values.login} onChange={handleChange("login")} className='row mt-2'/>
-      <input type="password" placeholder='Пароль' value={values.mainpassword} onChange={handleChange("mainpassword")} className='row mt-2'/>
-      <input type="password" placeholder='Повторите пароль' value={values.passwordcheck} onChange={handleChange("passwordcheck")} className='row mt-2'/> */}
       </Container>
     </div>
   );
 }
 
-export default Register;
+export default RegisterCompany;
