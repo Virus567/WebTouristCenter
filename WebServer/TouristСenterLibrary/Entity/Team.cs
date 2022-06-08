@@ -42,8 +42,34 @@ namespace TouristСenterLibrary.Entity
             }
 
         }
-        
-        public List<Team> GetTeamsByUserLogin(string login)
+
+        public static List<Team> GetTeams()
+        {
+            try
+            {
+                return db.Team.Include(t=>t.MainUser).Include(t=>t.Teammates).ThenInclude(t=>t.User).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<Team>();
+            }
+
+        }
+
+        public static Team? GetTeamsByID(int id)
+        {
+            try
+            {
+                return db.Team.FirstOrDefault(t => t.ID == id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+        public static List<Team> GetTeamsByUserLogin(string login)
         {
             try
             {

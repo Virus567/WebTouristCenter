@@ -61,7 +61,7 @@ function Register() {
             }}>
       <h4 className='text-center text-white'
       style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-      >Регистрация
+      >Регистрация для физ лиц
       </h4>
 
       <Form className='d-flex flex-column align-items-center'>

@@ -1,13 +1,29 @@
 import React, { useState } from 'react';
 import {Container, Button, Modal} from 'react-bootstrap';
 import { BsCheckCircle, BsXCircle, BsPlusCircle, BsSearch } from 'react-icons/bs';
-
-let inviteUsers = ["Комаров И.Д.", "Иванов И.И."];
+import {AppDispatch, RootState} from "../redux/store";
+import TeamService from '../redux/services/TeamService';
+import {Team, Teammate, InviteModel} from '../models/TeamModel'
+let key = false;
 
 function MyTeam() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [teams, setTeams] = React.useState<Team[]>([]);
+    const [teammates, setTeammates] = React.useState<Teammate[]>([]);
+    const [invites, setInvites] = React.useState<InviteModel[]>([]);
+  
+    React.useEffect(() => {
+      if (key) return;
+      TeamService.getTeams().then((res:any) => {
+        setTeams(res.teams);
+        setTeammates(res.teammates);
+        setInvites(res.invites)
+      })
+      key = true;
+    }, [teams, teammates, invites])
 
   return (
     <div className='d-flex justify-content-between'>
@@ -22,11 +38,12 @@ function MyTeam() {
                     Приглашения
                 </h4>
                 <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
+                {invites.map((invite)=>(
                 <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                 style={{
                 backgroundColor:"#F2FAED"
                 }}>
-                    <span className='mx-2'>Комаров И.Д. приглашает вас в команду</span>
+                    <span className='mx-2'>{invite.MainUser.Surname} {invite.MainUser.Name} приглашает вас в команду</span>
                     <div className='mx-2'>
                         <Button variant='outline-success' className='p-0 rounded-circle' style={{height:"16px",margin:"0 6px 0 6px", border:"0px"}}>
                             <BsCheckCircle style={{marginBottom:"12px"}}/>
@@ -35,21 +52,9 @@ function MyTeam() {
                             <BsXCircle style={{marginBottom:"12px"}}/>
                         </Button>
                     </div>
-                </Container>  
-                <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
-                style={{
-                backgroundColor:"#F2FAED"
-                    }}>
-                    <span className='mx-2'>Иванов И.И. приглашает вас в команду</span>
-                    <div className='mx-2'>
-                        <Button variant='outline-success' className='p-0 rounded-circle' style={{height:"16px",margin:"0 6px 0 6px", border:"0px"}}>
-                            <BsCheckCircle style={{marginBottom:"12px"}}/>
-                        </Button>
-                        <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
-                            <BsXCircle style={{marginBottom:"12px"}}/>
-                        </Button>
-                    </div>
-                </Container>          
+                </Container> 
+                 ))}
+                       
             </Container>
             <Container className='rounded mt-5 mb-2 mx-0 pt-2 px-3' style={{ height:"320px", padding:"0 12px 0 12px", backgroundColor:"#B4C3B1"}}>
                 <h4 className='text-white p-0' 
@@ -57,24 +62,30 @@ function MyTeam() {
                     Мои команды
                 </h4>
                 <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
-                {/* <div>{listUsers}</div>                    */}
-                <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
-                style={{
-                backgroundColor:"#F2FAED"
-                }}>
-                    <span className='mx-2'>Моя команда</span>
-                </Container>  
-                <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
+                {teams.map((team)=>(
+                <div>
+                    {(team.Name === 'Моя команда')?(
+                        <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
+                        style={{
+                        backgroundColor:"#F2FAED"
+                            }}>
+                            <span className='mx-2'>Команда {team.MainUser.Surname} {team.MainUser.Name}</span>
+                        </Container>
+                    ):(
+                    <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                 style={{
                 backgroundColor:"#F2FAED"
                     }}>
-                    <span className='mx-2'>Команда Иванов И.И.</span>
+                    <span className='mx-2'>Команда {team.MainUser.Surname} {team.MainUser.Name}</span>
                     <div className='mx-2'>
                         <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
                             <BsXCircle style={{marginBottom:"12px"}}/>
                         </Button>
                     </div>
-                </Container>     
+                </Container>  )}
+                </div> 
+                ))}
+                    
             </Container>
         </Container>
         <Container className='rounded mt-4 ml-2  pt-2 px-3' style={{ width:"33%",marginRight:"30px" ,height:"617px",backgroundColor:"#B6D3B0"}}> 
@@ -83,31 +94,22 @@ function MyTeam() {
                     Команда
                 </h4> 
                 <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
-                {/* <div>{listUsers}</div>                    */}
                 <div className='d-block h-100'>
                     <div style={{height:"80%"}}>
+                    {teammates.map((teammate)=>(
                         <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                         style={{
                         backgroundColor:"#F2FAED"
                         }}>
-                            <span className='mx-2'>Васильев Г.В. | vasilev123</span>
+                            <span className='mx-2'>{teammate.User.Surname} {teammate.User.Name}| {teammate.User.Login}</span>
                             <div className='mx-2'>
                                 <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
                                     <BsXCircle style={{marginBottom:"12px"}}/>
                                 </Button>
                             </div>
                         </Container>  
-                        <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded '
-                        style={{
-                        backgroundColor:"#F2FAED"
-                            }}>
-                            <span className='mx-2'>Трубочкин Н.Н. | truba43</span>
-                            <div className='mx-2'>
-                                <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
-                                    <BsXCircle style={{marginBottom:"12px"}}/>
-                                </Button>
-                            </div>
-                        </Container> 
+                    ))}
+    
                     </div>
                     <div className='h-100 d-flex flex-column align-items-center'>
                        <Button onClick={handleShow} className='p-0 rounded-circle'style={{ backgroundColor:"#F2FAED", border:"0", height:"32px", width:"32px"}}>

@@ -59,20 +59,27 @@ namespace WebServer.Requests
                 Send(new AnswerModel(false, null, 401, "incorrect request"));
                 return;
             }
-
-            var user = new User(body!.surname, body.name, body.phone)
+            User user;
+            if (!User.IsHasUser(body.phone))
             {
-                NameOfCompany = body.nameOfCompany == "" ? null : body.nameOfCompany,
-                Middlename = body.middlename == "" ? null : body.middlename,
-                Email = body.email == "" ? null : body.email,
-                Login = body.login,
-                Password = body.password
-            };
-            var team = new Team("Моя команда", user);
-            if (!user.Add() || !team.Add())
+                user = new User(body!.surname, body.name, body.phone)
+                {
+                    NameOfCompany = body.nameOfCompany == "" ? null : body.nameOfCompany,
+                    Middlename = body.middlename == "" ? null : body.middlename,
+                    Email = body.email == "" ? null : body.email,
+                    Login = body.login,
+                    Password = body.password
+                };
+                var team = new Team("Моя команда", user);
+                if (!user.Add() || !team.Add())
+                {
+                    Send(new AnswerModel(false, null, 401, "incorrect request"));
+                    return;
+                }
+            }
+            else
             {
-                Send(new AnswerModel(false, null, 401, "incorrect request"));
-                return;
+                user = User.GetUserByPhoneNumber(body.phone);
             }
             Send(new AnswerModel(true, new { access_token = GenerateToken(user), user = user }, null, null));
         }

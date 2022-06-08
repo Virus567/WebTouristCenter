@@ -55,7 +55,7 @@ function RegisterCompany() {
 		});
 	};
   const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-		setValues({...values, [prop]: event.target.value.trim()});
+		setValues({...values, [prop]: event.target.value});
 	};
   return (
     <div className='w-100 d-flex flex-column align-items-center'>
@@ -64,37 +64,37 @@ function RegisterCompany() {
             }}>
       <h4 className='text-center text-white'
       style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
-      >Регистрация
+      >Регистрация для компаний
       </h4>
 
       <Form className='d-flex flex-column align-items-center'>
         <Container className='row'>
           <Container className='mr-3 col'>
           <Form.Floating className='mt-2'> 
-              <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingNameOfCompany"value={values.nameOfCompany} onChange={handleChange("nameOfCompany")} type="text" placeholder="Фамилия"/>
+              <Form.Control style={{backgroundColor:"#F2FAED" }} id="floatingNameOfCompany"value={values.nameOfCompany} onChange={handleChange("nameOfCompany")} type="text" placeholder="Фамилия"/>
               <Form.Label for="floatingSurname">Название компании</Form.Label>
             </Form.Floating>  
             <Form.Floating className='mt-2'> 
               <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingSurname"value={values.surname} onChange={handleChange("surname")} type="text" placeholder="Фамилия"/>
-              <Form.Label for="floatingSurname">Фамилия</Form.Label>
+              <Form.Label for="floatingSurname">Фамилия представителя</Form.Label>
             </Form.Floating>  
             <Form.Floating className='mt-2'> 
               <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingName" value={values.name} onChange={handleChange("name")} type="text" placeholder="Имя"/>
-              <Form.Label for="floatingName">Имя</Form.Label>
+              <Form.Label for="floatingName">Имя представителя</Form.Label>
             </Form.Floating>
             <Form.Floating className='mt-2'> 
               <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingMiddlename" value={values.middlename} onChange={handleChange("middlename")} type="text" placeholder="Фамилия"/>
-              <Form.Label for="floatingMiddlename">Отчество</Form.Label>
+              <Form.Label for="floatingMiddlename">Отчество представителя</Form.Label>
             </Form.Floating>  
             <Form.Floating className='mt-2'> 
-              <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingPhone" value={values.phone} onChange={handleChange("phone")}  type="phone" placeholder="Номер телефона"/>
-              <Form.Label for="floatingPhone">Номер телефона</Form.Label>
+              <Form.Control style={{backgroundColor:"#F2FAED", width:"13rem"}} id="floatingPhone" value={values.phone} onChange={handleChange("phone")}  type="phone" placeholder="Номер телефона"/>
+              <Form.Label for="floatingPhone">Телефон представителя</Form.Label>
             </Form.Floating>
           </Container>
           <Container className='col'>
             <Form.Floating className='mt-2'> 
               <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingEmail" value={values.email} onChange={handleChange("email")} type="email" placeholder="Email"/>
-              <Form.Label for="floatingEmail">Email</Form.Label>
+              <Form.Label for="floatingEmail">Email представителя</Form.Label>
             </Form.Floating>
           <Form.Floating className='mt-2'> 
             <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingInput" value={values.login} onChange={handleChange('login')} type="text" placeholder="Логин"/>

@@ -24,7 +24,7 @@ class TeamService {
           });
 	  }
     getTeammatesByTeamID(id: number) {
-      return axios.post(API_URL + "id", id)
+      return axios.get(API_URL + "team-id?id=" + id)
         .then((response) => {
           const data: Answer = response.data;
           const teammates : Teammate [] = data.answer.teammates

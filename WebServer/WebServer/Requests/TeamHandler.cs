@@ -28,31 +28,46 @@ namespace WebServer.Requests
                 Send(new AnswerModel(false, null, 400, "incorrect request"));
                 return;
             }
-            List<Route> routes = Route.GetRouters();
 
-            if (!routes.Any())
+            List<Team> teams = Team.GetTeamsByUserLogin(user.Login);
+            List<Teammate> teammates = new List<Teammate>();
+
+            var myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда");
+
+            if(myTeam != null)
             {
-                Send(new AnswerModel(false, null, 401, "incorrect request body"));
-                return;
+                teammates = Teammate.GetTeammatesByTeam(myTeam);
             }
 
+            List<InviteModel> invites = InviteModel.GetInvites(user);
 
 
-            Send(new AnswerModel(true, new { routes = routes }, null, null));
+
+            Send(new AnswerModel(true, new {teams = teams, teammates = teammates, invites = invites}, null, null));
         }
 
-        [Post("id")]
-        public void GetRoutesByID()
+        [Get("team-id")]
+        public void GetTeammatesByTeamID()
         {
-            var id = Bind<int>();
-            var route = Route.GetRouteByID(id);
-            if (route == null)
+            if (Params.TryGetValue("id", out var id))
             {
-                Send(new AnswerModel(false, null, 401, "incorrect request body"));
+                var team = Team.GetTeamsByID(int.Parse(id));
+                if(team == null)
+                {
+                    Send(new AnswerModel(false, null, 400, "incorrect request"));
+                    return;
+                }
+
+                var teammates = Teammate.GetTeammatesByTeam(team);
+                Send(new AnswerModel(true, new { teammates = teammates }, null, null));
+            }
+            else
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
                 return;
             }
 
-            Send(new AnswerModel(true, new { route = route }, null, null));
+            
         }
     }
 }

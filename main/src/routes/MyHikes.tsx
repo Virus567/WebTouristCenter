@@ -10,10 +10,6 @@ import HikeService from '../redux/services/HikeService';
 import {Hike} from "./../models/HikeModel";
 import {Order} from "./../models/OrderModel";
 
-const dateStart = "05.07.2022";
-const route = "Любимая Немда";
-const status = "Активна";
-const img = green;
 let key = false;
 
 function MyHikes() {
