@@ -38,7 +38,6 @@ function MyTeam() {
                     Приглашения
                 </h4>
                 <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
-                {/* <div>{listUsers}</div>                    */}
                 <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                 style={{
                 backgroundColor:"#F2FAED"
