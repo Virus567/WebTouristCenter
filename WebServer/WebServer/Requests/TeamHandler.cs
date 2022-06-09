@@ -69,5 +69,27 @@ namespace WebServer.Requests
 
             
         }
+
+        [Get("find-by-login")]
+        public void FindUserByLogin()
+        {
+            if (Params.TryGetValue("login", out var login))
+            {
+                var user = User.GetUserByLogin(login);
+                if (user == null)
+                {
+                    Send(new AnswerModel(false, null, 401, "incorrect request"));
+                    return;
+                }
+
+               string fullName = user.GetFullName();
+               Send(new AnswerModel(true, new { user = user, fullName = fullName }, null, null));
+            }
+            else
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+        }
     }
 }

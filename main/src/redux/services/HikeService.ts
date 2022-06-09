@@ -9,7 +9,7 @@ import authHeader from "../AuthHeader";
 const API_URL = "http://localhost:8080/hikes/";
 
 class HikeService {
-    getHikes(clientId: number) {
+    getHikes() {
 		return axios.get(API_URL + "get", {headers: authHeader()})
         .then((response) => {
             console.log(response.data);

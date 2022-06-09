@@ -3,7 +3,8 @@ import {Answer} from "../../models/RequestModels";
 import {removeCookie, setCookie} from "typescript-cookie";
 import {RegisterSuccess, RegisterFail, LoginSuccess, LoginFail, Logout} from "../actions/authActions"
 import {Team,Teammate, InviteModel} from "../../models/TeamModel";
-import authHeader from "../AuthHeader"
+import authHeader from "../AuthHeader";
+import {Client} from "../../models/ClientModel";
 
 const API_URL = "http://localhost:8080/teams/";
 
@@ -34,6 +35,20 @@ class TeamService {
           console.log(error);
           return;
         });
+    }
+
+    findByLogin(login: string){
+      return axios.get(API_URL + "find-by-login?login=" + login)
+      .then((response) => {
+        const data: Answer = response.data;
+        const user : Client = data.answer.user;
+        const fullName : string = data.answer.fullName;
+        return {user: user, fullName: fullName};
+      })
+      .catch((error) => {
+        console.log(error);
+        return {user: null, fullName: null};
+      });
     }
 }
 

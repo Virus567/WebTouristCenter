@@ -1,12 +1,33 @@
 import React, { useState } from 'react';
-import {Container, Button, Modal} from 'react-bootstrap';
+import {Container, Button, Modal, Form} from 'react-bootstrap';
 import { BsCheckCircle, BsXCircle, BsPlusCircle, BsSearch } from 'react-icons/bs';
 import {AppDispatch, RootState} from "../redux/store";
 import TeamService from '../redux/services/TeamService';
 import {Team, Teammate, InviteModel} from '../models/TeamModel'
 let key = false;
 
+interface StateLogin {
+	login: string
+}
+interface StatePhone {
+	phone: string
+}
+interface StateFio {
+	fio: string
+}
+
+
+
 function MyTeam() {
+    const [valueLogin, setValueLogin] = useState<StateLogin>({
+		login: ''
+	})
+    const [valuePhone, setValuePhone] = useState<StatePhone>({
+		phone: ''
+	});
+    const [valueFio, setValueFio] = useState<StateFio>({
+		fio: ''
+	});
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -25,6 +46,24 @@ function MyTeam() {
       key = true;
     }, [teams, teammates, invites])
 
+    const findByLogin = () => {
+        TeamService.findByLogin(valueLogin.login).then((res:any) => {
+            setValueFio(res.fullName);
+          })
+          
+    }
+
+    const handleChangeLogin = (prop: keyof StateLogin) => (event: React.ChangeEvent<HTMLInputElement>) => {
+		setValueLogin({...valueLogin, [prop]: event.target.value.trim()});
+	};
+
+    const handleChangePhone = (prop: keyof StatePhone) => (event: React.ChangeEvent<HTMLInputElement>) => {
+		setValuePhone({...valuePhone, [prop]: event.target.value.trim()});
+	};
+
+    const handleChangeFio=(e:any)=>{
+        setValueFio(e.target.value)
+        }
   return (
     <div className='d-flex justify-content-between'>
         <Container className=' mt-4 mb-4 mr-0 ml-4 ' style={{width:"62%"}}>
@@ -130,19 +169,28 @@ function MyTeam() {
             </Modal.Header>
             <Modal.Body className='d-flex flex-column align-items-center' style={{backgroundColor:"#B6D3B0"}}>
                 <div className='d-flex mt-2'>
-                    <input type="text" placeholder='Логин' style={{margin:"0 3px 0 0", backgroundColor:"#F2FAED", border:" 1px solid #89A889"}}/>
-                    <Button className='p-0' style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889", width:"32px", height:"32px"}}>
+                    <Form.Floating className='mt-2'> 
+                        <Form.Control style={{backgroundColor:"#F2FAED", margin:"0 3px 0 0", border:" 1px solid #89A889"}} id="floatingLogin" value={valueLogin.login} onChange={handleChangeLogin("login")} type="text" placeholder="Логин"/>
+                        <Form.Label for="floatingLogin">Логин</Form.Label>
+                    </Form.Floating> 
+                    <Button className='p-0 mt-2 mx-1' onClick={findByLogin} style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889", width:"58px", height:"58px"}}>
                         <BsSearch className='h-90 w-90'/>
                     </Button>
                 </div>
                 <div className='d-flex mt-2'>
-                    <input type="text" placeholder='Телефон' style={{margin:"0 3px 0 0", backgroundColor:"#F2FAED", border:" 1px solid #89A889"}}/>
-                    <Button className='p-0' style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889", width:"32px", height:"32px"}}>
+                    <Form.Floating> 
+                        <Form.Control style={{backgroundColor:"#F2FAED", margin:"0 3px 0 0", border:" 1px solid #89A889"}} id="floatingPhone" value={valuePhone.phone} onChange={handleChangePhone("phone")} type="text" placeholder="Телефон"/>
+                        <Form.Label for="floatingPhone">Телефон</Form.Label>
+                    </Form.Floating> 
+                    <Button className='p-0 mx-1' style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889", width:"58px", height:"58px"}}>
                         <BsSearch className='h-90 w-90'/>
                     </Button>
                 </div>
                 
-                <input type="text" placeholder='ФИО' className='row mt-2' style={{margin:"0 3px 0 0", backgroundColor:"#F2FAED", width:"220px" , border:" 1px solid #89A889"}}/>
+                <Form.Floating> 
+                        <Form.Control className='mt-2' style={{backgroundColor:"#F2FAED", width:"270px", margin:"0 3px 0 0", border:" 1px solid #89A889"}} id="floatingFio" readOnly value={valueFio.fio} onChange={handleChangeFio} type="text" placeholder="ФИО"/>
+                        <Form.Label className='mt-2' for="floatingFio">ФИО</Form.Label>
+                    </Form.Floating> 
                 <Button className='mt-2' style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889"}}>Пригласить</Button>
             </Modal.Body>           
         </Modal>                     

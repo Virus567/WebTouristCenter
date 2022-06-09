@@ -20,7 +20,7 @@ function MyHikes() {
 
   React.useEffect(() => {
     if (key) return;
-    HikeService.getHikes(user.client.client!.ID).then((res:any) => {
+    HikeService.getHikes().then((res:any) => {
       setHikes(res.hikes);
       setOrders(res.orders);
     })
