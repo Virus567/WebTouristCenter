@@ -39,14 +39,15 @@ namespace WebServer.Requests
                 return;
             }
 
-            var client = User.GeUserAuth(body.login, body.password);
-            if (client is null)
+            var user = User.GeUserAuth(body.login, body.password);
+            if (user is null)
             {
                 Send(new AnswerModel(false, null, 401, "incorrect request body"));
                 return;
             }
+            var client = new ClientModel(user);
 
-            Send(new AnswerModel(true, new { access_token = GenerateToken(client), user = client }, null, null));
+            Send(new AnswerModel(true, new { access_token = GenerateToken(user), user = client }, null, null));
         }
 
         [Post("/signon")]
@@ -58,7 +59,7 @@ namespace WebServer.Requests
             {
                 Send(new AnswerModel(false, null, 401, "incorrect request"));
                 return;
-            }ъ
+            }
             User user;
             if (!User.IsHasUser(body.phone))
             {
@@ -71,11 +72,23 @@ namespace WebServer.Requests
                     Password = body.password
                 };
                 var team = new Team("Моя команда", user);
+
                 if (!user.Add() || !team.Add())
                 {
                     Send(new AnswerModel(false, null, 401, "incorrect request"));
                     return;
                 }
+
+                if (user.NameOfCompany == null) 
+                {
+                    var aloneTeam = new Team("Пойти в одиночку", user);
+                    var aloneTeammate = new Teammate(aloneTeam, user) { IsActive = true, IsTeammate =true};
+                    if (!aloneTeam.Add() || !aloneTeammate.Add())
+                    {
+                        Send(new AnswerModel(false, null, 401, "incorrect request"));
+                        return;
+                    }
+                }                          
             }
             else
             {

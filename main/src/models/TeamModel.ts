@@ -18,11 +18,8 @@ export interface Teammate {
         Login: string,
         Surname: string,
         Name: string,
-        PhoneNumber: string,
         MiddleName: string,
-        Email: string
     }
-    IsTeammate: boolean,
     IsActive: boolean
 
 }

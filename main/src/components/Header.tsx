@@ -41,9 +41,8 @@ function Header() {
 		AuthService.login(data).then((res) => {
 			dispatch(res)
       handleClose();
-			if (res.type === LoginSuccess.type) {
-				navigate("/");
-			}
+      navigate("/");
+
 		})
 	};
   const [show, setShow] = useState(false);

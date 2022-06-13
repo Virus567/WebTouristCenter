@@ -3,8 +3,10 @@ import {Container, Button, Modal, Form} from 'react-bootstrap';
 import { BsCheckCircle, BsXCircle, BsPlusCircle, BsSearch } from 'react-icons/bs';
 import {AppDispatch, RootState} from "../redux/store";
 import TeamService from '../redux/services/TeamService';
-import {Team, Teammate, InviteModel} from '../models/TeamModel'
-let key = false;
+import {Team, Teammate, InviteModel} from '../models/TeamModel';
+import {Client} from "../models/ClientModel";
+import {useDispatch, useSelector} from "react-redux";
+
 
 interface StateLogin {
 	login: string
@@ -19,6 +21,7 @@ interface StateFio {
 
 
 function MyTeam() {
+
     const [valueLogin, setValueLogin] = useState<StateLogin>({
 		login: ''
 	})
@@ -32,25 +35,47 @@ function MyTeam() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [teams, setTeams] = React.useState<Team[]>([]);
-    const [teammates, setTeammates] = React.useState<Teammate[]>([]);
-    const [invites, setInvites] = React.useState<InviteModel[]>([]);
+    const user = useSelector((state: RootState) => state);
+    const [key, setKey] = useState<boolean>(false);
+    const [team, setTeam] = useState<Team>();
+    const [teams, setTeams] = useState<Team[]>([]);
+    const [teammates, setTeammates] = useState<Teammate[]>([]);
+    const [invitesTeammates, setInvitesTeammates] = useState<Teammate[]>([]);
+    const [invites, setInvites] = useState<InviteModel[]>([]);
+
   
     React.useEffect(() => {
       if (key) return;
       TeamService.getTeams().then((res:any) => {
         setTeams(res.teams);
+        setTeam(res.team);
         setTeammates(res.teammates);
-        setInvites(res.invites)
+        setInvitesTeammates(res.invitesTeammates);
+        setInvites(res.invites);
       })
-      key = true;
-    }, [teams, teammates, invites])
+      setKey(true);
+    }, [teams, teammates, invites, key])
 
     const findByLogin = () => {
-        TeamService.findByLogin(valueLogin.login).then((res:any) => {
+        TeamService.findByLogin(valueLogin.login).then((res) => {
+            if(res.fullName!==null){
+            setValueFio({fio: res.fullName!}); 
+            }
+          })       
+    }
+
+    const findByPhone = () => {
+        TeamService.findByPhone(valuePhone.phone).then((res:any) => {
             setValueFio(res.fullName);
-          })
-          
+          })       
+    }
+
+    const addTeammate= () =>{
+        console.log(valuePhone.phone, valueLogin.login)
+        TeamService.addTeammate(valuePhone.phone, valueLogin.login).then((res:any) => {
+            setTeammates(res);
+          });
+        handleClose();
     }
 
     const handleChangeLogin = (prop: keyof StateLogin) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,25 +128,38 @@ function MyTeam() {
                 <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
                 {teams.map((team)=>(
                 <div>
-                    {(team.Name === 'Моя команда')?(
+                    {(team.Name === 'Моя команда' && team.MainUser.ID === user.client.client?.ID )?(
                         <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                         style={{
                         backgroundColor:"#F2FAED"
                             }}>
-                            <span className='mx-2'>Команда {team.MainUser.Surname} {team.MainUser.Name}</span>
+                            <span className='mx-2'>Моя команда</span>
                         </Container>
                     ):(
-                    <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
-                style={{
-                backgroundColor:"#F2FAED"
-                    }}>
-                    <span className='mx-2'>Команда {team.MainUser.Surname} {team.MainUser.Name}</span>
-                    <div className='mx-2'>
-                        <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
-                            <BsXCircle style={{marginBottom:"12px"}}/>
-                        </Button>
-                    </div>
-                </Container>  )}
+                        <>
+                            {(team.Name === 'Пойти в одиночку')?
+                            (
+                                <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
+                                style={{
+                                backgroundColor:"#F2FAED"
+                                    }}>
+                                    <span className='mx-2'>Пойти в одиночку</span>
+                                </Container>
+                            ):(
+                                <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
+                                style={{
+                                backgroundColor:"#F2FAED"
+                                    }}>
+                                    <span className='mx-2'>Команда {team.MainUser.Surname} {team.MainUser.Name}</span>
+                                    <div className='mx-2'>
+                                        <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
+                                            <BsXCircle style={{marginBottom:"12px"}}/>
+                                        </Button>
+                                    </div>
+                                </Container>
+                            )}
+                        </>
+                      )}
                 </div> 
                 ))}
                     
@@ -140,7 +178,25 @@ function MyTeam() {
                         style={{
                         backgroundColor:"#F2FAED"
                         }}>
-                            <span className='mx-2'>{teammate.User.Surname} {teammate.User.Name}| {teammate.User.Login}</span>
+                            <span className='mx-2'>{teammate.User.Surname} {teammate.User.Name} | {teammate.User.Login}</span>
+                            <div className='mx-2'>
+                                <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
+                                    <BsXCircle style={{marginBottom:"12px"}}/>
+                                </Button>
+                            </div>
+                        </Container>  
+                    ))}
+                    <h5 className='text-white mt-4'
+                style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                    Приглашенные
+                </h5> 
+                    <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
+                    {invitesTeammates.map((teammate)=>(
+                        <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
+                        style={{
+                        backgroundColor:"#F2FAED"
+                        }}>
+                            <span className='mx-2'>{teammate.User.Surname} {teammate.User.Name} | {teammate.User.Login}</span>
                             <div className='mx-2'>
                                 <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
                                     <BsXCircle style={{marginBottom:"12px"}}/>
@@ -150,11 +206,22 @@ function MyTeam() {
                     ))}
     
                     </div>
-                    <div className='h-100 d-flex flex-column align-items-center'>
-                       <Button onClick={handleShow} className='p-0 rounded-circle'style={{ backgroundColor:"#F2FAED", border:"0", height:"32px", width:"32px"}}>
-                            <BsPlusCircle style={{margin:"0 1px 2px 0", color:"#89A889", height:"100%", width:"100%"}}/>
-                       </Button>  
+                    <div>
+                        {(team?.Name === 'Моя команда' && team?.MainUser.ID === user.client.client?.ID )?
+                        (
+                            <div className='h-100 d-flex flex-column align-items-center'>
+                                <Button onClick={handleShow} className='p-0 rounded-circle'style={{ backgroundColor:"#F2FAED", border:"0", height:"32px", width:"32px"}}>
+                                        <BsPlusCircle style={{margin:"0 1px 2px 0", color:"#89A889", height:"100%", width:"100%"}}/>
+                                </Button>  
+                            </div>
+                        ):(
+                            <div>
+                            </div>
+                        )
+                    }
                     </div>
+                    
+                    
                     
                 </div>        
         </Container>
@@ -182,7 +249,7 @@ function MyTeam() {
                         <Form.Control style={{backgroundColor:"#F2FAED", margin:"0 3px 0 0", border:" 1px solid #89A889"}} id="floatingPhone" value={valuePhone.phone} onChange={handleChangePhone("phone")} type="text" placeholder="Телефон"/>
                         <Form.Label for="floatingPhone">Телефон</Form.Label>
                     </Form.Floating> 
-                    <Button className='p-0 mx-1' style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889", width:"58px", height:"58px"}}>
+                    <Button className='p-0 mx-1' onClick={findByPhone} style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889", width:"58px", height:"58px"}}>
                         <BsSearch className='h-90 w-90'/>
                     </Button>
                 </div>
@@ -191,7 +258,7 @@ function MyTeam() {
                         <Form.Control className='mt-2' style={{backgroundColor:"#F2FAED", width:"270px", margin:"0 3px 0 0", border:" 1px solid #89A889"}} id="floatingFio" readOnly value={valueFio.fio} onChange={handleChangeFio} type="text" placeholder="ФИО"/>
                         <Form.Label className='mt-2' for="floatingFio">ФИО</Form.Label>
                     </Form.Floating> 
-                <Button className='mt-2' style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889"}}>Пригласить</Button>
+                <Button className='mt-2' onClick={addTeammate} style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889"}}>Пригласить</Button>
             </Modal.Body>           
         </Modal>                     
     </div>

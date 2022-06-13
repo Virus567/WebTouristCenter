@@ -25,6 +25,7 @@ namespace TouristСenterLibrary.Entity
         public Hike? Hike { get; set; }
         [Required] public int HermeticBagAmount { get; set; }
         [Required] public int IndividualTentAmount { get; set; }
+        public Instructor? Instructor { get; set; }
 
         public Order()
         {

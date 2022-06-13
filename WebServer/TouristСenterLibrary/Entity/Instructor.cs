@@ -14,6 +14,9 @@ namespace TouristСenterLibrary.Entity
         [Required] public DateTime EmploymentDate { get; set; }
         [Required] public string Login { get; set; }
         [Required] public string Password { get; set; }
+        [Required] public string Image { get; set; }
+        [Required] public string Discription { get; set; }
+
         public List<InstructorGroup> InstructorGroups { get; set; } = new List<InstructorGroup>();
 
         public Instructor()
@@ -34,6 +37,8 @@ namespace TouristСenterLibrary.Entity
             public string Middlename { get; set; }
             public string InstructorTelefonNumber { get; set; }
             public bool InHike { get; set; }
+            public string Image { get; set; }
+            public string Discription { get; set; }
         }
         public static List<InstructorView> GetInstructors()
         {
@@ -45,6 +50,8 @@ namespace TouristСenterLibrary.Entity
                         Name = i.Name,
                         Middlename = i.Middlename,
                         InstructorTelefonNumber = i.PhoneNumber,
+                        Image = i.Image,
+                        Discription = i.Discription,
                         InHike = false
                     }).ToList();
         }

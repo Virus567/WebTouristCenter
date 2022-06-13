@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Container,Button, Form, Dropdown} from 'react-bootstrap';
 import green from '../assets/img/green.png';
 import red from '../assets/img/red.png';
@@ -10,13 +10,13 @@ import HikeService from '../redux/services/HikeService';
 import {Hike} from "./../models/HikeModel";
 import {Order} from "./../models/OrderModel";
 
-let key = false;
-
 function MyHikes() {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state);
-  const [orders, setOrders] = React.useState<Order[]>([]);
-  const [hikes, setHikes] = React.useState<Hike[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [hikes, setHikes] = useState<Hike[]>([]);
+
+  const [key, setKey] = useState<boolean>(false);
 
   React.useEffect(() => {
     if (key) return;
@@ -24,8 +24,8 @@ function MyHikes() {
       setHikes(res.hikes);
       setOrders(res.orders);
     })
-    key = true;
-  }, [orders, hikes])
+    setKey(true);
+  }, [orders, hikes, key])
   
   return (
     <div className="p-4" style={{height:"100%"}}>

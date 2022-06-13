@@ -36,7 +36,15 @@ function SideBar() {
             <Nav className="align-middle">
             <NavItem>
                 <Card className="mt-2 mx-3 p-0" style={{backgroundColor:"#F2FAED"}}>
-                    <Nav.Link className="p-1rem align-middle" onClick={() => {navigate("/")}}>
+                    <Nav.Link className="p-1rem" onClick={() => {navigate("/")}}>
+                        <FontAwesomeIcon icon={ solid("route")} />
+                        <span className="mx-2">Маршруты</span>                      
+                    </Nav.Link>
+                </Card>      
+            </NavItem>   
+            <NavItem>
+                <Card className="mt-2 mx-3 p-0" style={{backgroundColor:"#F2FAED"}}>
+                    <Nav.Link className="p-1rem align-middle" onClick={() => {navigate("/my-team")}}>
                         <FontAwesomeIcon icon={ solid("user-group")} />
                         <span className="mx-2">Моя команда</span>
                     </Nav.Link>
@@ -50,23 +58,6 @@ function SideBar() {
                     </Nav.Link>
                 </Card>      
             </NavItem>
-            <NavItem>
-                <Card className="mt-2 mx-3 p-0" style={{backgroundColor:"#F2FAED"}}>
-                    <Nav.Link className="p-1rem" onClick={() => {navigate("/routes")}}>
-                        <FontAwesomeIcon icon={ solid("route")} />
-                        <span className="mx-2">Маршруты</span>                      
-                    </Nav.Link>
-                </Card>      
-            </NavItem>
-            <NavItem>
-                <Card className="mt-2 mx-3 p-0" style={{backgroundColor:"#F2FAED"}}>
-                    <Nav.Link className="p-1rem" onClick={() => {navigate("/instructors")}}>
-                        <FontAwesomeIcon icon={ solid("id-card")} />
-                        <span className="mx-2">Инструкторы</span>                     
-                    </Nav.Link>
-                </Card>      
-            </NavItem>
-        
             </Nav>
             </Navbar.Collapse>
         </Container>

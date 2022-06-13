@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,9 +10,10 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220612135145_fixInstructor1")]
+    partial class fixInstructor1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -996,9 +998,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int>("IndividualTentAmount")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("InstructorID")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("RouteID")
                         .HasColumnType("integer");
 
@@ -1023,8 +1022,6 @@ namespace TouristСenterLibrary.Migrations
                     b.HasIndex("EmployeeID");
 
                     b.HasIndex("HikeID");
-
-                    b.HasIndex("InstructorID");
 
                     b.HasIndex("RouteID");
 
@@ -1281,7 +1278,7 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int>("TeamID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("UserID")
                         .HasColumnType("integer");
 
                     b.HasKey("ID");
@@ -1559,10 +1556,6 @@ namespace TouristСenterLibrary.Migrations
                         .WithMany("OrdersList")
                         .HasForeignKey("HikeID");
 
-                    b.HasOne("TouristСenterLibrary.Entity.Instructor", "Instructor")
-                        .WithMany()
-                        .HasForeignKey("InstructorID");
-
                     b.HasOne("TouristСenterLibrary.Entity.Route", "Route")
                         .WithMany()
                         .HasForeignKey("RouteID");
@@ -1576,8 +1569,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("Hike");
-
-                    b.Navigation("Instructor");
 
                     b.Navigation("Route");
 
@@ -1665,10 +1656,8 @@ namespace TouristСenterLibrary.Migrations
                         .IsRequired();
 
                     b.HasOne("TouristСenterLibrary.Entity.User", "User")
-                        .WithMany("TeammateList")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("UserID");
 
                     b.Navigation("Team");
 
@@ -1710,11 +1699,6 @@ namespace TouristСenterLibrary.Migrations
             modelBuilder.Entity("TouristСenterLibrary.Entity.TouristGroup", b =>
                 {
                     b.Navigation("ParticipantsList");
-                });
-
-            modelBuilder.Entity("TouristСenterLibrary.Entity.User", b =>
-                {
-                    b.Navigation("TeammateList");
                 });
 #pragma warning restore 612, 618
         }

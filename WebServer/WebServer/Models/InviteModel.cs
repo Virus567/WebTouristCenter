@@ -9,13 +9,13 @@ namespace WebServer.Models;
 
 public class InviteModel
 {
-    public User MainUser { get; set; }
-    public User User { get; set; }
+    public UserModel MainUser { get; set; }
+    public UserModel User { get; set; }
 
     public InviteModel(User MainUser, User User)
     {
-        this.MainUser = MainUser;
-        this.User = User;
+        this.MainUser =new UserModel(MainUser);
+        this.User =new UserModel(User);
     }
 
     public static List<InviteModel> GetInvites(User user)
@@ -27,7 +27,7 @@ public class InviteModel
             foreach (var teammate in team.Teammates)
             {
                 if (teammate.User.Login != user.Login) break;
-                if (!teammate.IsTeammate && !teammate.IsActive)
+                if (!teammate.IsActive)
                 {
                     var invite = new InviteModel(team.MainUser, user);
                     invites.Add(invite);

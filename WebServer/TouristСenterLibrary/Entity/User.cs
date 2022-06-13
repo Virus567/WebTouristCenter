@@ -15,10 +15,11 @@ namespace TouristСenterLibrary.Entity
         public string? Password { get; set; }
         public string? Email { get; set; }
         public string? NameOfCompany { get; set; }
+        public List<Teammate> TeammateList { get; set; }
 
         public User()
         {
-
+            TeammateList = new List<Teammate>();
         }
 
         public User(string Surname, string Name, string PhoneNumber)
@@ -26,6 +27,7 @@ namespace TouristСenterLibrary.Entity
             this.Surname = Surname;
             this.Name = Name;
             this.PhoneNumber = PhoneNumber;
+            TeammateList = new List<Teammate>();
         }
 
         public User(string NameOfCompany, string Surname, string Name, string Middlename,

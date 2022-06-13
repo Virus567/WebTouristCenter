@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,9 +10,10 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220612124514_fixInstructor")]
+    partial class fixInstructor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -809,7 +811,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 1,
-                            Discription = "Профессиональный повар. Могу приготовить на костре все что угодно от вкусной и наваристой ухи до блинов на завтрак.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2019, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr1",
@@ -823,7 +825,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 2,
-                            Discription = "Веселый Аниматор. Закончила цироковое училище, вожу в походы уже 7 лет.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2020, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr2",
@@ -837,7 +839,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 3,
-                            Discription = "Старший инструктор. Мастер в своем деле. С детства увлекаюсь походами, охотой и рыбалкой.Со мной не пропадете.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2021, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr3",
@@ -851,7 +853,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 4,
-                            Discription = "Мастер спорта по гребле. Байдарка для меня — смысл жизни. С самого детства в ней, со мной не пропадете.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2020, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr4",
@@ -865,7 +867,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 5,
-                            Discription = "Старший инструктор. Вожу в походы уже 15 лет. Знаю все маршруты вдоль и поперек.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr5",
@@ -879,7 +881,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 6,
-                            Discription = "Душа компании. Со мной не соскучитесь. Со мной можно поговорить в любое время и на любые темы.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2020, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr6",
@@ -893,7 +895,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 7,
-                            Discription = "А вы пробовали когда-нибудь яичницу, приготовленную на костре или аппетитные оладьи на свежем воздухе? Со мной обязательно попробуете!",
+                            Discription = "",
                             EmploymentDate = new DateTime(2021, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr7",
@@ -907,7 +909,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 8,
-                            Discription = "Мастер на все руки. Сколотить деревянный помост? Сделать скамейки, чтобы посидеть у костра? Это все ко мне.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2020, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr8",
@@ -921,7 +923,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 9,
-                            Discription = "Профессиональный экскурсовод. Проведу увлекательную экскурсию на любом маршруте, расскажу про все интересные места.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2021, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr9",
@@ -935,7 +937,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 10,
-                            Discription = "Хорошо играю на гитаре. Вечером у костра со мной не заскучаете. ",
+                            Discription = "",
                             EmploymentDate = new DateTime(2019, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr10",
@@ -996,9 +998,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int>("IndividualTentAmount")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("InstructorID")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("RouteID")
                         .HasColumnType("integer");
 
@@ -1023,8 +1022,6 @@ namespace TouristСenterLibrary.Migrations
                     b.HasIndex("EmployeeID");
 
                     b.HasIndex("HikeID");
-
-                    b.HasIndex("InstructorID");
 
                     b.HasIndex("RouteID");
 
@@ -1281,7 +1278,7 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int>("TeamID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("UserID")
                         .HasColumnType("integer");
 
                     b.HasKey("ID");
@@ -1559,10 +1556,6 @@ namespace TouristСenterLibrary.Migrations
                         .WithMany("OrdersList")
                         .HasForeignKey("HikeID");
 
-                    b.HasOne("TouristСenterLibrary.Entity.Instructor", "Instructor")
-                        .WithMany()
-                        .HasForeignKey("InstructorID");
-
                     b.HasOne("TouristСenterLibrary.Entity.Route", "Route")
                         .WithMany()
                         .HasForeignKey("RouteID");
@@ -1576,8 +1569,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("Hike");
-
-                    b.Navigation("Instructor");
 
                     b.Navigation("Route");
 
@@ -1665,10 +1656,8 @@ namespace TouristСenterLibrary.Migrations
                         .IsRequired();
 
                     b.HasOne("TouristСenterLibrary.Entity.User", "User")
-                        .WithMany("TeammateList")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("UserID");
 
                     b.Navigation("Team");
 
@@ -1710,11 +1699,6 @@ namespace TouristСenterLibrary.Migrations
             modelBuilder.Entity("TouristСenterLibrary.Entity.TouristGroup", b =>
                 {
                     b.Navigation("ParticipantsList");
-                });
-
-            modelBuilder.Entity("TouristСenterLibrary.Entity.User", b =>
-                {
-                    b.Navigation("TeammateList");
                 });
 #pragma warning restore 612, 618
         }

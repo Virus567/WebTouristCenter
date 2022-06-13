@@ -28,10 +28,9 @@ ReactDOM.render(
       <div className='col p-0' style={{maxWidth:"100%"}}>
         <Header/>
         <Routes>
-          <Route path={"/"} element={<MyTeam/>} />
-          <Route path={"/my-hikes"} element={<MyHikes/>} />
-          <Route path={"/routes"} element={<HikeRoutes/>} />
-          <Route path={"/instructors"} element={<Instructors/>} />
+          <Route path={"/"} element={<HikeRoutes/>} />
+          <Route path={"/my-team"} element={<MyTeam/>} />
+          <Route path={"/my-hikes"} element={<MyHikes/>} />      
           <Route path={"/route"} element={<HikeRoute/>} />
           <Route path={"/order"} element={<Order/>} />
           <Route path={"/order-partisipants"} element={<OrderParticiapnt/>} />
