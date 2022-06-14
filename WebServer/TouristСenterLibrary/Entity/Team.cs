@@ -74,7 +74,7 @@ namespace TouristСenterLibrary.Entity
         {
             try
             {
-                return db.Team.FirstOrDefault(t => t.ID == id);
+                return db.Team.Include(t => t.MainUser).Include(t => t.Teammates).ThenInclude(t => t.User).FirstOrDefault(t => t.ID == id);
             }
             catch (Exception ex)
             {
@@ -102,7 +102,7 @@ namespace TouristСenterLibrary.Entity
         {
             try
             {
-                return db.Team.Include(t => t.MainUser).Include(t => t.Teammates).ThenInclude(t => t.User).Where(t => t.MainUser.Login == login || t.Teammates.Any(x=>x.User.Login == login && x.IsActive)).ToList();
+                return db.Team.Include(t => t.MainUser).Include(t => t.Teammates).ThenInclude(t => t.User).Where(t => t.MainUser.Login == login || t.Teammates.Any(x=>x.User.Login == login && x.IsActive && x.IsTeammate)).ToList();
             }
             catch(Exception ex)
             {

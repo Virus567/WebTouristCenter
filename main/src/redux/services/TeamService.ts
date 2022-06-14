@@ -37,16 +37,17 @@ class TeamService {
         const data: Answer = response.data;
         if(data.status){
           const teammates : Teammate [] = data.answer.teammates;
+          const invitesTeammates : Teammate [] = data.answer.invitesTeammates;
           const team : Team = data.answer.team
-          return {team:team, teammates: teammates};
+          return {team:team, teammates: teammates, invitesTeammates: invitesTeammates};
         }
         else{
-          return {team:[], teammates: []};
+          return {team:[], teammates: [], invitesTeammates:[]};
         }
       })
       .catch((error) => {
         console.log(error);
-        return {team:[], teammates: []};
+        return {team:[], teammates: [], invitesTeammates:[]};
       });
     }
 
@@ -105,12 +106,31 @@ class TeamService {
       });
     }
 
-    addTeammate(phone: string, login: string){
-      return axios.post(API_URL + "add-teammate?phone=" + phone + "&login="+ login, phone, {headers: authHeader()})
+    changeIsTeammate(flag: boolean, mainUserId: number ){
+      return axios.post(API_URL + "change-is-teammate", {flag: flag, userId: mainUserId}, {headers: authHeader()} )
       .then((response) => {
+        console.log(response.data);
         const data: Answer = response.data;
         if(data.status){
-          const teammates: Teammate[] = data.answer.teammates;
+          const invites:InviteModel [] = data.answer.invites;
+          const teams: Team[] = data.answer.teams;
+          return {invites: invites, teams: teams};
+        }
+        return {invites: [], teams: []};
+      })
+      .catch((error) => {
+        console.log(error);
+        return {invites: [], teams: []};
+      });
+    }
+
+   kickTeammate(flag: boolean, userId: number ){
+      return axios.post(API_URL + "kick-teammate", {flag: flag, userId: userId}, {headers: authHeader()} )
+      .then((response) => {
+        console.log(response.data);
+        const data: Answer = response.data;
+        if(data.status){
+          const  teammates: Teammate [] = data.answer.teammates;
           return teammates;
         }
         return [];
@@ -118,6 +138,25 @@ class TeamService {
       .catch((error) => {
         console.log(error);
         return [];
+      });
+    }
+
+
+    addTeammate(phone: string, login: string){
+      return axios.post(API_URL + "add-teammate?phone=" + phone + "&login="+ login, phone, {headers: authHeader()})
+      .then((response) => {
+        const data: Answer = response.data;
+        if(data.status){
+          const teammates: Teammate[] = data.answer.teammates;
+          const invitesTeammates: Teammate[] = data.answer.invitesTeammates;
+          return {data: data, teammates:teammates, invitesTeammates: invitesTeammates};
+        }
+        return {data: data, teammates:[], invitesTeammates: []};
+      })
+      .catch((error) => {
+        console.log(error);
+        const data: Answer = {status: false, answer: null, error: null, errorText: null}
+        return {data:data, teammates:[], invitesTeammates: []};
       });
     }
 }

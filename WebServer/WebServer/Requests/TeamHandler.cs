@@ -39,7 +39,7 @@ namespace WebServer.Requests
 
             List<Teammate> teammates = new List<Teammate>();
 
-            Team myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда");  
+            Team myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда" && t.MainUser == user);  
             List<TeammateModel> teammatesModel = new List<TeammateModel>();
             List<TeammateModel> invitesTeammatesModel = new List<TeammateModel>();
             var myTeamModel = new TeamModel(myTeam);
@@ -83,7 +83,8 @@ namespace WebServer.Requests
                 List<TeammateModel> teammatesModel = new List<TeammateModel>();
                 foreach (var teammate in teammates)
                 {
-                    teammatesModel.Add(new TeammateModel(teammate));
+                    if (teammate.IsTeammate)
+                        teammatesModel.Add(new TeammateModel(teammate));
                 }
                 Send(new AnswerModel(true, new { teammates = teammatesModel }, null, null));
             }
@@ -110,12 +111,18 @@ namespace WebServer.Requests
                 }
                 var teammates = Teammate.GetTeammatesByTeam(team);
                 List<TeammateModel> teammatesModel = new List<TeammateModel>();
+                List<TeammateModel> invitesTeammatesModel = new List<TeammateModel>();
                 foreach (var teammate in teammates)
                 {
-                    teammatesModel.Add(new TeammateModel(teammate));
+                    if (teammate.IsTeammate)
+                        teammatesModel.Add(new TeammateModel(teammate));
+                    else if (!teammate.IsActive)
+                    {
+                        invitesTeammatesModel.Add(new TeammateModel(teammate));
+                    }
                 }
 
-                Send(new AnswerModel(true, new {team = teamModel, teammates = teammatesModel }, null, null));
+                Send(new AnswerModel(true, new {team = teamModel, teammates = teammatesModel, invitesTeammates = invitesTeammatesModel }, null, null));
             }
             else
             {
@@ -161,7 +168,8 @@ namespace WebServer.Requests
 
             foreach (var teammate in teammates)
             {
-                teammatesModel.Add(new TeammateModel(teammate));
+                if (teammate.IsTeammate)
+                    teammatesModel.Add(new TeammateModel(teammate));
             }
 
             Send(new AnswerModel(true, new {team = myTeamModel,  teammates = teammatesModel }, null, null));
@@ -212,6 +220,123 @@ namespace WebServer.Requests
             }
         }
 
+        [Post("change-is-teammate")]
+        public void ChangeInvites()
+        {
+            var body = Bind<ChangeInvitesModel>();
+            if (body.flag == null || body.userId == null )
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request"));
+                return;
+            }
+
+            var mainUser = User.GetUserByID(body.userId);
+            if (mainUser is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var teams = Team.GetTeamsByUserLogin(mainUser.Login);
+            Team myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда" && t.MainUser == mainUser);
+            if (myTeam == null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+            var user = TokenWorker.GetUserByToken(token);
+            if (user is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            foreach (var teammate in myTeam.Teammates)
+            {
+                if(teammate.User.Login == user.Login && !teammate.IsTeammate && !teammate.IsActive)
+                {
+                    teammate.IsActive = true;
+                    teammate.IsTeammate = body.flag;
+                    teammate.Update();
+                }
+            }
+            teams = Team.GetTeamsByUserLogin(user.Login);
+            var invites = InviteModel.GetInvites(user);
+            List<TeamModel> teamsModel = new List<TeamModel>();
+            foreach (var t in teams)
+            {
+                teamsModel.Add(new TeamModel(t));
+            }
+
+            Send(new AnswerModel(true, new { invites = invites, teams = teamsModel }, null, null));
+        }
+
+        [Post("kick-teammate")]
+        public void KickTeammate()
+        {
+            var body = Bind<ChangeInvitesModel>();
+            if (body.flag == null || body.userId == null)
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request"));
+                return;
+            }
+
+            var user = User.GetUserByID(body.userId);
+            if (user is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+
+            var mainUser = TokenWorker.GetUserByToken(token);
+            if (mainUser is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var teams = Team.GetTeamsByUserLogin(mainUser.Login);
+            Team myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда" && t.MainUser == mainUser);
+            if (myTeam == null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            foreach (var teammate in myTeam.Teammates)
+            {
+                if (teammate.User.Login == user.Login && teammate.IsTeammate && teammate.IsActive)
+                {
+                    teammate.IsTeammate = body.flag;
+                    teammate.Update();
+                }
+            }
+            List<Teammate> teammates = Teammate.GetTeammatesByTeam(myTeam);
+            List<TeammateModel> teammatesModel = new List<TeammateModel>();
+
+            foreach (var teammate in teammates)
+            {
+                if (teammate.IsTeammate)
+                    teammatesModel.Add(new TeammateModel(teammate));
+            }
+
+            Send(new AnswerModel(true, new { teammates = teammatesModel}, null, null));
+        }
+
+
         [Post("add-teammate")]
         public void AddTeammate()
         {
@@ -242,18 +367,37 @@ namespace WebServer.Requests
                     return;
                 }
 
-                if (!team.AddTeammate(user))
+                if(team.Teammates.Any(x=>x.User.Login == user.Login))
                 {
-                    Send(new AnswerModel(false, null, 401, "incorrect request"));
-                    return;
+                    var teammate = team.Teammates.First(x => x.User.Login == user.Login);
+                    if (!teammate.IsTeammate)
+                    {
+                        teammate.IsTeammate = true;
+                        teammate.Update();
+                    }
                 }
+                else 
+                { 
+                    if (!team.AddTeammate(user))
+                    {
+                        Send(new AnswerModel(false, null, 401, "incorrect request"));
+                        return;
+                    }
+                }
+                
                 var teammates = Teammate.GetTeammatesByTeam(team);
                 List<TeammateModel> teammatesModel = new List<TeammateModel>();
-                foreach(var teammate in teammates)
+                List<TeammateModel> invitesTeammatesModel = new List<TeammateModel>();
+                foreach (var teammate in teammates)
                 {
-                    teammatesModel.Add(new TeammateModel(teammate));
+                    if (teammate.IsTeammate)
+                        teammatesModel.Add(new TeammateModel(teammate));
+                    else if (!teammate.IsActive)
+                    {
+                        invitesTeammatesModel.Add(new TeammateModel(teammate));
+                    }
                 }
-                Send(new AnswerModel(true, new { teammates = teammatesModel }, null, null));
+                Send(new AnswerModel(true, new { teammates = teammatesModel, invitesTeammates = invitesTeammatesModel }, null, null));
             }
             else if (Params.TryGetValue("login", out var login) && login != "")
             {
@@ -264,19 +408,37 @@ namespace WebServer.Requests
                     return;
                 }
 
-                if (!team.AddTeammate(user))
+                if (team.Teammates.Any(x => x.User.Login == user.Login))
                 {
-                    Send(new AnswerModel(false, null, 401, "incorrect request"));
-                    return;
+                    var teammate = team.Teammates.First(x => x.User.Login == user.Login);
+                    if (!teammate.IsTeammate)
+                    {
+                        teammate.IsTeammate = true;
+                        teammate.Update();
+                    }
+                }
+                else
+                {
+                    if (!team.AddTeammate(user))
+                    {
+                        Send(new AnswerModel(false, null, 401, "incorrect request"));
+                        return;
+                    }
                 }
                 var teammates = Teammate.GetTeammatesByTeam(team);
                 List<TeammateModel> teammatesModel = new List<TeammateModel>();
+                List<TeammateModel> invitesTeammatesModel = new List<TeammateModel>();
                 foreach (var teammate in teammates)
                 {
-                    teammatesModel.Add(new TeammateModel(teammate));
+                    if (teammate.IsTeammate)
+                        teammatesModel.Add(new TeammateModel(teammate));
+                    else if (!teammate.IsActive)
+                    {
+                        invitesTeammatesModel.Add(new TeammateModel(teammate));
+                    }
                 }
 
-                Send(new AnswerModel(true, new {teammates = teammatesModel}, null, null));
+                Send(new AnswerModel(true, new {teammates = teammatesModel, invitesTeammates = invitesTeammatesModel }, null, null));
             }
             else
             {

@@ -26,12 +26,15 @@ public class InviteModel
         {
             foreach (var teammate in team.Teammates)
             {
-                if (teammate.User.Login != user.Login) break;
-                if (!teammate.IsActive)
+                if (teammate.User.Login == user.Login)
                 {
-                    var invite = new InviteModel(team.MainUser, user);
-                    invites.Add(invite);
-                }   
+                    if (!teammate.IsActive)
+                    {
+                        var invite = new InviteModel(team.MainUser, user);
+                        invites.Add(invite);
+                    } 
+                }
+                  
             }
         }
         return invites;

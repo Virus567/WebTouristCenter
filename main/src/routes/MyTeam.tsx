@@ -37,6 +37,7 @@ function MyTeam() {
 
     const user = useSelector((state: RootState) => state);
     const [key, setKey] = useState<boolean>(false);
+    const [flagMyTeam, setFlagMyTeam] = useState<boolean>(true);
     const [team, setTeam] = useState<Team>();
     const [teams, setTeams] = useState<Team[]>([]);
     const [teammates, setTeammates] = useState<Teammate[]>([]);
@@ -70,13 +71,40 @@ function MyTeam() {
           })       
     }
 
-    const addTeammate= () =>{
-        console.log(valuePhone.phone, valueLogin.login)
+    const changeTeam = (team: Team) =>{
+        TeamService.changeTeamByTeamId(team.ID).then((res:any) => {
+            setTeammates(res.teammates);
+            setInvitesTeammates(res.invitesTeammates);
+            setTeam(res.team);
+          });
+        if(team.Name==="Моя команда" && team.MainUser.ID === user.client.client?.ID){
+            setFlagMyTeam(true);
+        }
+        else{
+            setFlagMyTeam(false);
+        }
+    }
+
+    const addTeammate = () =>{
         TeamService.addTeammate(valuePhone.phone, valueLogin.login).then((res:any) => {
-            setTeammates(res);
+            setTeammates(res.teammates);
+            setInvitesTeammates(res.invitesTeammates);
           });
         handleClose();
     }
+
+    const changeIsTeammate= (bool: boolean, id: number) =>{
+        TeamService.changeIsTeammate(bool, id).then((res:any) => {
+            setInvites(res.invites);
+            setTeams(res.teams);
+        });
+    }
+    const kickTeammate = (bool: boolean, id: number) =>{
+        TeamService.kickTeammate(bool, id).then((res:any) => {
+            setTeammates(res)
+        });
+    }
+    
 
     const handleChangeLogin = (prop: keyof StateLogin) => (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValueLogin({...valueLogin, [prop]: event.target.value.trim()});
@@ -109,10 +137,10 @@ function MyTeam() {
                 }}>
                     <span className='mx-2'>{invite.MainUser.Surname} {invite.MainUser.Name} приглашает вас в команду</span>
                     <div className='mx-2'>
-                        <Button variant='outline-success' className='p-0 rounded-circle' style={{height:"16px",margin:"0 6px 0 6px", border:"0px"}}>
+                        <Button onClick={(e) => {changeIsTeammate(true, invite.MainUser.ID)}} variant='outline-success' className='p-0 rounded-circle' style={{height:"16px",margin:"0 6px 0 6px", border:"0px"}}>
                             <BsCheckCircle style={{marginBottom:"12px"}}/>
                         </Button>
-                        <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
+                        <Button  onClick={(e) => {changeIsTeammate(false, invite.MainUser.ID)}} variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
                             <BsXCircle style={{marginBottom:"12px"}}/>
                         </Button>
                     </div>
@@ -129,7 +157,7 @@ function MyTeam() {
                 {teams.map((team)=>(
                 <div>
                     {(team.Name === 'Моя команда' && team.MainUser.ID === user.client.client?.ID )?(
-                        <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
+                        <Container onClick={(e) => {changeTeam(team)}} className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                         style={{
                         backgroundColor:"#F2FAED"
                             }}>
@@ -139,14 +167,14 @@ function MyTeam() {
                         <>
                             {(team.Name === 'Пойти в одиночку')?
                             (
-                                <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
+                                <Container onClick={(e) => {changeTeam(team)}} className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                                 style={{
                                 backgroundColor:"#F2FAED"
                                     }}>
                                     <span className='mx-2'>Пойти в одиночку</span>
                                 </Container>
                             ):(
-                                <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
+                                <Container onClick={(e) => {changeTeam(team)}} className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                                 style={{
                                 backgroundColor:"#F2FAED"
                                     }}>
@@ -179,11 +207,20 @@ function MyTeam() {
                         backgroundColor:"#F2FAED"
                         }}>
                             <span className='mx-2'>{teammate.User.Surname} {teammate.User.Name} | {teammate.User.Login}</span>
+                            <>
+                            {(flagMyTeam)?
+                            (
                             <div className='mx-2'>
-                                <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
+                                <Button onClick={(e) => {kickTeammate(false, teammate.User.ID)}} variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
                                     <BsXCircle style={{marginBottom:"12px"}}/>
                                 </Button>
                             </div>
+                            ):(
+                                <>
+                                </>
+                            )}
+                            </>
+                            
                         </Container>  
                     ))}
                     <h5 className='text-white mt-4'
@@ -197,11 +234,19 @@ function MyTeam() {
                         backgroundColor:"#F2FAED"
                         }}>
                             <span className='mx-2'>{teammate.User.Surname} {teammate.User.Name} | {teammate.User.Login}</span>
+                            <>
+                            {(flagMyTeam)?
+                            (
                             <div className='mx-2'>
-                                <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
+                                <Button onClick={(e) => {kickTeammate(false, teammate.User.ID)}} variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
                                     <BsXCircle style={{marginBottom:"12px"}}/>
                                 </Button>
                             </div>
+                            ):(
+                                <>
+                                </>
+                            )}
+                            </>
                         </Container>  
                     ))}
     

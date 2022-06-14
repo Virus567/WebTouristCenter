@@ -59,7 +59,7 @@ namespace TouristСenterLibrary.Entity
         {
             return db.User.FirstOrDefault(u => u.Login == login);
         }
-        public static User GetUserByID(int id)
+        public static User? GetUserByID(int id)
         {
             return db.User.FirstOrDefault(u => u.ID == id);
         }

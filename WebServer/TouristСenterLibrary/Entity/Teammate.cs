@@ -43,6 +43,20 @@ namespace TouristСenterLibrary.Entity
 
         }
 
+        public bool Update()
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
         public static List<Teammate> GetTeammatesByTeam(Team team)
         {
             try

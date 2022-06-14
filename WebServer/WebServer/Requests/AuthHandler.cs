@@ -94,7 +94,8 @@ namespace WebServer.Requests
             {
                 user = User.GetUserByPhoneNumber(body.phone);
             }
-            Send(new AnswerModel(true, new { access_token = GenerateToken(user), user = user }, null, null));
+            var client = new ClientModel(user);
+            Send(new AnswerModel(true, new { access_token = GenerateToken(user), user = client }, null, null));
         }
     }
 }
