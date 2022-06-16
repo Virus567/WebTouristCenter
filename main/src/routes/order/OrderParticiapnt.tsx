@@ -1,15 +1,16 @@
 import React,{useState} from 'react';
 import {Container, Button, Form, Modal, Card, Image} from 'react-bootstrap';
-import {useNavigate, useLocation} from 'react-router-dom';
+import {useNavigate,useLocation} from 'react-router-dom';
 import {Participant} from "../../models/ParticipantModel";
 import {Instructor} from "../../models/InstructorModel";
 import {Teammate, Team} from '../../models/TeamModel';
-import {AppDispatch, RootState} from "../../redux/store";
+import {RootState} from "../../redux/store";
 import TeamService from '../../redux/services/TeamService';
 import InstructorService from '../../redux/services/InstructorService';
-import {useDispatch, useSelector} from "react-redux";
-import {BsXCircle } from 'react-icons/bs';
-
+import {useSelector} from "react-redux";
+import {BsXCircle, BsCheckCircle} from 'react-icons/bs';
+import {Route} from "../../models/RoutesModel";
+import {FirsOrderInfo} from "../../models/order/FirstOrderInfo";
 
 interface State {
 	surname: string,
@@ -17,13 +18,12 @@ interface State {
 	phone: string,
 	middlename: string,
 }
-
 let tmpParticipants : Participant[] = [];
 
 function OrderParticiapnt() {
   const navigate = useNavigate();
-  const {search} = useLocation();
-
+  const location = useLocation();
+  const mainOrderInfo: FirsOrderInfo = location.state as FirsOrderInfo;
 
   const [values, setValues] = useState<State>({
 		surname: '',
@@ -47,6 +47,10 @@ function OrderParticiapnt() {
   const [showInstructor, setShowInstructor] = useState(false);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [showParticipant, setShowParticipant] = useState(false);
+  const [instructor, setInstructor] = useState<Instructor>();
+  const [peopleAmount, setPeopleAmount] = useState<string>();
+  const [childrenAmount, setChildrenAmount] = useState<string>();
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -64,6 +68,11 @@ function OrderParticiapnt() {
   const handleCloseDopParticipant = () => setShowParticipant(false);
   const handleShowDopParticipant = () => {
     setShowParticipant(true);
+  }
+
+  const changeInstructor = (instructor: Instructor) =>{
+      setInstructor(instructor);
+      handleCloseInstructor();
   }
 
   const changeTeam = (teamId: number) => {
@@ -106,6 +115,7 @@ function OrderParticiapnt() {
     TeamService.getDefaultTeammatesByUser().then((res:any) => {
       setTeammates(res.teammates);
       setTeam(res.team.Name);
+
     })
     setKey(true);
   }, [teammates, team, key])
@@ -125,9 +135,31 @@ function OrderParticiapnt() {
                 style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                     Информация о составе
                 </h4>
-                <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
-                <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-3" placeholder="Количество детей"/>     
-                <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-4" placeholder="Из Них детей (До 14 лет)"/>
+                <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/> 
+                <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-3" maxLength={2} value={peopleAmount}
+                  onChange={e => {
+                    if(!isNaN(Number(e.target.value))){
+                        setPeopleAmount(e.target.value.trim());
+                    }
+                    else{
+                      setPeopleAmount (e.target.value.substring(0, e.target.value.length - 1).trim());
+                    }                 
+                  }}  
+                  placeholder="Количество человек"/>     
+                <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-4" maxLength={2} value={childrenAmount}
+                  onChange={e => {
+                    if(!isNaN(Number(e.target.value))){
+                      if(Number(e.target.value)<= Number(peopleAmount)){
+                        setChildrenAmount(e.target.value.trim());
+                      }
+                      else{
+                        setChildrenAmount(e.target.value.substring(0, e.target.value.length - 1).trim());
+                      }
+                  }
+                  else{
+                    setChildrenAmount(e.target.value.substring(0, e.target.value.length - 1).trim());
+                  }                 
+                  }}   placeholder="Из Них детей (До 14 лет)"/>
                 <div className='d-flex'>
                   <Form.Control style={{backgroundColor:"#F2FAED", width:"70%"}} type="text" readOnly className="mt-4" value={team} />
                   <Button onClick={handleShow} className='p-0 rounded mt-4 mx-1' style={{backgroundColor:"#B6D3B0", color:"#ffffff", border:" 1px solid #89A889", textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889", height:"38px", width:"30%"}}>
@@ -179,7 +211,24 @@ function OrderParticiapnt() {
         </div>     
       </div>
       <div className='d-flex flex-column align-items-end mx-5 mt-4'>
-        <Button onClick= {() => {navigate("/instructors")}} className='mx-2'
+        <Button onClick= {() => {navigate("/order-features", 
+        {
+          state:
+          {
+            route: mainOrderInfo.route, 
+            dateStart: mainOrderInfo.dateStart, 
+            dateFinish: mainOrderInfo.dateFinish, 
+            wayToTravel:mainOrderInfo. wayToTravel,
+            isPhotograph: mainOrderInfo.isPhotograph,
+            instructor: instructor,
+            peopleAmount: peopleAmount,
+            childrenAmount: childrenAmount,
+            teammates: teammates,
+            participants: participants
+
+          }
+        })}} 
+        className='mx-2'
         style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
         textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
         >
@@ -273,21 +322,44 @@ function OrderParticiapnt() {
             <Modal.Body className='d-flex flex-column align-items-center' style={{backgroundColor:"#B4C3B1", overflow:"scroll", overflowX:"hidden", maxHeight:"600px", width:"600px"}}>
               <p style={{color:"#ffffff"}}>Вы можете выбрать старшего инструктора, с которым хотите отправиться на маршрут. Администратор по возможности учтет ваш выбор.</p>
               {instructors.map((i)=>(
-                <Container className='d-flex mt-3 p-0'>
-                  <Image src={i.Image} alt='Фото' style={{width:"13rem"}}/>
-                  <Card style={{ width: '22rem' }}>
-                    <Card.Body >
-                      <Card.Title>{i.Surname} {i.Name}</Card.Title>
-                      <Card.Text>
-                        {i.Discription}
-                      </Card.Text>
-                      <Button style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                                      textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                                        Выбрать
-                      </Button>
-                    </Card.Body>
-                  </Card>
-              </Container>
+                <>
+                {(i.ID === instructor?.ID)?
+                (
+                  <Container className='d-flex mt-3 p-0'>
+                      <Image src={i.Image} alt='Фото' style={{width:"13rem"}}/>
+                      <Card style={{ width: '22rem' }}>
+                        <Card.Body >
+                          <Card.Title>
+                            <BsCheckCircle style={{marginRight:"7px", marginBottom:"5px"}}/>
+                            Выбран(а) {i.Surname} {i.Name}
+                            </Card.Title>
+                          <Card.Text>
+                            {i.Discription}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                  </Container>
+
+                ):(
+                  <Container className='d-flex mt-3 p-0'>
+                      <Image src={i.Image} alt='Фото' style={{width:"13rem"}}/>
+                      <Card style={{ width: '22rem' }}>
+                        <Card.Body >
+                          <Card.Title>{i.Surname} {i.Name}</Card.Title>
+                          <Card.Text>
+                            {i.Discription}
+                          </Card.Text>
+                          <Button onClick={(e) => {changeInstructor(i)}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
+                                          textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                                            Выбрать
+                          </Button>
+                        </Card.Body>
+                      </Card>
+                  </Container>
+                )}
+                
+                </>
+                
               ))}
               
               

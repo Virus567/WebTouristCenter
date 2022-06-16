@@ -1,17 +1,27 @@
 import React,{useState} from 'react';
 import {Container, Button, Form} from 'react-bootstrap';
 import {useNavigate, useLocation} from 'react-router-dom';
+import {useSelector} from "react-redux";
+import {RootState} from "../redux/store";
 import RouteService from '../redux/services/RouteService';
 import {Route} from "../models/RoutesModel";
+import { stringify } from 'querystring';
+import Moment from 'react-moment';
+import moment from 'moment';
 
 
 function Order() {
   const navigate = useNavigate();
-  const [route, setRoute] = React.useState<Route>();
+  const [key, setKey] = useState<boolean>(false);
+  const user = useSelector((state: RootState) => state);
+  const [route, setRoute] = useState<Route>();
+  const [dateStart, setDateStart] = useState<string>();
+  const [dateFinish, setDateFinish] = useState<string>();
+  const [wayToTravel, setWayToTravel] = useState<string>("Рафты");
+  const [isPhotograph, setIsPhotograph] = useState<boolean>(false);
   const {search} = useLocation();
   const searchParams = new URLSearchParams(search);
   const routeId = searchParams.get("route-id");
-  let key = false;
 
   React.useEffect(() => {
     if (key) return;
@@ -20,8 +30,9 @@ function Order() {
         setRoute(res);
       }
     })
-    key = true;
-  }, [route])
+    setKey(true);
+  }, [route]);
+
   return (
     <div>
       <div className='mt-4 px-3' style={{height:"85%"}}>
@@ -37,32 +48,49 @@ function Order() {
                   Основная информация
               </h4>
               <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
-              <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-3" placeholder="ФИО представителя"/>     
-              <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-3" placeholder="Номер телефона представителя"/>
+              <h6 className='text-white p-0 mt-2' 
+              style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                  Представитель:
+              </h6>
+              <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-2" readOnly value={user.client.client?.Surname + " " + user.client.client?.Name + " " + user.client.client?.Middlename}  placeholder="ФИО представителя"/>     
+              <h6 className='text-white p-0 mt-2' 
+              style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                  Телефон Представителя:
+              </h6>
+              <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-2" readOnly value={user.client.client?.PhoneNumber} placeholder="Номер телефона представителя"/>
               <h6 className='text-white p-0 mt-3' 
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   Даты:
               </h6>
               <div className='d-flex justify-content-between mt-1'>
-                <Form.Control style={{backgroundColor:"#F2FAED"}} type="date" name="dos"/>
+                <Form.Control style={{backgroundColor:"#F2FAED"}} type="date" value={dateStart} 
+                      onChange={e => {
+                          const date : Date = new Date(Date.parse(e.target.value));
+                          setDateStart(moment(date).format('YYYY-MM-DD'));
+                          setDateFinish(moment(date).add((route!.NumberDays-1),'days').format('YYYY-MM-DD'));
+                          }} name="dos"/>
                 <h5 className='text-white p-0 ' 
               style={{margin:"3px 10px 0 10px",textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   —
               </h5>
-                <Form.Control style={{backgroundColor:"#F2FAED"}} type="date" name="dof"/>
+                <Form.Control style={{backgroundColor:"#F2FAED"}} type="date" name="dof"value={dateFinish} readOnly/>
               </div>
               <h6 className='text-white p-0 mt-3' 
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   Способ передвижения:
               </h6>
-              <Form.Select  style={{backgroundColor:"#F2FAED"}} className="mt-2" aria-label="Способ передвижения">
-                <option value="1">Рафты</option>
-                <option value="2">Байдарки</option>
+              <Form.Select  style={{backgroundColor:"#F2FAED"}} className="mt-2" aria-label="Способ передвижения" value={wayToTravel} 
+                      onChange={e => {
+                          setWayToTravel(e.target.value);
+                          }}>
+                <option value="Рафты">Рафты</option>
+                <option value="Байдарки">Байдарки</option>
               </Form.Select> 
               <Form.Check type ='checkbox' className="mt-3">
-                <Form.Check.Input/>
-                <Form.Check.Label><h6 className='text-white p-0 ' 
-              style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                <Form.Check.Input onChange={e => {setIsPhotograph(!isPhotograph)}}/>
+                <Form.Check.Label >
+                            <h6 className='text-white p-0 ' 
+              style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>   
                   Услуги фотографа
               </h6></Form.Check.Label>
               </Form.Check>
@@ -91,7 +119,17 @@ function Order() {
         </div>     
       </div>
       <div className='d-flex flex-column align-items-end mx-5 mt-4'>
-        <Button onClick= {() => {navigate("/order-partisipants?route-id=" + routeId)}} className='mx-2'
+        <Button onClick= {() => {navigate("/order-partisipants", 
+        {state:
+          {
+            route: route, 
+            dateStart: dateStart, 
+            dateFinish: dateFinish, 
+            wayToTravel: wayToTravel,
+            isPhotograph: isPhotograph
+          }
+        })}} 
+          className='mx-2'
         style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
         textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
         >
