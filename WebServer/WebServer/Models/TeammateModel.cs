@@ -19,5 +19,8 @@ namespace WebServer.Models
             User = new UserModel(teammate.User);
             IsActive = false;
         }
+        public TeammateModel()
+        {
+        }
     }
 }

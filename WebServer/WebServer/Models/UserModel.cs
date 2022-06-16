@@ -13,8 +13,9 @@ namespace WebServer.Models
         public string Login { get; set; }
         public string Surname { get; set; }
         public string Name { get; set; }
-        public string? MiddleName { get; set; }
+        public string MiddleName { get; set; }
 
+        public UserModel() { }
         public UserModel(User user)
         {
             ID = user.ID;

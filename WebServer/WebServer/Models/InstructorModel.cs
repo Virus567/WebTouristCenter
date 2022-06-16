@@ -24,4 +24,5 @@ public class InstructorModel
         Image = image;
         Discription = discription;
     }
+    public InstructorModel() { }
 }

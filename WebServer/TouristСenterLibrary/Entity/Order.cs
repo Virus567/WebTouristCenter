@@ -26,6 +26,7 @@ namespace TouristСenterLibrary.Entity
         [Required] public int HermeticBagAmount { get; set; }
         [Required] public int IndividualTentAmount { get; set; }
         public Instructor? Instructor { get; set; }
+        public bool IsPhotograph { get; set; }
 
         public Order()
         {
