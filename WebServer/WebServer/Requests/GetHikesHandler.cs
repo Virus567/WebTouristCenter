@@ -32,6 +32,16 @@ namespace WebServer.Requests
             }
             List<Hike.HikeView> hikes = Hike.GetViewByUserID(user.ID);
             List<Order.OrderView> orders = Order.GetViewByUserId(user.ID);
+            var hikesModel = new List<HikeModel>();
+            var ordersModel = new List<OrderModel>();
+            foreach(var order in orders)
+            {
+                ordersModel.Add(new OrderModel(order));
+            }
+            foreach (var hike in hikes)
+            {
+                hikesModel.Add(new HikeModel(hike));
+            }
 
 
             if (Params.TryGetValue("date", out var date))
@@ -49,7 +59,7 @@ namespace WebServer.Requests
                 hikes = hikes.Where(h => h.Status == status).ToList();
             }
 
-            Send(new AnswerModel(true, new { hikes = hikes, orders = orders }, null, null));
+            Send(new AnswerModel(true, new { hikes = hikesModel, orders = ordersModel }, null, null));
         }
     }
 }

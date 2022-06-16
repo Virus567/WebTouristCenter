@@ -17,6 +17,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/sideBar.css';
 import {Provider} from "react-redux";
 import {store} from './redux/store';
+import HikeFullInfo from './routes/HikeFullInfo';
+import OrderFullInfo from './routes/OrderFullInfo';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -36,6 +38,8 @@ ReactDOM.render(
           <Route path={"/order"} element={<Order/>} />
           <Route path={"/order-partisipants"} element={<OrderParticiapnt/>} />
           <Route path={"/order-features"} element={<OrderFeatures/>} />
+          <Route path={"/hike-info"} element={<HikeFullInfo/>} />
+          <Route path={"/order-info"} element={<OrderFullInfo/>} />
           <Route path={"/register"} element={<Registration/>} />
         </Routes>
       </div>

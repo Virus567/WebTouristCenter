@@ -197,11 +197,11 @@ const addOrder = () =>{
       </div>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Заявка оформлена</Modal.Title>
+        <Modal.Header closeButton style={{backgroundColor:"#B4C3B1"}}>
+          <Modal.Title className='text-white' style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>Заявка оформлена</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Заявка успешно оформлена! Договор на предоставление услуг отправлен на  почту {email}</Modal.Body>
-        <Modal.Footer>
+        <Modal.Body style={{backgroundColor:"#B4C3B1", color:"#ffffff"}}>Заявка успешно оформлена! Договор на предоставление услуг отправлен на  почту {email}</Modal.Body>
+        <Modal.Footer style={{backgroundColor:"#B4C3B1"}}>
           <Button style={{backgroundColor:"#B6D3B0", color:"#ffffff", border:" 1px solid #89A889", textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}} onClick={handleClose}>
             OK
           </Button>

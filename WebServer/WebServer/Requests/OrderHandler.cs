@@ -100,6 +100,9 @@ namespace WebServer.Requests
 
             Order.Add(order);
 
+            route.Popularity += 1;
+            route.Update();
+
             WordHelper contractHelper = null;
             string fileName = "";
             if (user.NameOfCompany != null)

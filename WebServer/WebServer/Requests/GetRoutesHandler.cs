@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using RestPanda.Requests;
 using RestPanda.Requests.Attributes;
 using TouristСenterLibrary.Entity;
@@ -70,7 +71,7 @@ namespace WebServer.Requests
 
             if (Params.TryGetValue("search", out var search) && search!="")
             {
-                tmpRoutes = tmpRoutes.Where(r => r.Name.ToLower().Contains(search.ToLower())).ToList();
+                tmpRoutes = tmpRoutes.Where(r => r.Name.ToLower().Contains(HttpUtility.UrlDecode(search).ToLower())).ToList();
             }
 
             if (Params.TryGetValue("days", out var days) && days!="" && days!="0")

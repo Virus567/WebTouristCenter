@@ -57,7 +57,7 @@ function MyHikes() {
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <Button href="#" onClick= {() => {navigate("/instructors")}} className='text-sm mx-2 pt-0 pb-0 px-2'
+                    <Button href="#" onClick= {() => {navigate("/order-info")}} className='text-sm mx-2 pt-0 pb-0 px-2'
                      style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889", height:"27px",
                      textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
                      >
@@ -129,7 +129,7 @@ function MyHikes() {
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <Button onClick= {() => {navigate("/instructors")}} className='text-sm mx-2 pt-0 pb-0 px-2'
+                    <Button onClick= {() => {navigate("/hike-info")}} className='text-sm mx-2 pt-0 pb-0 px-2'
                      style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889", height:"27px",
                      textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
                      >

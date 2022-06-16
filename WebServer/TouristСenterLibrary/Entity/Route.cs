@@ -32,6 +32,20 @@ namespace TouristСenterLibrary.Entity
             this.NumberDays = NumberDays;
             this.Description = Description;
         }
+
+        public bool Update()
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
         public static List<Route> GetRouters()
         {
             try
