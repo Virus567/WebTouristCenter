@@ -31,7 +31,7 @@ function Order() {
       }
     })
     setKey(true);
-  }, [route]);
+  }, [route, key]);
 
   return (
     <div>

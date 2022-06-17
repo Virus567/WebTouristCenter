@@ -1,6 +1,7 @@
 export interface Order {
 	ID: number
-	DateTime: string,
+	StartTime: string,
+    FinishTime: string,
     RouteName: string,
 	WayToTravel: string,
 	TouristGroup: string,
@@ -8,5 +9,13 @@ export interface Order {
     ChildrenAmount:  number,
     ApplicationTypeName: string,
     Status: string,
-    IsListParticipants: boolean
+    IsListParticipants: boolean,
+    Users: { 
+        ID: number,
+        Login: string,
+        Surname: string,
+        Name: string,
+        MiddleName: string
+    }[]
+
 }

@@ -11,7 +11,8 @@ namespace WebServer.Models
     {
         public int ID { get; set; }
         public List<UserModel> Users { get; set; } = new List<UserModel>();
-        public string DateTime { get; set; }
+        public string StartTime { get; set; }
+        public string FinishTime { get; set; }
         public string RouteName { get; set; }
         public string WayToTravel { get; set; }
         public string TouristGroup { get; set; }
@@ -36,7 +37,8 @@ namespace WebServer.Models
                 if(user != null)
                     Users.Add(new UserModel(user));
             }
-            DateTime = order.DateTime;
+            StartTime = DateTime.Parse(order.DateTime).ToString("yyyy-MM-dd");
+            FinishTime = DateTime.Parse(order.FinishTime).ToString("yyyy-MM-dd");
             RouteName = order.RouteName;
             WayToTravel = order.WayToTravel;
             TouristGroup = order.TouristGroup;

@@ -45,6 +45,7 @@ namespace TouristСenterLibrary.Entity
             public int ID { get; set; }
             public List<User> Users { get; set; } = new List<User>();
             public string DateTime { get; set; }
+            public string FinishTime { get; set; }
             public string RouteName { get; set; }
             public string WayToTravel { get; set; }
             public string TouristGroup { get; set; }
@@ -63,6 +64,7 @@ namespace TouristСenterLibrary.Entity
                     {
                         ID = o.ID,
                         DateTime = o.StartTime.ToString("d"),
+                        FinishTime = o.FinishTime.ToString("d"),
                         RouteName = o.Route.Name,
                         WayToTravel = o.WayToTravel,
                         TouristGroup = o.TouristGroup.User.GetCompanyNameForOrder(),
@@ -91,10 +93,12 @@ namespace TouristСenterLibrary.Entity
                                     .ThenInclude(o => o.User)
                                     .Include(o => o.TouristGroup)
                                     .ThenInclude(o => o.ParticipantsList)
+                                    .ThenInclude(o =>o.User)
                                         select new OrderView()
                                         {
                                             ID = o.ID,
                                             DateTime = o.StartTime.ToString("d"),
+                                            FinishTime = o.StartTime.ToString("d"),
                                             RouteName = o.Route.Name,
                                             WayToTravel = o.WayToTravel,
                                             TouristGroup = o.TouristGroup.User.GetCompanyNameForOrder(),
@@ -133,11 +137,13 @@ namespace TouristСenterLibrary.Entity
                                     .ThenInclude(o => o.User)
                                     .Include(o => o.TouristGroup)
                                     .ThenInclude(o => o.ParticipantsList)
+                                    .ThenInclude(o => o.User)
                                     .Where(o=>o.ID == orderId)
                                         select new OrderView()
                                         {
                                             ID = o.ID,
                                             DateTime = o.StartTime.ToString("d"),
+                                            FinishTime = o.FinishTime.ToString("d"),
                                             RouteName = o.Route.Name,
                                             WayToTravel = o.WayToTravel,
                                             TouristGroup = o.TouristGroup.User.GetCompanyNameForOrder(),

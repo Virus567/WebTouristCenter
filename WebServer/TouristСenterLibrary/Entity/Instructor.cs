@@ -98,11 +98,13 @@ namespace TouristСenterLibrary.Entity
                     where i.ID == instructorId
                     select new InstructorView()
                     {
+                        ID = instructorId,
                         Surname = i.Surname,
                         Name = i.Name,
                         Middlename = i.Middlename,
-                        InstructorTelefonNumber = i.PhoneNumber
-
+                        InstructorTelefonNumber = i.PhoneNumber,
+                        Discription = i.Discription,
+                        Image = i.Image
                     }).FirstOrDefault());
             }
             return instructors;

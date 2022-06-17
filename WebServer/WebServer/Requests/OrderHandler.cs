@@ -152,5 +152,29 @@ namespace WebServer.Requests
 
             Send(new AnswerModel(true, new { email = user.Email }, null, null));
         }
+
+        [Get("get-full-info")]
+        public void GetRoutesByID()
+        {
+            if (Params.TryGetValue("id", out var id))
+            {
+                var order = Order.GetViewById(Convert.ToInt32(id));
+                if (order == null)
+                {
+                    Send(new AnswerModel(false, null, 401, "incorrect request"));
+                    return;
+                }
+                var route = Route.GetRouteByRouteName(order.RouteName);
+
+                var orderModel = new OrderModel(order);
+                Send(new AnswerModel(true, new { route = route, order = orderModel }, null, null));
+            }
+            else
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request"));
+                return;
+            }
+        }
+
     }
 }

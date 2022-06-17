@@ -5,6 +5,8 @@ import {removeCookie, setCookie} from "typescript-cookie";
 import {Client} from "../../models/ClientModel";
 import {Order} from "../../models/OrderModel";
 import authHeader from "../AuthHeader";
+import { Instructor } from "../../models/InstructorModel";
+import { Route } from "../../models/RoutesModel";
 
 const API_URL = "http://localhost:8080/hikes/";
 
@@ -15,16 +17,65 @@ class HikeService {
             console.log(response.data);
             const data: Answer = response.data;
             if(data.status){
-               const hikes: Hike[] = data.answer.hikes
-            const orders: Order[] = data.answer.orders
+               const hikes: Hike[] = data.answer.hikes;
+            const orders: Order[] = data.answer.orders;
             return {hikes: hikes, orders: orders};
             }
-            return {hikes:[], orders:[]}
+            return {hikes:[], orders:[]};
           })
           .catch((error) => {
             console.log(error);
-            return []
+            return {hikes:[], orders:[]};
           });
     }
+
+    addReport(startDate:string, finishDate:string) {
+      return axios.post(API_URL + "add-report", {startDate:startDate, finishDate: finishDate},{headers: authHeader()})
+          .then((response) => {
+              const data: Answer = response.data;               
+              return data.status;
+            })
+            .catch((error) => {
+              console.log(error);
+              return false;
+            });
+      }
+  
+
+    getHikesWithParams(date:string, route:string, status:string) {
+      return axios.get(API_URL + "get-with-params?date="+ date +"&route="+ route +"&status="+ status, {headers: authHeader()})
+          .then((response) => {
+              console.log(response.data);
+              const data: Answer = response.data;
+              if(data.status){
+                 const hikes: Hike[] = data.answer.hikes;
+              return hikes;
+              }
+              return [];
+            })
+            .catch((error) => {
+              console.log(error);
+              return [];
+            });
+      }
+
+    getHikeFullInfo(id: number) {
+      return axios.get(API_URL + "get-full-info?id="+id,{headers: authHeader()})
+          .then((response) => {
+              console.log(response.data);
+              const data: Answer = response.data;
+              if(data.status){
+                 const route: Route = data.answer.route;
+                 const hike: Hike = data.answer.hike;
+                 const instructors: Instructor[] = data.answer.instructors;
+              return {hike: hike, instructors: instructors, route: route};
+              }
+              return {hike:null, instructors:[], route: null};
+            })
+            .catch((error) => {
+              console.log(error);
+              return {hike:null, instructors:[], route: null};
+            });
+      }
 }
 export default new HikeService();

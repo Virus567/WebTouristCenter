@@ -28,8 +28,8 @@ namespace WebServer.Models
         public HikeModel(Hike.HikeView hike)
         {
             ID = hike.ID;
-            StartTime = hike.StartTime;
-            FinishTime = hike.FinishTime;
+            StartTime = DateTime.Parse(hike.StartTime).ToString("yyyy-MM-dd");
+            FinishTime = DateTime.Parse(hike.FinishTime).ToString("yyyy-MM-dd");
             RouteName = hike.RouteName;
             WayToTravel = hike.WayToTravel;
             CompanyName = hike.CompanyName;

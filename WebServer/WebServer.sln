@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebServer", "WebServer\WebS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouristСenterLibrary", "TouristСenterLibrary\TouristСenterLibrary.csproj", "{74DD78FF-2646-4CDB-B569-77990375EB1D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelLibrary", "ExcelLibrary\ExcelLibrary.csproj", "{4925AEA9-D728-4FD5-8A63-090E23C95FFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{74DD78FF-2646-4CDB-B569-77990375EB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74DD78FF-2646-4CDB-B569-77990375EB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74DD78FF-2646-4CDB-B569-77990375EB1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4925AEA9-D728-4FD5-8A63-090E23C95FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4925AEA9-D728-4FD5-8A63-090E23C95FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4925AEA9-D728-4FD5-8A63-090E23C95FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4925AEA9-D728-4FD5-8A63-090E23C95FFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

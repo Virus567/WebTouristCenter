@@ -175,7 +175,6 @@ namespace TouristСenterLibrary.Entity
                         foreach (var order in hike.OrdersList)
                         {
                             hike.PeopleAmount += order.TouristGroup.PeopleAmount;
-                            hike.Users.Add(order.TouristGroup.User);
                             foreach (var participant in order.TouristGroup.ParticipantsList)
                             {
                                 participant.TouristGroup = null;
