@@ -93,6 +93,28 @@ namespace WebServer.Requests
             else
             {
                 user = User.GetUserByPhoneNumber(body.phone);
+                if(user.Login == null)
+                {
+                    user.Login = body.login;
+                    user.Password = body.password;
+                    user.Email = body.email;
+                    var team = new Team("Моя команда", user);
+                    if (!user.Update() || !team.Add())
+                    {
+                        Send(new AnswerModel(false, null, 401, "incorrect request"));
+                        return;
+                    }
+                    if (user.NameOfCompany == null)
+                    {
+                        var aloneTeam = new Team("Пойти в одиночку", user);
+                        var aloneTeammate = new Teammate(aloneTeam, user) { IsActive = true, IsTeammate = true };
+                        if (!aloneTeam.Add() || !aloneTeammate.Add())
+                        {
+                            Send(new AnswerModel(false, null, 401, "incorrect request"));
+                            return;
+                        }
+                    }
+                }
             }
             var client = new ClientModel(user);
             Send(new AnswerModel(true, new { access_token = GenerateToken(user), user = client }, null, null));

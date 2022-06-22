@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {Container, Button, Form} from 'react-bootstrap';
+import {Container, Button, Form, ToastContainer, Toast} from 'react-bootstrap';
 import AuthService from "../redux/services/AuthService";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../redux/store";
@@ -7,6 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import {RegisterSuccess} from "../redux/actions/authActions";
 import {RegistrationModel} from '../models/RequestModels';
 import sha256 from "sha256";
+import { clientActions } from '../redux/slices/clientSlice';
 
 interface State {
 	login: string,
@@ -32,8 +33,16 @@ function Register() {
 	})
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
+
+  const [showToast, setShowToast] = useState(false);
+  const toggleShowToast = () => setShowToast(!showToast);
+
+  const [show, setShow] = useState(false);
+  const toggleShow = () => setShow(!show);
+
   const onClick = (event: any) => {
-		if (values.mainpassword !== values.passwordcheck) return;
+		if (values.mainpassword !== values.passwordcheck) {setShowToast(true); return;};
+    if(values.login===''|| values.surname ==='' || values.name === '' || values.phone  === '' || values.email === '' || values.mainpassword === ''){setShow(true);return;}
 		const data: RegistrationModel = {
 			login: values.login,
 			password: sha256(values.mainpassword),
@@ -44,11 +53,13 @@ function Register() {
 			email: values.email
 		};
 		AuthService.register(data).then((res) => {
-			dispatch(res)
-      navigate("/");
-			if (res.type === RegisterSuccess.type){
-				//navigate("/");
+			dispatch(res)     
+			if (res.type === clientActions.registerSuccess.type){
+				navigate("/");
 			}
+      else{
+        setShow(true);
+      }
 		});
 	};
   const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,16 +115,27 @@ function Register() {
           </Container> 
         </Container>
         <Button onClick={onClick} variant='outline-success' className='mt-3 mb-3 w-50 btn btn-lg' style={{backgroundColor:"#F2FAED", borderColor:"#89A889", color:"#89A889"}}>Регистрация</Button>
-      </Form>
-      {/* <input type="text" placeholder='Фамилия' value={values.surname} onChange={handleChange("surname")} className='row mt-2' />
-      <input type="text" placeholder='Имя' value={values.name} onChange={handleChange("name")} className='row mt-2'/>
-      <input type="text" placeholder='Отчество' value={values.middlename} onChange={handleChange("middlename")} className='row mt-2' />
-      <input type="text" placeholder='Email' value={values.email} onChange={handleChange("email")} className='row mt-2'/>
-      <input type="text" placeholder='Номер телефона' value={values.phone} onChange={handleChange("phone")} className='row mt-2' />
-      <input type="text" placeholder='Логин' value={values.login} onChange={handleChange("login")} className='row mt-2'/>
-      <input type="password" placeholder='Пароль' value={values.mainpassword} onChange={handleChange("mainpassword")} className='row mt-2'/>
-      <input type="password" placeholder='Повторите пароль' value={values.passwordcheck} onChange={handleChange("passwordcheck")} className='row mt-2'/> */}
+      </Form> 
       </Container>
+
+
+      <ToastContainer position="top-end">
+            <Toast show={showToast} bg="danger" autohide delay={3000} onClose={toggleShowToast}>
+              <Toast.Header>
+                <strong>Ошибка</strong>
+              </Toast.Header>
+              <Toast.Body>Пароли не совпадают</Toast.Body>
+            </Toast>
+        </ToastContainer>   
+
+        <ToastContainer position="top-end">
+            <Toast show={show} bg="danger" autohide delay={3000} onClose={toggleShow}>
+              <Toast.Header>
+                <strong>Ошибка</strong>
+              </Toast.Header>
+              <Toast.Body>Заполните поля корректно</Toast.Body>
+            </Toast>
+        </ToastContainer>
     </div>
   );
 }

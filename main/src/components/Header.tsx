@@ -17,8 +17,11 @@ import {
   Container,
   Button,
   Modal,
-  Form
+  Form,
+  Toast,
+  ToastContainer
 } from "react-bootstrap";
+import { clientActions } from '../redux/slices/clientSlice';
 interface State {
 	login: string,
 	password: string
@@ -41,10 +44,17 @@ function Header() {
 		AuthService.login(data).then((res) => {
 			dispatch(res)
       handleClose();
-      navigate("/");
-
+      if(res.type === clientActions.loginSuccess.type){
+        navigate("/");
+      }
+      else{
+       setShowToast(true);
+      }
 		})
 	};
+
+  const [showToast, setShowToast] = useState(false);
+  const toggleShow = () => setShowToast(!showToast);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -77,8 +87,15 @@ function Header() {
               }}>
                 <div className="align-items-center d-flex" >
                   <div className="ml-2 d-none d-lg-block">
-                    <span className="mb-0 mx-2 text-black  font-bold">
-                      {user.client.client!.Login}
+                  <span className="mb-0 mx-2 text-black font-bold">
+                     {(user.client.client!.NameOfCompany=== null)?
+                     (
+                        user.client.client!.Login
+                     ):(
+                        user.client.client!.NameOfCompany
+                     )
+                     }
+                      
                     </span>
                   </div>
                   <span className="avatar ml-2 avatar-sm text-grey rounded-circle">
@@ -87,10 +104,6 @@ function Header() {
                 </div>
               </Dropdown.Toggle>
               <Dropdown.Menu className="dropdown-menu-arrow dropdown-toggle-split">
-                <Dropdown.Item>
-                  <i className="ni ni-single-02" />
-                  <span>Мой профиль</span>
-                </Dropdown.Item>
                 <Dropdown.Item onClick={()=>dispatch(AuthService.logout())} >
                   <i className="ni ni-user-run" />
                   <span>Выйти</span>
@@ -140,7 +153,16 @@ function Header() {
               </Form>
               
             </Modal.Body>           
-        </Modal>                    
+        </Modal>  
+
+        <ToastContainer position="top-end">
+            <Toast show={showToast} bg="danger" autohide delay={3000} onClose={toggleShow}>
+              <Toast.Header>
+                <strong>Ошибка</strong>
+              </Toast.Header>
+              <Toast.Body>Неверный логин или пароль</Toast.Body>
+            </Toast>
+        </ToastContainer>                  
 
     </div>
   );

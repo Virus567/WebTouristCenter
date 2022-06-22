@@ -37,7 +37,8 @@ function HikeFullInfo() {
   React.useEffect(() => {   
     if (key) return;
     HikeService.getHikeFullInfo(Number(hikeId!)).then((res:any) => {
-      if(res!== undefined){       
+      if(res!== undefined){   
+        console.log(res.hike);    
         setRoute(res.route);
         setInstructors(res.instructors);
         setHike(res.hike);
@@ -178,7 +179,7 @@ function HikeFullInfo() {
                 <Modal.Title className='text-white'
                 style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
                 >
-                   <h5> Состав инструкторов</h5>
+                   <h5> Состав участников</h5>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className='d-flex flex-column align-items-center' style={{backgroundColor:"#B4C3B1", overflow:"scroll", overflowX:"hidden", maxHeight:"600px", width:"600px"}}>

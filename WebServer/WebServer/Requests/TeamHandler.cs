@@ -336,6 +336,78 @@ namespace WebServer.Requests
             Send(new AnswerModel(true, new { teammates = teammatesModel}, null, null));
         }
 
+        [Post("leave-team")]
+        public void LeaveTeam()
+        {
+            
+
+            if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+            var user = TokenWorker.GetUserByToken(token);
+
+            var body = Bind<ChangeInvitesModel>();
+            if (body.flag == null || body.userId == null)
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request"));
+                return;
+            }
+
+            if (user is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var mainUser = User.GetUserByID(body.userId);
+            if (mainUser is null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+
+            var teams = Team.GetTeamsByUserLogin(mainUser.Login);
+            Team myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда" && t.MainUser == mainUser);
+            if (myTeam == null)
+            {
+                Send(new AnswerModel(false, null, 400, "incorrect request"));
+                return;
+            }
+            TeamModel myTeamModel = new TeamModel(myTeam);
+
+            foreach (var teammate in myTeam.Teammates)
+            {
+                if (teammate.User.Login == user.Login && teammate.IsTeammate && teammate.IsActive)
+                {
+                    teammate.IsTeammate = body.flag;
+                    teammate.Update();
+                }
+            }
+            List<Teammate> teammates = Teammate.GetTeammatesByTeam(myTeam);
+            List<TeammateModel> teammatesModel = new List<TeammateModel>();
+            List<TeammateModel> invitesTeammatesModel = new List<TeammateModel>();
+            foreach (var teammate in teammates)
+            {
+                if (teammate.IsTeammate)
+                    teammatesModel.Add(new TeammateModel(teammate));
+                else if (!teammate.IsActive)
+                {
+                    invitesTeammatesModel.Add(new TeammateModel(teammate));
+                }
+            }
+
+            teams = Team.GetTeamsByUserLogin(user.Login);
+            List<TeamModel> teamsModel = new List<TeamModel>();
+            foreach (var t in teams)
+            {
+                teamsModel.Add(new TeamModel(t));
+            }
+
+            Send(new AnswerModel(true, new { teams = teamsModel, team = myTeamModel, invitesTeammates = invitesTeammatesModel, teammates = teammatesModel, }, null, null));
+        }
+
 
         [Post("add-teammate")]
         public void AddTeammate()

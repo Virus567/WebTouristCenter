@@ -56,10 +56,20 @@ namespace WebServer.Requests
 
             if (body.participants != null)
             {
-                foreach (var teammate in body.participants)
+                foreach (var participant in body.participants)
                 {
-                    touristGroup.ParticipantsList.Add(new Participant(User.GetUserByPhoneNumber(teammate.phone)));
-
+                    if (User.IsHasUser(participant.phone))
+                    {
+                        touristGroup.ParticipantsList.Add(new Participant(User.GetUserByPhoneNumber(participant.phone)));
+                    }
+                    else
+                    {
+                        var participantUser = new User(participant.surname, participant.name, participant.phone)
+                        {
+                            Middlename = participant.middlename == "" ? null : participant.middlename
+                        };
+                        touristGroup.ParticipantsList.Add(new Participant(participantUser));
+                    }
                 }
             }
             ApplicationType applicationType;
@@ -154,7 +164,7 @@ namespace WebServer.Requests
         }
 
         [Get("get-full-info")]
-        public void GetRoutesByID()
+        public void GetOrderFullInfo()
         {
             if (Params.TryGetValue("id", out var id))
             {

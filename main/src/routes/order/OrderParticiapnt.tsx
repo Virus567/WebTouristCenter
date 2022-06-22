@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {Container, Button, Form, Modal, Card, Image} from 'react-bootstrap';
+import {Container, Button, Form, Modal, Card, Image, ToastContainer, Toast} from 'react-bootstrap';
 import {useNavigate,useLocation} from 'react-router-dom';
 import {Participant} from "../../models/ParticipantModel";
 import {Instructor} from "../../models/InstructorModel";
@@ -12,28 +12,21 @@ import {BsXCircle, BsCheckCircle} from 'react-icons/bs';
 import {Route} from "../../models/RoutesModel";
 import {FirsOrderInfo} from "../../models/order/FirstOrderInfo";
 
-interface State {
-	surname: string,
-	name: string,
-	phone: string,
-	middlename: string,
-}
-let tmpParticipants : Participant[] = [];
 
 function OrderParticiapnt() {
   const navigate = useNavigate();
   const location = useLocation();
   const mainOrderInfo: FirsOrderInfo = location.state as FirsOrderInfo;
 
-  const [values, setValues] = useState<State>({
+  const [values, setValues] = useState<Participant>({
 		surname: '',
 		name: '',
 		phone: '',
 		middlename: '',
 	})
 
-  const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-		setValues({...values, [prop]: event.target.value.trim()});
+  const handleChange = (prop: keyof Participant) => (event: React.ChangeEvent<HTMLInputElement>) => {
+		setValues({...values, [prop]: event.target.value});
 	};
 
   
@@ -50,6 +43,9 @@ function OrderParticiapnt() {
   const [instructor, setInstructor] = useState<Instructor>();
   const [peopleAmount, setPeopleAmount] = useState<string>();
   const [childrenAmount, setChildrenAmount] = useState<string>();
+
+  const [showToast, setShowToast] = useState(false);
+  const toggleShowToast = () => setShowToast(!showToast);
 
 
   const handleClose = () => setShow(false);
@@ -96,16 +92,8 @@ function OrderParticiapnt() {
   };
 
   const onClick = (event: any) => {
-    if(values.surname === '' && values.name === '') return;
-		const participant: Participant = {
-			surname: values.surname,
-			name: values.name,
-      middlename: values.middlename,
-			phone: values.phone		
-		};
-    tmpParticipants.push(participant);
-    setParticipants(tmpParticipants);
-    console.log(participants, tmpParticipants, participant);
+    if(values.surname === '' || values.name === '' || values.phone ==='') return;
+    setParticipants(participants=>[...participants, values]);
     handleCloseDopParticipant();
 	};
 
@@ -194,12 +182,12 @@ function OrderParticiapnt() {
               </Container>
               ))}
 
-              {participants.map((p)=>(
+              {participants?.map((p)=>(
                 <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                 style={{
                 backgroundColor:"#F2FAED"
                 }}>
-                  <span className='mx-2'>{p.surname} {p.name} {participants} | Дополнительно</span>
+                  <span className='mx-2'>{p?.surname} {p?.name} | Дополнительно</span>
                   <Button variant='outline-danger' className='p-0 mt-1 mx-2 rounded-circle' style={{height:"16px", border:"0px"}}>
                       <BsXCircle style={{marginBottom:"12px"}}/>
                   </Button>
@@ -211,23 +199,25 @@ function OrderParticiapnt() {
         </div>     
       </div>
       <div className='d-flex flex-column align-items-end mx-5 mt-4'>
-        <Button onClick= {() => {navigate("/order-features", 
-        {
-          state:
+        <Button onClick= {() => {
+          if(peopleAmount === undefined  || teammates === []){setShowToast(true); return;}
+          navigate("/order-features", 
           {
-            route: mainOrderInfo.route, 
-            dateStart: mainOrderInfo.dateStart, 
-            dateFinish: mainOrderInfo.dateFinish, 
-            wayToTravel:mainOrderInfo. wayToTravel,
-            isPhotograph: mainOrderInfo.isPhotograph,
-            instructor: instructor,
-            peopleAmount: peopleAmount,
-            childrenAmount: childrenAmount,
-            teammates: teammates,
-            participants: participants
+            state:
+            {
+              route: mainOrderInfo.route, 
+              dateStart: mainOrderInfo.dateStart, 
+              dateFinish: mainOrderInfo.dateFinish, 
+              wayToTravel:mainOrderInfo. wayToTravel,
+              isPhotograph: mainOrderInfo.isPhotograph,
+              instructor: instructor,
+              peopleAmount: peopleAmount,
+              childrenAmount: childrenAmount,
+              teammates: teammates,
+              participants: participants
 
-          }
-        })}} 
+            }
+          })}} 
         className='mx-2'
         style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
         textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
@@ -298,12 +288,12 @@ function OrderParticiapnt() {
                       <Form.Label for="floatingName">Имя </Form.Label>
                     </Form.Floating>
                     <Form.Floating className='mt-2' style={{width:"15rem"}}> 
-                      <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingMiddlename" value={values.middlename} onChange={handleChange("middlename")} type="text" placeholder="Отчество участника"/>
+                      <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingMiddlename" value={values!.middlename} onChange={handleChange("middlename")} type="text" placeholder="Отчество участника"/>
                       <Form.Label for="floatingMiddlename">Отчество (при наличии)</Form.Label>
                     </Form.Floating>  
                     <Form.Floating className='mt-2' style={{width:"15rem"}}> 
                       <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingPhone" value={values.phone} onChange={handleChange("phone")}  type="phone" placeholder="Телефон при наличии"/>
-                      <Form.Label for="floatingPhone">Телефон (при наличии)</Form.Label>
+                      <Form.Label for="floatingPhone">Телефон</Form.Label>
                     </Form.Floating>
                   </Container>
                 </Container>
@@ -356,17 +346,19 @@ function OrderParticiapnt() {
                         </Card.Body>
                       </Card>
                   </Container>
-                )}
-                
-                </>
-                
+                )}               
+                </>                
               ))}
-              
-              
-
             </Modal.Body>           
         </Modal>     
-        
+        <ToastContainer position="top-end">
+            <Toast show={showToast} bg="danger" autohide delay={3000} onClose={toggleShowToast}>
+              <Toast.Header>
+                <strong>Ошибка</strong>
+              </Toast.Header>
+              <Toast.Body>Заполните поля корректно</Toast.Body>
+            </Toast>
+        </ToastContainer> 
     </div>
   );
 }

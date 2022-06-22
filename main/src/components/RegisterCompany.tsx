@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {Container, Button, Form} from 'react-bootstrap';
+import {Container, Button, Form, Toast, ToastContainer} from 'react-bootstrap';
 import AuthService from "../redux/services/AuthService";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../redux/store";
@@ -34,8 +34,16 @@ function RegisterCompany() {
 	})
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
+
+  const [showToast, setShowToast] = useState(false);
+  const toggleShowToast = () => setShowToast(!showToast);
+
+  const [show, setShow] = useState(false);
+  const toggleShow = () => setShow(!show);
+
   const onClick = (event: any) => {
-		if (values.mainpassword !== values.passwordcheck) return;
+    if (values.mainpassword !== values.passwordcheck) {setShowToast(true); return;};
+    if(values.login===''|| values.surname ==='' || values.name === '' || values.phone  === '' || values.email === '' || values.mainpassword === '' || values.nameOfCompany===''){setShow(true);return;}
 		const data: CompanyRegistrationModel = {
 			login: values.login,
 			password: sha256(values.mainpassword),
@@ -113,6 +121,24 @@ function RegisterCompany() {
         <Button onClick={onClick} variant='outline-success' className='mt-3 mb-3 w-50 btn btn-lg' style={{backgroundColor:"#F2FAED", borderColor:"#89A889", color:"#89A889"}}>Регистрация</Button>
       </Form>
       </Container>
+
+      <ToastContainer position="top-end">
+            <Toast show={showToast} bg="danger" autohide delay={3000} onClose={toggleShowToast}>
+              <Toast.Header>
+                <strong>Ошибка</strong>
+              </Toast.Header>
+              <Toast.Body>Пароли не совпадают</Toast.Body>
+            </Toast>
+        </ToastContainer>   
+
+        <ToastContainer position="top-end">
+            <Toast show={show} bg="danger" autohide delay={3000} onClose={toggleShow}>
+              <Toast.Header>
+                <strong>Ошибка</strong>
+              </Toast.Header>
+              <Toast.Body>Заполните поля корректно</Toast.Body>
+            </Toast>
+        </ToastContainer>
     </div>
   );
 }

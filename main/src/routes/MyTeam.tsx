@@ -43,6 +43,7 @@ function MyTeam() {
     const [teammates, setTeammates] = useState<Teammate[]>([]);
     const [invitesTeammates, setInvitesTeammates] = useState<Teammate[]>([]);
     const [invites, setInvites] = useState<InviteModel[]>([]);
+    const [flag, setFlag] = useState<boolean>(false);
 
   
     React.useEffect(() => {
@@ -72,6 +73,8 @@ function MyTeam() {
     }
 
     const changeTeam = (team: Team) =>{
+        if(flag) return;
+        console.log("changeTeam");
         TeamService.changeTeamByTeamId(team.ID).then((res:any) => {
             setTeammates(res.teammates);
             setInvitesTeammates(res.invitesTeammates);
@@ -102,6 +105,16 @@ function MyTeam() {
     const kickTeammate = (bool: boolean, id: number) =>{
         TeamService.kickTeammate(bool, id).then((res:any) => {
             setTeammates(res)
+        });
+    }
+    
+    const leaveTeam = (bool: boolean, id: number) =>{
+        console.log("leaveTeam");
+        TeamService.leaveTeam(bool, id).then((res:any) => {
+            setTeams(res.teams);
+            setTeammates(res.teammates);
+            setInvitesTeammates(res.invitesTeammates);
+            setTeam(res.team);          
         });
     }
     
@@ -174,13 +187,18 @@ function MyTeam() {
                                     <span className='mx-2'>Пойти в одиночку</span>
                                 </Container>
                             ):(
-                                <Container onClick={(e) => {changeTeam(team)}} className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
+                                <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
                                 style={{
                                 backgroundColor:"#F2FAED"
                                     }}>
-                                    <span className='mx-2'>Команда {team.MainUser.Surname} {team.MainUser.Name}</span>
+                                    <div style={{width:'95%'}} onClick={(e) => {changeTeam(team)}}>
+                                        <span className='mx-2'>Команда {team.MainUser.Surname} {team.MainUser.Name}</span>
+                                    </div>
                                     <div className='mx-2'>
-                                        <Button variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
+                                        <Button onClick={e=>
+                                        {
+                                            leaveTeam(false, team.MainUser.ID);
+                                        }} variant='outline-danger' className='p-0 rounded-circle' style={{height:"16px", border:"0px"}}>
                                             <BsXCircle style={{marginBottom:"12px"}}/>
                                         </Button>
                                     </div>

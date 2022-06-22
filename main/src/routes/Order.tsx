@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {Container, Button, Form} from 'react-bootstrap';
+import {Container, Button, Form, Toast, ToastContainer} from 'react-bootstrap';
 import {useNavigate, useLocation} from 'react-router-dom';
 import {useSelector} from "react-redux";
 import {RootState} from "../redux/store";
@@ -15,13 +15,16 @@ function Order() {
   const [key, setKey] = useState<boolean>(false);
   const user = useSelector((state: RootState) => state);
   const [route, setRoute] = useState<Route>();
-  const [dateStart, setDateStart] = useState<string>();
-  const [dateFinish, setDateFinish] = useState<string>();
+  const [dateStart, setDateStart] = useState<string>('');
+  const [dateFinish, setDateFinish] = useState<string>('');
   const [wayToTravel, setWayToTravel] = useState<string>("Рафты");
   const [isPhotograph, setIsPhotograph] = useState<boolean>(false);
   const {search} = useLocation();
   const searchParams = new URLSearchParams(search);
   const routeId = searchParams.get("route-id");
+
+  const [showToast, setShowToast] = useState(false);
+  const toggleShowToast = () => setShowToast(!showToast);
 
   React.useEffect(() => {
     if (key) return;
@@ -119,16 +122,19 @@ function Order() {
         </div>     
       </div>
       <div className='d-flex flex-column align-items-end mx-5 mt-4'>
-        <Button onClick= {() => {navigate("/order-partisipants", 
-        {state:
-          {
-            route: route, 
-            dateStart: dateStart, 
-            dateFinish: dateFinish, 
-            wayToTravel: wayToTravel,
-            isPhotograph: isPhotograph
+        <Button onClick= {() => {
+          if(route === undefined  || dateStart ==='' || dateFinish ===''){setShowToast(true); return;}
+          navigate("/order-partisipants", 
+          {state:
+            {
+              route: route, 
+              dateStart: dateStart, 
+              dateFinish: dateFinish, 
+              wayToTravel: wayToTravel,
+              isPhotograph: isPhotograph
+            }
           }
-        })}} 
+          )}} 
           className='mx-2'
         style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
         textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
@@ -138,6 +144,14 @@ function Order() {
           </h5>
         </Button>
       </div>
+      <ToastContainer position="top-end">
+            <Toast show={showToast} bg="danger" autohide delay={3000} onClose={toggleShowToast}>
+              <Toast.Header>
+                <strong>Ошибка</strong>
+              </Toast.Header>
+              <Toast.Body>Заполните все поля</Toast.Body>
+            </Toast>
+        </ToastContainer> 
     </div>
   );
 }

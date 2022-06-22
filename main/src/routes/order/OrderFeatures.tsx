@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {Container, Button, Form, Modal, Card, Image} from 'react-bootstrap';
+import {Container, Button, Form, Modal, Card, Image, Toast, ToastContainer} from 'react-bootstrap';
 import {useNavigate,useLocation} from 'react-router-dom';
 import {Participant} from "../../models/ParticipantModel";
 import {Instructor} from "../../models/InstructorModel";
@@ -58,12 +58,18 @@ const [show, setShow] = useState(false);
   };
   const handleShow = () => setShow(true);
 
+  const [showToast, setShowToast] = useState(false);
+  const toggleShowToast = () => setShowToast(!showToast);
+
 
 const addOrder = () =>{
     OrderService.addOrder(order!).then((res:any) => {
         setEmail(res.email);
         if(res.status){
           handleShow();
+        }
+        else{
+          setShowToast(true);
         }
     })
     
@@ -207,6 +213,14 @@ const addOrder = () =>{
           </Button>
         </Modal.Footer>
       </Modal>
+      <ToastContainer position="top-end">
+            <Toast show={showToast} bg="danger" autohide delay={3000} onClose={toggleShowToast}>
+              <Toast.Header>
+                <strong>Ошибка</strong>
+              </Toast.Header>
+              <Toast.Body>Ошибка добавления заявки</Toast.Body>
+            </Toast>
+        </ToastContainer> 
     </div>
   );
 }

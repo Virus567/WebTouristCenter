@@ -50,6 +50,20 @@ namespace TouristСenterLibrary.Entity
             
         }
 
+        public bool Update()
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
         public static User GeUserAuth(string login, string password)
         {
             return db.User.FirstOrDefault(x => x.Login == login && x.Password == password);

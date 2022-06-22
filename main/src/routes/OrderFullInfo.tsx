@@ -99,8 +99,8 @@ function OrderFullInfo() {
                   Команда:
               </h6>
                   <Form.Control style={{backgroundColor:"#F2FAED"}} className="mt-2" type="text" value={route?.Name}  readOnly  placeholder="Маршрут"/>
-                  <div className='d-flex flex-column align-items-center rounded mt-3' style={{height:"37%"}}>
-                    <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"90%"}}/>
+                  <div className='d-flex flex-column align-items-center rounded mt-3' style={{height:"30%"}}>
+                    <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"84%"}}/>
                   </div>
                   </Container>
                   </div>

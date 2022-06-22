@@ -140,6 +140,25 @@ class TeamService {
         return [];
       });
     }
+    leaveTeam(flag: boolean, userId: number ){
+      return axios.post(API_URL + "leave-team", {flag: flag, userId: userId}, {headers: authHeader()} )
+      .then((response) => {
+        console.log(response.data);
+        const data: Answer = response.data;
+        if(data.status){
+          const  teams: Team [] = data.answer.teams;
+          const teammates : Teammate [] = data.answer.teammates;
+          const invitesTeammates : Teammate [] = data.answer.invitesTeammates;
+          const team: Team = data.answer.team;
+          return {teams: teams, teammates: teammates, invitesTeammates: invitesTeammates, team: team};
+        }
+        return [];
+      })
+      .catch((error) => {
+        console.log(error);
+        return [];
+      });
+    }
 
 
     addTeammate(phone: string, login: string){

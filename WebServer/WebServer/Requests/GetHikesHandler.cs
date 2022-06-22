@@ -94,6 +94,30 @@ namespace WebServer.Requests
             Send(new AnswerModel(true, new { hikes = hikesModel}, null, null));
         }
 
+        [Get("get-full-info")]
+        public void GetHikeFullInfo()
+        {
+            if (Params.TryGetValue("id", out var id))
+            {
+                var hike = Hike.GetViewByID(Convert.ToInt32(id));
+                if (hike == null)
+                {
+                    Send(new AnswerModel(false, null, 401, "incorrect request"));
+                    return;
+                }
+                var route = Route.GetRouteByRouteName(hike.RouteName);
+                var instructors = Instructor.GetInstructorViewsByHikeID(hike.ID);
+
+                var hikeModel = new HikeModel(hike);
+                Send(new AnswerModel(true, new { route = route, hike = hikeModel, instructors = instructors }, null, null));
+            }
+            else
+            {
+                Send(new AnswerModel(false, null, 401, "incorrect request"));
+                return;
+            }
+        }
+
         [Post("add-report")]
         public void AddReport()
         {
