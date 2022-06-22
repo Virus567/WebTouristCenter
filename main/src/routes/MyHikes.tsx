@@ -53,8 +53,8 @@ function MyHikes() {
   }, [orders, hikes, key])
   
   return (
-    <div className="p-4" style={{height:"100%"}}>
-      <div style={{height:"580px"}}>
+    <div className="p-4" style={{height:"90%"}}>
+      <div style={{height:"560px"}}>
         <div>
           <h4>Заявки</h4>
           <hr style={{margin:"0 0 20px 0"}}/>
@@ -69,7 +69,7 @@ function MyHikes() {
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <span className='mx-2' style={{width:"80%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.RouteName}</span>
+                    <span className='mx-2' style={{width:"85%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.RouteName}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
@@ -154,7 +154,7 @@ function MyHikes() {
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <span className='mx-2' style={{width:"80%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.RouteName}</span>
+                    <span className='mx-2' style={{width:"85%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.RouteName}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 

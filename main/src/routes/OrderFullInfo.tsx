@@ -39,14 +39,14 @@ function OrderFullInfo() {
     setKey(true);
   }, [route,order, key]);
   return (
-    <div>
-      <div className='mt-4 px-2' style={{height:"85%"}}>
+    <div style={{overflowY: "hidden"}}>
+      <div className='mt-4 px-2' style ={{marginLeft:"250px"}}>
         <div className="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-3 col-lg-11 col-md-8 mx-auto">
           <div className='col px-3'>
             <Container className='rounded mt-2 mb-2 mx-0 pt-2 px-3' style={{  height:"37rem", padding:"0 12px 0 12px", backgroundColor:"#B4C3B1"}}>
               <h4 className='text-white p-0' 
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                  Полная информация о походе
+                  Полная информация о заявке
               </h4>
               <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
               <div className='row row-cols-1 row-cols-sm-1 row-cols-md-2 g-3 col-lg-11 col-md-8 mx-auto'>
@@ -99,8 +99,8 @@ function OrderFullInfo() {
                   Команда:
               </h6>
                   <Form.Control style={{backgroundColor:"#F2FAED"}} className="mt-2" type="text" value={route?.Name}  readOnly  placeholder="Маршрут"/>
-                  <div className='d-flex flex-column align-items-center rounded mt-3' style={{height:"30%"}}>
-                    <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"84%"}}/>
+                  <div className='d-flex flex-column align-items-center rounded mt-4' style={{height:"30%"}}>
+                    <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"80%"}}/>
                   </div>
                   </Container>
                   </div>
@@ -118,8 +118,7 @@ function OrderFullInfo() {
             </Modal.Header>
             <Modal.Body className='d-flex flex-column align-items-center' style={{backgroundColor:"#B4C3B1", overflow:"scroll", overflowX:"hidden", maxHeight:"600px", width:"600px"}}>
                {order?.Users.map((u)=>(
-               
-                  <Container className='d-flex mt-3 p-0'>
+                    <Container className='d-flex mt-3 p-0'>
                       <Card style={{ width: '22rem' }}>
                         <Card.Body >
                           <Card.Text>
@@ -128,8 +127,8 @@ function OrderFullInfo() {
                         </Card.Body>
                       </Card>
                   </Container>
-                
-              ))}
+                  )             
+              )}
               
               
 

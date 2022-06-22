@@ -25,7 +25,7 @@ function Register() {
 		login: '',
 		surname: '',
 		name: '',
-		phone: '',
+		phone: '+7',
 		middlename: '',
 		email: '',
 		mainpassword: '',
@@ -42,7 +42,7 @@ function Register() {
 
   const onClick = (event: any) => {
 		if (values.mainpassword !== values.passwordcheck) {setShowToast(true); return;};
-    if(values.login===''|| values.surname ==='' || values.name === '' || values.phone  === '' || values.email === '' || values.mainpassword === ''){setShow(true);return;}
+    if(values.login===''|| values.surname ==='' || values.name === '' || values.phone  === '+7' || values.phone  === '+' || values.phone  === '' || values.email === '' || values.mainpassword === ''){setShow(true);return;}
 		const data: RegistrationModel = {
 			login: values.login,
 			password: sha256(values.mainpassword),
@@ -91,7 +91,16 @@ function Register() {
               <Form.Label for="floatingMiddlename">Отчество</Form.Label>
             </Form.Floating>  
             <Form.Floating className='mt-2'> 
-              <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingPhone" value={values.phone} onChange={handleChange("phone")}  type="phone" placeholder="Номер телефона"/>
+              <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingPhone" value={values.phone} maxLength={12}
+              onChange={e=>{
+                        if(!isNaN(Number(e.target.value))){
+                        setValues({...values, phone:e.target.value.trim()});
+                        }
+                        else{
+                          setValues({...values, phone:e.target.value.substring(0, e.target.value.length - 1).trim()});
+                        }    
+                      }}  
+                      type="phone" placeholder="Номер телефона"/>
               <Form.Label for="floatingPhone">Номер телефона</Form.Label>
             </Form.Floating>
           </Container>

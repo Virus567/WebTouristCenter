@@ -113,7 +113,7 @@ function Order() {
                     <span className='mx-2'>{route?.Name}</span>
               </Container>  
               <div className='d-flex flex-column align-items-center rounded' style={{height:"80%"}}>
-                <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"90%"}}/>
+                <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"85%"}}/>
               </div>
               
           </Container>

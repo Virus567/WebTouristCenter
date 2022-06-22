@@ -26,7 +26,7 @@ function MyTeam() {
 		login: ''
 	})
     const [valuePhone, setValuePhone] = useState<StatePhone>({
-		phone: ''
+		phone: '+7'
 	});
     const [valueFio, setValueFio] = useState<StateFio>({
 		fio: ''
@@ -43,7 +43,6 @@ function MyTeam() {
     const [teammates, setTeammates] = useState<Teammate[]>([]);
     const [invitesTeammates, setInvitesTeammates] = useState<Teammate[]>([]);
     const [invites, setInvites] = useState<InviteModel[]>([]);
-    const [flag, setFlag] = useState<boolean>(false);
 
   
     React.useEffect(() => {
@@ -73,8 +72,6 @@ function MyTeam() {
     }
 
     const changeTeam = (team: Team) =>{
-        if(flag) return;
-        console.log("changeTeam");
         TeamService.changeTeamByTeamId(team.ID).then((res:any) => {
             setTeammates(res.teammates);
             setInvitesTeammates(res.invitesTeammates);
@@ -109,7 +106,6 @@ function MyTeam() {
     }
     
     const leaveTeam = (bool: boolean, id: number) =>{
-        console.log("leaveTeam");
         TeamService.leaveTeam(bool, id).then((res:any) => {
             setTeams(res.teams);
             setTeammates(res.teammates);
@@ -131,8 +127,8 @@ function MyTeam() {
         setValueFio(e.target.value)
         }
   return (
-    <div className='d-flex justify-content-between'>
-        <Container className=' mt-4 mb-4 mr-0 ml-4 ' style={{width:"62%"}}>
+    <div className='d-flex justify-content-between' style={{overflowY:"hidden"}}>
+        <Container className=' mt-4 mr-0 ml-4 ' style={{width:"62%"}}>
             <Container className='rounded mt-0 mx-0 pt-2 px-3 mb-2'
             style={{
                 backgroundColor:"#B4C3B1",
@@ -161,7 +157,7 @@ function MyTeam() {
                  ))}
                        
             </Container>
-            <Container className='rounded mt-5 mb-2 mx-0 pt-2 px-3' style={{ height:"320px", padding:"0 12px 0 12px", backgroundColor:"#B4C3B1"}}>
+            <Container className='rounded mt-5 mx-0 pt-2 px-3' style={{ height:"320px", padding:"0 12px 0 12px", backgroundColor:"#B4C3B1"}}>
                 <h4 className='text-white p-0' 
                 style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                     Мои команды
@@ -217,7 +213,7 @@ function MyTeam() {
                     Команда
                 </h4> 
                 <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/>
-                <div className='d-block h-100'>
+                <div className='d-block' style={{height:"100%"}}>
                     <div style={{height:"80%"}}>
                     {teammates.map((teammate)=>(
                         <Container className='mt-2 mb-2 d-flex justify-content-between p-1 rounded'
@@ -309,7 +305,15 @@ function MyTeam() {
                 </div>
                 <div className='d-flex mt-2'>
                     <Form.Floating> 
-                        <Form.Control style={{backgroundColor:"#F2FAED", margin:"0 3px 0 0", border:" 1px solid #89A889"}} id="floatingPhone" value={valuePhone.phone} onChange={handleChangePhone("phone")} type="text" placeholder="Телефон"/>
+                        <Form.Control style={{backgroundColor:"#F2FAED", margin:"0 3px 0 0", border:" 1px solid #89A889"}}  maxLength={12} id="floatingPhone" value={valuePhone.phone}  
+                        onChange={e=>{
+                        if(!isNaN(Number(e.target.value))){
+                        setValuePhone({...valuePhone, phone:e.target.value.trim()});
+                        }
+                        else{
+                          setValuePhone({...valuePhone, phone:e.target.value.substring(0, e.target.value.length - 1).trim()});
+                        }    
+                      }} type="text" placeholder="Телефон"/>
                         <Form.Label for="floatingPhone">Телефон</Form.Label>
                     </Form.Floating> 
                     <Button className='p-0 mx-1' onClick={findByPhone} style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889", width:"58px", height:"58px"}}>
@@ -318,7 +322,7 @@ function MyTeam() {
                 </div>
                 
                 <Form.Floating> 
-                        <Form.Control className='mt-2' style={{backgroundColor:"#F2FAED", width:"270px", margin:"0 3px 0 0", border:" 1px solid #89A889"}} id="floatingFio" readOnly value={valueFio.fio} onChange={handleChangeFio} type="text" placeholder="ФИО"/>
+                        <Form.Control className='mt-2' style={{backgroundColor:"#F2FAED", width:"270px", margin:"0 3px 0 0", border:" 1px solid #89A889"}} id="floatingFio" readOnly value={valueFio?.fio} onChange={handleChangeFio} type="text" placeholder="ФИО"/>
                         <Form.Label className='mt-2' for="floatingFio">ФИО</Form.Label>
                     </Form.Floating> 
                 <Button className='mt-2' onClick={addTeammate} style={{ backgroundColor:"#F2FAED", color:"#89A889", border:" 1px solid #89A889"}}>Пригласить</Button>

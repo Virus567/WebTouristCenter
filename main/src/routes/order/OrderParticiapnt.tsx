@@ -21,7 +21,7 @@ function OrderParticiapnt() {
   const [values, setValues] = useState<Participant>({
 		surname: '',
 		name: '',
-		phone: '',
+		phone: '+7',
 		middlename: '',
 	})
 
@@ -92,10 +92,13 @@ function OrderParticiapnt() {
   };
 
   const onClick = (event: any) => {
-    if(values.surname === '' || values.name === '' || values.phone ==='') return;
+    if(values.surname === '' || values.name === '' || values.phone ==='+7'|| values.phone ==='+' || values.phone ==='') return;
     setParticipants(participants=>[...participants, values]);
+    setPeopleAmount((Number(peopleAmount)+1).toString());
     handleCloseDopParticipant();
 	};
+
+  
 
   const [key, setKey] = useState<boolean>(false);
   React.useEffect(() => {
@@ -103,13 +106,14 @@ function OrderParticiapnt() {
     TeamService.getDefaultTeammatesByUser().then((res:any) => {
       setTeammates(res.teammates);
       setTeam(res.team.Name);
+      setPeopleAmount(res.teammates.length);
 
     })
     setKey(true);
   }, [teammates, team, key])
 
   return (
-    <div>
+    <div style={{overflowY: "hidden"}}>
       <div className='mt-4 px-3' style={{height:"85%"}}>
         <div>
           <h4>Оформление заявки</h4>
@@ -124,17 +128,18 @@ function OrderParticiapnt() {
                     Информация о составе
                 </h4>
                 <hr style={{margin:"0 0 10px 0", backgroundColor:"#ffffff"}}/> 
-                <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-3" maxLength={2} value={peopleAmount}
-                  onChange={e => {
-                    if(!isNaN(Number(e.target.value))){
-                        setPeopleAmount(e.target.value.trim());
-                    }
-                    else{
-                      setPeopleAmount (e.target.value.substring(0, e.target.value.length - 1).trim());
-                    }                 
-                  }}  
-                  placeholder="Количество человек"/>     
-                <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-4" maxLength={2} value={childrenAmount}
+                <h6 className='text-white p-0 mt-2' 
+              style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                  Количество человек:
+              </h6>
+                <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-2" maxLength={2} readOnly value={peopleAmount}
+                  placeholder="Количество человек"/>   
+
+                   <h6 className='text-white p-0 mt-3' 
+              style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                  Количество детей:
+              </h6>  
+                <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-2" maxLength={2} value={childrenAmount}
                   onChange={e => {
                     if(!isNaN(Number(e.target.value))){
                       if(Number(e.target.value)<= Number(peopleAmount)){
@@ -188,7 +193,7 @@ function OrderParticiapnt() {
                 backgroundColor:"#F2FAED"
                 }}>
                   <span className='mx-2'>{p?.surname} {p?.name} | Дополнительно</span>
-                  <Button variant='outline-danger' className='p-0 mt-1 mx-2 rounded-circle' style={{height:"16px", border:"0px"}}>
+                  <Button  onClick= {() => {setParticipants((participants)=>[...participants.filter(i=>i !== p)]); setPeopleAmount((Number(peopleAmount)-1).toString())}} variant='outline-danger' className='p-0 mt-1 mx-2 rounded-circle' style={{height:"16px", border:"0px"}}>
                       <BsXCircle style={{marginBottom:"12px"}}/>
                   </Button>
                 </Container>
@@ -292,7 +297,16 @@ function OrderParticiapnt() {
                       <Form.Label for="floatingMiddlename">Отчество (при наличии)</Form.Label>
                     </Form.Floating>  
                     <Form.Floating className='mt-2' style={{width:"15rem"}}> 
-                      <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingPhone" value={values.phone} onChange={handleChange("phone")}  type="phone" placeholder="Телефон при наличии"/>
+                      <Form.Control style={{backgroundColor:"#F2FAED"}} id="floatingPhone" maxLength={12} value={values.phone}
+                      onChange={e=>{
+                        if(!isNaN(Number(e.target.value))){
+                        setValues({...values, phone:e.target.value.trim()});
+                        }
+                        else{
+                          setValues({...values, phone:e.target.value.substring(0, e.target.value.length - 1).trim()});
+                        }    
+                      }}
+                      type="phone" placeholder="Телефон"/>
                       <Form.Label for="floatingPhone">Телефон</Form.Label>
                     </Form.Floating>
                   </Container>
@@ -301,7 +315,7 @@ function OrderParticiapnt() {
               </Form>
             </Modal.Body>           
         </Modal>
-          <Modal  show={showInstructor} onHide={handleCloseInstructor} style={{width:"93.5%"}} >
+          <Modal  show={showInstructor} onHide={handleCloseInstructor} style={{width:"93.5%",  overflowY: "hidden"}} >
             <Modal.Header closeButton style={{backgroundColor:"#B4C3B1", width:"600px", margin:"auto" }}>
                 <Modal.Title className='text-white'
                 style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
@@ -317,7 +331,7 @@ function OrderParticiapnt() {
                 (
                   <Container className='d-flex mt-3 p-0'>
                       <Image src={i.Image} alt='Фото' style={{width:"13rem"}}/>
-                      <Card style={{ width: '22rem' }}>
+                      <Card style={{ width: '22rem', backgroundColor:"#F2FAED"}}>
                         <Card.Body >
                           <Card.Title>
                             <BsCheckCircle style={{marginRight:"7px", marginBottom:"5px"}}/>
@@ -333,7 +347,7 @@ function OrderParticiapnt() {
                 ):(
                   <Container className='d-flex mt-3 p-0'>
                       <Image src={i.Image} alt='Фото' style={{width:"13rem"}}/>
-                      <Card style={{ width: '22rem' }}>
+                      <Card style={{ width: '22rem', backgroundColor:"#F2FAED"}}>
                         <Card.Body >
                           <Card.Title>{i.Surname} {i.Name}</Card.Title>
                           <Card.Text>

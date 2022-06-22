@@ -430,7 +430,7 @@ namespace WebServer.Requests
                 return;
             }
 
-            if (Params.TryGetValue("phone", out var phone) && phone!="")
+            if (Params.TryGetValue("phone", out var phone) && phone!="" && phone!="+7" && phone!="+")
             {
                 var user = User.GetUserByPhoneNumber(phone);
                 if (user == null)

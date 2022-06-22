@@ -26,7 +26,7 @@ function RegisterCompany() {
     nameOfCompany: '',
 		surname: '',
 		name: '',
-		phone: '',
+		phone: '+7',
 		middlename: '',
 		email: '',
 		mainpassword: '',
@@ -43,7 +43,7 @@ function RegisterCompany() {
 
   const onClick = (event: any) => {
     if (values.mainpassword !== values.passwordcheck) {setShowToast(true); return;};
-    if(values.login===''|| values.surname ==='' || values.name === '' || values.phone  === '' || values.email === '' || values.mainpassword === '' || values.nameOfCompany===''){setShow(true);return;}
+    if(values.login===''|| values.surname ==='' || values.name === '' || values.phone  === '+7' || values.phone  === '+' || values.phone  === '' || values.email === '' || values.mainpassword === '' || values.nameOfCompany===''){setShow(true);return;}
 		const data: CompanyRegistrationModel = {
 			login: values.login,
 			password: sha256(values.mainpassword),
@@ -95,7 +95,16 @@ function RegisterCompany() {
               <Form.Label for="floatingMiddlename">Отчество представителя</Form.Label>
             </Form.Floating>  
             <Form.Floating className='mt-2'> 
-              <Form.Control style={{backgroundColor:"#F2FAED", width:"13rem"}} id="floatingPhone" value={values.phone} onChange={handleChange("phone")}  type="phone" placeholder="Номер телефона"/>
+              <Form.Control style={{backgroundColor:"#F2FAED", width:"13rem"}} id="floatingPhone" value={values.phone} maxLength={12}
+              onChange={e=>{
+                        if(!isNaN(Number(e.target.value))){
+                        setValues({...values, phone:e.target.value.trim()});
+                        }
+                        else{
+                          setValues({...values, phone:e.target.value.substring(0, e.target.value.length - 1).trim()});
+                        }    
+                      }}  
+                       type="phone" placeholder="Номер телефона"/>
               <Form.Label for="floatingPhone">Телефон представителя</Form.Label>
             </Form.Floating>
           </Container>
