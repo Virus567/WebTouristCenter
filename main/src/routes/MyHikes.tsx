@@ -69,7 +69,7 @@ function MyHikes() {
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <span className='mx-2' style={{width:"85%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.RouteName}</span>
+                    <span className='mx-2' style={{width:"90%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.RouteName}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
@@ -83,8 +83,7 @@ function MyHikes() {
                             float: "left", 
                             border: "1px inset #000000"}} />
                     <Button href="#" onClick= {() => {navigate("/order-info?id=" + order.ID)}} className='text-sm mx-2 pt-0 pb-0 px-2'
-                     style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889", height:"27px",
-                     textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+                     style={{backgroundColor:"#F2FAED",fontWeight:"normal", borderColor:"#89A889", color:"#89A889", height:"27px"}}
                      >
                          Подробнее
                      </Button> 
@@ -154,7 +153,7 @@ function MyHikes() {
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <span className='mx-2' style={{width:"85%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.RouteName}</span>
+                    <span className='mx-2' style={{width:"90%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.RouteName}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
@@ -170,8 +169,7 @@ function MyHikes() {
                             float: "left", 
                             border: "1px inset #000000"}} />
                     <Button onClick= {() => {navigate("/hike-info?id="+ hike.ID)}} className='text-sm mx-2 pt-0 pb-0 px-2'
-                     style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889", height:"27px",
-                     textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+                     style={{backgroundColor:"#F2FAED",fontWeight:"normal", borderColor:"#89A889", color:"#89A889", height:"27px"}}
                      >
                          Подробнее
                      </Button> 
@@ -181,8 +179,7 @@ function MyHikes() {
       </div> 
       <div className='d-flex flex-column align-items-end'>
         <Button onClick= {handleShow} className='mx-2 pt-0 pb-0 px-2'
-        style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-        textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+        style={{backgroundColor:"#F2FAED",fontWeight:"bold", borderColor:"#89A889", border:" 2px solid #89A889", color:"#89A889"}}
         >
           Сформировать<br/>отчет
         </Button>

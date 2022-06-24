@@ -83,8 +83,7 @@ function HikeRoute() {
           </div>
           
           <div className='d-flex flex-column align-items-end mt-4 mb-5'>
-          <Button onClick= {() => {navigate("/order?route-id=" + routeId)}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-          textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+          <Button onClick= {() => {navigate("/order?route-id=" + routeId)}} style={{backgroundColor:"#F2FAED",fontWeight:"bold",  border:" 2px solid #89A889", color:"#89A889"}}
           >
             Оформить заявку
           </Button> 

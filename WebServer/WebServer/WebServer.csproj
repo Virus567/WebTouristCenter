@@ -20,7 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="iTextSharp" Version="5.5.13.3" />
       <PackageReference Include="RestPanda" Version="1.5.0" />
       <PackageReference Include="Trivial" Version="6.4.0" />
     </ItemGroup>

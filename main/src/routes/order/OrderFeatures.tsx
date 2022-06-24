@@ -193,8 +193,7 @@ const addOrder = () =>{
       <div className='d-flex flex-column align-items-end mx-5 mt-4'>
         <Button onClick= {() => {addOrder()}} 
         className='mx-2'
-        style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-        textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+        style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889",  border:" 2px solid #89A889"}}
         >
           <h5 className='p-0 m-1'>
           Оформить заявку
@@ -208,7 +207,7 @@ const addOrder = () =>{
         </Modal.Header>
         <Modal.Body style={{backgroundColor:"#B4C3B1", color:"#ffffff"}}>Заявка успешно оформлена! Договор на предоставление услуг отправлен на  почту {email}</Modal.Body>
         <Modal.Footer style={{backgroundColor:"#B4C3B1"}}>
-          <Button style={{backgroundColor:"#B6D3B0", color:"#ffffff", border:" 1px solid #89A889", textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}} onClick={handleClose}>
+          <Button style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889",  border:" 2px solid #89A889"}} onClick={handleClose}>
             OK
           </Button>
         </Modal.Footer>

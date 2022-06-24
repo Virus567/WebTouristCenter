@@ -106,8 +106,7 @@ function HikeRoutes() {
                  {route.Description}
                 </Card.Text>
                 <div className='d-flex flex-column align-items-end'>
-                  <Button onClick= {() => {navigate("/route?id="+ route.ID)}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                  textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+                  <Button onClick= {() => {navigate("/route?id="+ route.ID)}} style={{backgroundColor:"#F2FAED",fontWeight:"bold",  border:" 2px solid #89A889", color:"#89A889"}}
                   >
                     Перейти
                   </Button>

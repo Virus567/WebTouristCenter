@@ -62,7 +62,7 @@ function OrderFullInfo() {
               </h6>
               <div className='d-flex'>
                 <Form.Control style={{backgroundColor:"#F2FAED", width:"220px"}} value={order?.PeopleAmount} readOnly type="text" className="mt-2" maxLength={2} placeholder="Количество человек"/>
-                <Button onClick={handleShow} className='p-0 rounded mt-2' style={{backgroundColor:"#B6D3B0", color:"#ffffff", border:" 1px solid #89A889", textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889", height:"38px", width:"30%", marginLeft:"9rem"}}>
+                <Button onClick={handleShow} className='p-0 rounded mt-2' style={{backgroundColor:"#F2FAED",fontWeight:"bold",  border:" 2px solid #89A889", color:"#89A889", height:"38px", width:"30%", marginLeft:"9rem"}}>
                           <h6 className='m-0 p-0'>Сотстав</h6> 
                 </Button> 
               </div>
@@ -99,7 +99,7 @@ function OrderFullInfo() {
                   Команда:
               </h6>
                   <Form.Control style={{backgroundColor:"#F2FAED"}} className="mt-2" type="text" value={route?.Name}  readOnly  placeholder="Маршрут"/>
-                  <div className='d-flex flex-column align-items-center rounded mt-4' style={{height:"30%"}}>
+                  <div className='d-flex flex-column align-items-center rounded mt-4' style={{height:"28%"}}>
                     <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"80%"}}/>
                   </div>
                   </Container>

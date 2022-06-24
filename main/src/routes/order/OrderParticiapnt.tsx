@@ -155,16 +155,16 @@ function OrderParticiapnt() {
                   }}   placeholder="Из Них детей (До 14 лет)"/>
                 <div className='d-flex'>
                   <Form.Control style={{backgroundColor:"#F2FAED", width:"70%"}} type="text" readOnly className="mt-4" value={team} />
-                  <Button onClick={handleShow} className='p-0 rounded mt-4 mx-1' style={{backgroundColor:"#B6D3B0", color:"#ffffff", border:" 1px solid #89A889", textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889", height:"38px", width:"30%"}}>
+                  <Button onClick={handleShow} className='p-1 rounded mt-4 mx-1'style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889",  border:" 2px solid #89A889"}}>
                           <h6 className='m-0 p-0'>Выбрать команду</h6> 
                   </Button>  
                 </div>
               </div>
               <div className='d-flex flex-column align-items-center'>
-                <Button onClick={handleShowInstructor} className='p-0 rounded mt-4 mx-1' style={{backgroundColor:"#B6D3B0", color:"#ffffff", width:"19.5rem", border:" 1px solid #89A889", textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889", height:"38px"}}>
+                <Button onClick={handleShowInstructor} className='p-0 rounded mt-4 mx-1' style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889", width:"20rem", border:" 2px solid #89A889", height:"38px"}}>
                           <h6 className='m-0 p-2'>Выбрать основного инструктора</h6> 
                 </Button>
-                <Button onClick={handleShowDopParticipant} className='p-0 rounded mt-2 mx-1' style={{backgroundColor:"#B6D3B0", color:"#ffffff", border:" 1px solid #89A889", textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889", height:"38px"}}>
+                <Button onClick={handleShowDopParticipant} className='p-0 rounded mt-2 mx-1' style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889", width:"20rem", border:" 2px solid #89A889", height:"38px"}}>
                           <h6 className='m-0 p-2'>Добавить дополнительных участников</h6> 
                 </Button>
               </div>
@@ -206,7 +206,8 @@ function OrderParticiapnt() {
       <div className='d-flex flex-column align-items-end mx-5 mt-4'>
         <Button onClick= {() => {
           if(peopleAmount === undefined  || teammates === []){setShowToast(true); return;}
-          navigate("/order-features", 
+          if(childrenAmount=== undefined) {
+            navigate("/order-features", 
           {
             state:
             {
@@ -217,15 +218,35 @@ function OrderParticiapnt() {
               isPhotograph: mainOrderInfo.isPhotograph,
               instructor: instructor,
               peopleAmount: peopleAmount,
-              childrenAmount: childrenAmount,
+              childrenAmount: "0",
               teammates: teammates,
               participants: participants
 
             }
-          })}} 
+          })
+          }
+          else{
+            navigate("/order-features", 
+            {
+              state:
+              {
+                route: mainOrderInfo.route, 
+                dateStart: mainOrderInfo.dateStart, 
+                dateFinish: mainOrderInfo.dateFinish, 
+                wayToTravel:mainOrderInfo. wayToTravel,
+                isPhotograph: mainOrderInfo.isPhotograph,
+                instructor: instructor,
+                peopleAmount: peopleAmount,
+                childrenAmount: childrenAmount,
+                teammates: teammates,
+                participants: participants
+  
+              }
+            })
+          }
+         }} 
         className='mx-2'
-        style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-        textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+        style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889",  border:" 2px solid #89A889"}}
         >
           <h5 className='p-0 m-1'>
           Далее
@@ -245,8 +266,7 @@ function OrderParticiapnt() {
               <div>
               {(team.Name === 'Моя команда' && team.MainUser.ID === user.client.client?.ID )?(
                 <Button className='mt-2 mb-2 p-1 rounded' onClick={(e) => {changeTeam(team.ID)}}
-                  style={{width:"300px", backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                  textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889",  border:" 2px solid #89A889"}}>
                       <span className='mx-2'>Моя команда</span>
                 </Button>
                ):(
@@ -353,8 +373,7 @@ function OrderParticiapnt() {
                           <Card.Text>
                             {i.Discription}
                           </Card.Text>
-                          <Button onClick={(e) => {changeInstructor(i)}} style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-                                          textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
+                          <Button onClick={(e) => {changeInstructor(i)}} style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889",  border:" 2px solid #89A889"}}>
                                             Выбрать
                           </Button>
                         </Card.Body>

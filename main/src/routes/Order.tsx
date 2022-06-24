@@ -113,7 +113,7 @@ function Order() {
                     <span className='mx-2'>{route?.Name}</span>
               </Container>  
               <div className='d-flex flex-column align-items-center rounded' style={{height:"80%"}}>
-                <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"85%"}}/>
+                <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"80%"}}/>
               </div>
               
           </Container>
@@ -136,8 +136,7 @@ function Order() {
           }
           )}} 
           className='mx-2'
-        style={{backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
-        textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}
+         style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889",  border:" 2px solid #89A889"}}
         >
           <h5 className='p-0 m-1'>
           Далее

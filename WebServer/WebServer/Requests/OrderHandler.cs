@@ -17,7 +17,7 @@ namespace WebServer.Requests
     {
 
         [Post("add-order")]
-        [ResponseTimeout(7000)]
+        [ResponseTimeout(9000)]
         public void AddOrder()
         {
             if (!Headers.TryGetValue("Access-Token", out var token) || !TokenWorker.CheckToken(token))

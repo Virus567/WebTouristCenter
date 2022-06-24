@@ -123,7 +123,7 @@ function Register() {
           </Form.Floating> 
           </Container> 
         </Container>
-        <Button onClick={onClick} variant='outline-success' className='mt-3 mb-3 w-50 btn btn-lg' style={{backgroundColor:"#F2FAED", borderColor:"#89A889", color:"#89A889"}}>Регистрация</Button>
+        <Button onClick={onClick} variant='outline-success' className='mt-3 mb-3 w-50 btn btn-lg'style={{backgroundColor:"#F2FAED",fontWeight:"bold", borderColor:"#89A889", color:"#89A889"}}>Регистрация</Button>
       </Form> 
       </Container>
 
