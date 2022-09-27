@@ -10,15 +10,12 @@ class AuthService {
 	register(reg: RegistrationModel) {
 		return axios.post(API_URL + "signon", reg)
 			.then((res) => {
-				const data: Answer = res.data;
-				if (data.status) {
-					setCookie("access_token", data.answer.access_token, {expires: 365, path: ''});
-					const client: Client = data.answer.user;
-					localStorage.setItem('user', JSON.stringify(client))
-					return clientActions.registerSuccess({isAuth: true, client: client});;
+				setCookie("access_token", res.data.accessToken, {expires: 365, path: ''});
+				const client: Client = res.data.answer.user;
+				localStorage.setItem('user', JSON.stringify(client))
+				return clientActions.registerSuccess({isAuth: true, client: client});;
 				}
-				return RegisterFail(data.errorText!);
-			}).catch((err) => {
+				).catch((err) => {
 				return RegisterFail(err);
 			})
 	}
@@ -26,15 +23,12 @@ class AuthService {
 	login(login: LoginModel) {
 		return axios.post(API_URL + "signin", login).then(
 			(res) => {
-				const data: Answer = res.data;
-				if (data.status) {
-					setCookie("access_token", data.answer.access_token, {expires: 365, path: ''});
-					const client: Client = data.answer.user;
-					localStorage.setItem('user', JSON.stringify(client));
-					return clientActions.loginSuccess({isAuth: true, client: client});;
+				setCookie("access_token", res.data.answer.accessToken, {expires: 365, path: ''});
+				const client: Client = res.data.answer.user;
+				localStorage.setItem('user', JSON.stringify(client));
+				return clientActions.loginSuccess({isAuth: true, client: client});;
 				}
-				return LoginFail(data.errorText!);
-			}).catch((err) => {
+			).catch((err) => {
 			return LoginFail(err);
 		})
 	}

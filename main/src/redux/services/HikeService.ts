@@ -12,17 +12,13 @@ const API_URL = "http://localhost:8080/hikes/";
 
 class HikeService {
     getHikes() {
-		return axios.get(API_URL + "get", {headers: authHeader()})
+		return axios.get(API_URL, {headers: authHeader()})
         .then((response) => {
             console.log(response.data);
-            const data: Answer = response.data;
-            if(data.status){
-               const hikes: Hike[] = data.answer.hikes;
-            const orders: Order[] = data.answer.orders;
+            const hikes: Hike[] = response.data.answer.hikes;
+            const orders: Order[] = response.data.answer.orders;
             return {hikes: hikes, orders: orders};
-            }
-            return {hikes:[], orders:[]};
-          })
+            })
           .catch((error) => {
             console.log(error);
             return {hikes:[], orders:[]};
@@ -31,9 +27,8 @@ class HikeService {
 
     addReport(startDate:string, finishDate:string) {
       return axios.post(API_URL + "add-report", {startDate:startDate, finishDate: finishDate},{headers: authHeader()})
-          .then((response) => {
-              const data: Answer = response.data;               
-              return data.status;
+          .then((response) => {            
+              return response.data.status;
             })
             .catch((error) => {
               console.log(error);
@@ -46,13 +41,9 @@ class HikeService {
       return axios.get(API_URL + "get-with-params?date="+ date +"&route="+ route +"&status="+ status, {headers: authHeader()})
           .then((response) => {
               console.log(response.data);
-              const data: Answer = response.data;
-              if(data.status){
-                 const hikes: Hike[] = data.answer.hikes;
+              const hikes: Hike[] = response.data.answer.hikes;
               return hikes;
-              }
-              return [];
-            })
+              })
             .catch((error) => {
               console.log(error);
               return [];
@@ -60,18 +51,14 @@ class HikeService {
       }
 
     getHikeFullInfo(id: number) {
-      return axios.get(API_URL + "get-full-info?id="+id,{headers: authHeader()})
+      return axios.get(API_URL +id,{headers: authHeader()})
           .then((response) => {
               console.log(response.data);
-              const data: Answer = response.data;
-              if(data.status){
-                 const route: Route = data.answer.route;
-                 const hike: Hike = data.answer.hike;
-                 const instructors: Instructor[] = data.answer.instructors;
+              const route: Route = response.data.answer.route;
+              const hike: Hike = response.data.answer.hike;
+              const instructors: Instructor[] = response.data.answer.instructors;
               return {hike: hike, instructors: instructors, route: route};
-              }
-              return {hike:null, instructors:[], route: null};
-            })
+              })
             .catch((error) => {
               console.log(error);
               return {hike:null, instructors:[], route: null};

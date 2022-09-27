@@ -72,15 +72,7 @@ namespace TouristСenterLibrary.Entity
 
         public static Team? GetTeamsByID(int id)
         {
-            try
-            {
-                return db.Team.Include(t => t.MainUser).Include(t => t.Teammates).ThenInclude(t => t.User).FirstOrDefault(t => t.ID == id);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
+            return db.Team.Include(t => t.MainUser).Include(t => t.Teammates).ThenInclude(t => t.User).FirstOrDefault(t => t.ID == id);
         }
 
         public bool AddTeammate(User user)

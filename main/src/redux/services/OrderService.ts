@@ -14,13 +14,9 @@ class OrderService {
     addOrder(order: FinalOrderInfo) {
 		return axios.post(API_URL + "add-order", order, {headers: authHeader()})
         .then((response) => {
-            const data: Answer = response.data;
-            if(data.status){
-              const email: string = data.answer.email;
-              return {status: data.status, email: email};   
-            }
-            return {status: false, email: ""}; 
-          })
+            const email: string = response.data.answer.email;
+            return {status: response.data.status, email: email};   
+            })
           .catch((error) => {
             console.log(error);
             return {status: false, email: ""};
@@ -28,17 +24,13 @@ class OrderService {
     }
 
     getOrderFullInfo(id: number) {
-      return axios.get(API_URL + "get-full-info?id="+id,{headers: authHeader()})
+      return axios.get(API_URL + id,{headers: authHeader()})
           .then((response) => {
               console.log(response.data);
-              const data: Answer = response.data;
-              if(data.status){
-                 const route: Route = data.answer.route;
-                 const order: Order = data.answer.order;
+              const route: Route = response.data.answer.route;
+              const order: Order = response.data.answer.order;
               return {order: order, route: route};
-              }
-              return {order:null, route: null};
-            })
+              })
             .catch((error) => {
               console.log(error);
               return {order:null, route: null};

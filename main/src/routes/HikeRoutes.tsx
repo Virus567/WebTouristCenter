@@ -12,6 +12,7 @@ function HikeRoutes() {
   const [river, setRiver] = useState<string>('');
   const [search, setSearch] = useState<string>('');
   const [days, setDays] = useState<string>('');
+  const [key, setKey] = useState<boolean>(false);
 
   const getRoutesWithParams =(sort:string, river:string, search:string, days:string) =>{
     RouteService.getRoutesWithParams(sort, river, search, days).then((res) => {
@@ -20,11 +21,12 @@ function HikeRoutes() {
   }
 
   React.useEffect(() => {
-    if (routes.length !== 0) return;
+    if (key) return;
     RouteService.getRoutes().then((res) => {
       setRoutes(res);
     })
-  }, [routes])
+    setKey(true);
+  }, [key,routes])
   return (
     <div>
       <Container className='mt-2 mb-3 col-lg-11 col-md-8 mx-auto row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 p-2 rounded'

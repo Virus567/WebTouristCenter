@@ -9,16 +9,12 @@ const API_URL = "http://localhost:8080/routes/";
 
 class RouteService {
     getRoutes() {
-		return axios.get(API_URL + "get")
+		return axios.get(API_URL + "")
         .then((response) => {
             console.log(response.data);
-            const data: Answer = response.data;
-            if(data.status){
-              const routes: Route[] = data.answer.routes;
-              return routes;
-            }
-            return [];
-          })
+            const routes: Route[] = response.data.answer.routes;
+            return routes;
+            })
           .catch((error) => {
             console.log(error);
             return [];
@@ -26,7 +22,7 @@ class RouteService {
 	  }
 
     getRoutesWithParams(sort:string, river:string, search:string, days:string) {
-      return axios.get(API_URL + "get-with-params?sort="+ sort +"&river="+ river +"&search="+ search +"&days="+ days)
+      return axios.get(API_URL + "?sort="+ sort +"&river="+ river +"&search="+ search +"&days="+ days)
           .then((response) => {
               const data: Answer = response.data;
               if(data.status){  
@@ -41,10 +37,9 @@ class RouteService {
             });
       }
     getRouteById(id: string) {
-      return axios.get(API_URL + "id?id="+ id)
+      return axios.get(API_URL + id)
         .then((response) => {
-          const data: Answer = response.data;
-          const route : Route = data.answer.route
+          const route : Route = response.data.answer.route
           return route;
         })
         .catch((error) => {
