@@ -11,7 +11,7 @@ class AuthService {
 		return axios.post(API_URL + "signon", reg)
 			.then((res) => {
 				setCookie("access_token", res.data.accessToken, {expires: 365, path: ''});
-				const client: Client = res.data.answer.user;
+				const client: Client = res.data.user;
 				localStorage.setItem('user', JSON.stringify(client))
 				return clientActions.registerSuccess({isAuth: true, client: client});;
 				}
@@ -23,8 +23,8 @@ class AuthService {
 	login(login: LoginModel) {
 		return axios.post(API_URL + "signin", login).then(
 			(res) => {
-				setCookie("access_token", res.data.answer.accessToken, {expires: 365, path: ''});
-				const client: Client = res.data.answer.user;
+				setCookie("access_token", res.data.accessToken, {expires: 365, path: ''});
+				const client: Client = res.data.user;
 				localStorage.setItem('user', JSON.stringify(client));
 				return clientActions.loginSuccess({isAuth: true, client: client});;
 				}

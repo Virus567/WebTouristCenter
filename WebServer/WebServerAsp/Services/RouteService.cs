@@ -1,6 +1,7 @@
 ﻿using TouristСenterLibrary;
 using t = TouristСenterLibrary.Entity;
 using WebServerAsp.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebServerAsp.Services
 {
@@ -15,7 +16,7 @@ namespace WebServerAsp.Services
 
         public t.Route? GetRouteByID(int id)
         {
-            return _context.Route.FirstOrDefault(r=>r.ID == id);
+            return _context.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).FirstOrDefault(r=>r.ID == id);
         }
 
         public IQueryable<t.Route> GetRoutes()

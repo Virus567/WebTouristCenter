@@ -15,29 +15,29 @@ namespace WebServerAsp.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetRoutes(int sort = 1, string? river = "", string? search = "", int days = 0)
+        public IActionResult GetRoutes(int sort = 1, string? river = null, string? search = "", int days = 0)
         {
             var routes = _routeRepository.GetRoutes().ToList();
-            //if (sort == 1)
-            //{
-            //   routes = routes.OrderByDescending(r => r.Popularity);
-            //}
-            //if (sort == 2)
-            //{
-            //    routes = routes.OrderBy(r => r.Name);
-            //}
-            //if (Convert.ToInt32(sort) == 3)
-            //{
-            //    routes = routes.OrderBy(r => r.NumberDays);
-            //}
-            //if (river is not null) routes = routes.Where(r => r.River == river);
+            if (sort == 1)
+            {
+                routes = routes.OrderByDescending(r => r.Popularity).ToList();
+            }
+            if (sort == 2)
+            {
+                routes = routes.OrderBy(r => r.Name).ToList();
+            }
+            if (sort == 3)
+            {
+                routes = routes.OrderBy(r => r.NumberDays).ToList();
+            }
+            if (river is not null) routes = routes.Where(r => r.River == river).ToList();
 
-            //if (search is not null) routes = routes.Where(r => r.Name.ToLower().Contains(search.ToLower()));
+            if (search is not null) routes = routes.Where(r => r.Name.ToLower().Contains(search.ToLower())).ToList();
 
-            //if ( days != 0)
-            //{
-            //    routes = routes.Where(r => r.NumberDays == days);
-            //}
+            if (days != 0)
+            {
+                routes = routes.Where(r => r.NumberDays == days).ToList();
+            }
 
             return Ok(routes);
         }
@@ -47,7 +47,7 @@ namespace WebServerAsp.Controllers
         {
             var route = _routeRepository.GetRouteByID(id);
             
-            return route is null ? NotFound(): Ok(new { route = route });
+            return route is null ? NotFound(): Ok( route );
         }
     }
 }

@@ -8,7 +8,7 @@ using WebServerAsp.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-builder.Services.AddCors(o=>o.AddDefaultPolicy(b=>b.AllowAnyOrigin().AllowAnyHeader()));
+builder.Services.AddCors(o=>o.AddDefaultPolicy(b=>b.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000").AllowCredentials()));
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationContext>(o=>o.UseNpgsql(connection));
 
@@ -38,6 +38,11 @@ var app = builder.Build();
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+    context.Response.Headers.Add("Access-Control-Allow-Methods", "*");
+    ////if(context.Request.Method == HttpMethods.Options)
+    ////{
+    //    context.Response.StatusCode = 200;
+    //}  
     await next(context);
 });
 
@@ -45,7 +50,6 @@ app.UseRouting();
 app.UseAuthorization().UseAuthentication();
 app.UseEndpoints(e => e.MapControllers());
 app.UseCors();
-app.Use(async (context, next) => { context.Response.Headers.Add("Access-Control-Allow-Origin", "*"); await next(context); });
 app.Run();
 public class AuthOptions
 {

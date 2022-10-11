@@ -4,8 +4,8 @@ export interface Route {
     numberDays: number,
 	description: string,
 	fullDescription: string,
-	checkpointStart: {ID: number, Title: string, Type: string},
-    checkpointFinish: {ID: number, Title: string, Type: string},
+	checkpointStart: {id: number, title: string, type: string},
+    checkpointFinish: {id: number, title: string, type: string},
     river: string,
 	images: string[]
 }

@@ -29,10 +29,11 @@ namespace WebServerAsp.Controllers
             var user = _userRepository.GetUserAuth(model.login, model.password);
             if (user is null) return BadRequest("Incorrect login or password");
             var jwt = GenAccessToken(user.ID);
-            return Ok(new { AccessToken = new JwtSecurityTokenHandler().WriteToken(jwt) });
+            return Ok(new { AccessToken = new JwtSecurityTokenHandler().WriteToken(jwt), user = new UserModel(user) });
         }
 
         [HttpPost("signon")]
+
         public IActionResult Register(RegModel model)
         {
             if (!_userRepository.RegisterUser(model))
@@ -42,7 +43,7 @@ namespace WebServerAsp.Controllers
             var user = _userRepository.GetUserByLogin(model.login);
             if (user is null) return BadRequest("Error adding");
             var jwt = GenAccessToken(user.ID);
-            return Ok(new { AccessToken = new JwtSecurityTokenHandler().WriteToken(jwt) });
+            return Ok(new { AccessToken = new JwtSecurityTokenHandler().WriteToken(jwt), user = new UserModel(user) });
         }
     }
 }

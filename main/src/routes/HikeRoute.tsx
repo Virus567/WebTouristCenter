@@ -10,17 +10,18 @@ function HikeRoute() {
   const {search} = useLocation();
   const searchParams = new URLSearchParams(search);
   const routeId = searchParams.get("id");
-  let key = false;
+  const [key, setKey] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (key) return;
     RouteService.getRouteById(routeId!).then((res) => {
       if(res!== undefined){
-        setRoute(res);
+        setRoute(res);  
       }
     })
-    key = true;
-  }, [route])
+    setKey(true);
+    
+  }, [key,route])
   return (
     <div>
       <div className='mt-4 px-4'>
@@ -73,11 +74,11 @@ function HikeRoute() {
             <div className='mt-4'>
                 <div className='rounded d-flex flex-column align-items-center p-2' style={{backgroundColor:"#B4C3B1", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
                   textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    Место отправления: {route?.checkpointStart.Title}
+                    Место отправления: {route?.checkpointStart.title}
                 </div>
                 <div className='rounded d-flex flex-column align-items-center p-2 mt-3' style={{backgroundColor:"#B4C3B1", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
                   textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    Место прибытия: {route?.checkpointFinish.Title}
+                    Место прибытия: {route?.checkpointFinish.title}
                 </div>
             </div>
           </div>

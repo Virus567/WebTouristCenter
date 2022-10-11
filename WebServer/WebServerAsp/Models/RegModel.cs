@@ -6,10 +6,10 @@ public class RegModel
     public string password { get; set; }
     public string surname { get; set; }
     public string name { get; set; }
-    public string middlename { get; set; }
+    public string? middlename { get; set; }
     public string phone { get; set; }
     public string email { get; set; }
-    public string nameOfCompany { get; set; }
+    public string? nameOfCompany { get; set; }
 
     public static bool Check(RegModel? model)
     {

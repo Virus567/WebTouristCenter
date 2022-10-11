@@ -5,11 +5,11 @@ import {removeCookie, setCookie} from "typescript-cookie";
 import {RegisterSuccess, RegisterFail, LoginSuccess, LoginFail, Logout} from "../actions/authActions"
 import {Client} from "../../models/ClientModel";
 
-const API_URL = "http://localhost:8080/routes/";
+const API_URL = "http://localhost:8080/routes";
 
 class RouteService {
     getRoutes() {
-		return axios.get(API_URL + "")
+		return axios.get(API_URL + "/")
         .then((response) => {
             console.log(response.data);
             const routes: Route[] = response.data;
@@ -33,8 +33,9 @@ class RouteService {
             });
       }
     getRouteById(id: string) {
-      return axios.get(API_URL + id)
+      return axios.get(API_URL+"/" + id)
         .then((response) => {
+          console.log(response.data)
           const route : Route = response.data
           return route;
         })
