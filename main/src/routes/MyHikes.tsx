@@ -158,7 +158,7 @@ function MyHikes() {
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <div style={{width:"10%"}}>
+                    <div style={{width:"12%"}}>
                       {hike.Status === "В сборке"?(
                       <img src={yellow} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>
                       ):(<img src={red} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>)}

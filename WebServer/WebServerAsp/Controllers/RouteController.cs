@@ -15,32 +15,31 @@ namespace WebServerAsp.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetRoutes(int sort = 1, string river = "", string search = "", int days = 0)
+        public IActionResult GetRoutes(int sort = 1, string? river = "", string? search = "", int days = 0)
         {
-            var routes = _routeRepository.GetRoutes();
-            if (sort == 1)
-            {
-               routes = routes.OrderByDescending(r => r.Popularity);
-            }
-            if (sort == 2)
-            {
-                routes = routes.OrderBy(r => r.Name);
-            }
-            if (Convert.ToInt32(sort) == 3)
-            {
-                routes = routes.OrderBy(r => r.NumberDays);
-            }
+            var routes = _routeRepository.GetRoutes().ToList();
+            //if (sort == 1)
+            //{
+            //   routes = routes.OrderByDescending(r => r.Popularity);
+            //}
+            //if (sort == 2)
+            //{
+            //    routes = routes.OrderBy(r => r.Name);
+            //}
+            //if (Convert.ToInt32(sort) == 3)
+            //{
+            //    routes = routes.OrderBy(r => r.NumberDays);
+            //}
+            //if (river is not null) routes = routes.Where(r => r.River == river);
 
-            routes = routes.Where(r => r.River == river);
+            //if (search is not null) routes = routes.Where(r => r.Name.ToLower().Contains(search.ToLower()));
 
-            routes = routes.Where(r => r.Name.ToLower().Contains(search.ToLower()));
+            //if ( days != 0)
+            //{
+            //    routes = routes.Where(r => r.NumberDays == days);
+            //}
 
-            if ( days != 0)
-            {
-                routes = routes.Where(r => r.NumberDays == days);
-            }
-
-            return Ok(new { routes = routes});
+            return Ok(routes);
         }
 
         [HttpGet("{id:int}")]

@@ -25,11 +25,11 @@ function HikeRoute() {
     <div>
       <div className='mt-4 px-4'>
         <div className='d-flex justify-content-between'>
-          <h4>{route?.Name}</h4>
+          <h4>{route?.name}</h4>
           <div className='mx-2'>
             <div className='rounded d-flex flex-column align-items-center px-2' style={{backgroundColor:"#B6D3B0", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
             textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-              Кол-во дней: {route?.NumberDays}
+              Кол-во дней: {route?.numberDays}
             </div>
           </div>
           
@@ -44,21 +44,21 @@ function HikeRoute() {
           <Carousel.Item>
             <img
               className="d-block w-100"
-              src={route?.Images[0]}
+              src={route?.images[0]}
               alt="First slide"
             />
           </Carousel.Item>
           <Carousel.Item>
             <img
               className="d-block w-100"
-              src={route?.Images[1]}
+              src={route?.images[1]}
               alt="Second slide"
             />
           </Carousel.Item>
           <Carousel.Item>
             <img
               className="d-block w-100"
-              src={route?.Images[2]}
+              src={route?.images[2]}
               alt="Third slide"
             />
           </Carousel.Item>
@@ -68,16 +68,16 @@ function HikeRoute() {
           <div style={{height:"80%"}}>
             <h4>Описание</h4>
             <div className='mt-2'>
-            {route?.FullDescription}
+            {route?.fullDescription}
             </div> 
             <div className='mt-4'>
                 <div className='rounded d-flex flex-column align-items-center p-2' style={{backgroundColor:"#B4C3B1", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
                   textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    Место отправления: {route?.CheckpointStart.Title}
+                    Место отправления: {route?.checkpointStart.Title}
                 </div>
                 <div className='rounded d-flex flex-column align-items-center p-2 mt-3' style={{backgroundColor:"#B4C3B1", fontSize:"16px", color:"#ffff", border:" 1px solid #89A889",
                   textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    Место прибытия: {route?.CheckpointFinish.Title}
+                    Место прибытия: {route?.checkpointFinish.Title}
                 </div>
             </div>
           </div>

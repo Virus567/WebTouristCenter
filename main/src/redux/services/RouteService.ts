@@ -12,7 +12,7 @@ class RouteService {
 		return axios.get(API_URL + "")
         .then((response) => {
             console.log(response.data);
-            const routes: Route[] = response.data.answer.routes;
+            const routes: Route[] = response.data;
             return routes;
             })
           .catch((error) => {
@@ -23,13 +23,9 @@ class RouteService {
 
     getRoutesWithParams(sort:string, river:string, search:string, days:string) {
       return axios.get(API_URL + "?sort="+ sort +"&river="+ river +"&search="+ search +"&days="+ days)
-          .then((response) => {
-              const data: Answer = response.data;
-              if(data.status){  
-                const routes: Route[] = data.answer.routes
-                return routes;
-              }
-              return [];   
+          .then((response) => { 
+              const routes: Route[] = response.data
+              return routes;
             })
             .catch((error) => {
               console.log(error);
@@ -39,7 +35,7 @@ class RouteService {
     getRouteById(id: string) {
       return axios.get(API_URL + id)
         .then((response) => {
-          const route : Route = response.data.answer.route
+          const route : Route = response.data
           return route;
         })
         .catch((error) => {

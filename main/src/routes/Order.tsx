@@ -70,7 +70,7 @@ function Order() {
                       onChange={e => {
                           const date : Date = new Date(Date.parse(e.target.value));
                           setDateStart(moment(date).format('YYYY-MM-DD'));
-                          setDateFinish(moment(date).add((route!.NumberDays-1),'days').format('YYYY-MM-DD'));
+                          setDateFinish(moment(date).add((route!.numberDays-1),'days').format('YYYY-MM-DD'));
                           }} name="dos"/>
                 <h5 className='text-white p-0 ' 
               style={{margin:"3px 10px 0 10px",textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
@@ -110,10 +110,10 @@ function Order() {
                 style={{
                 backgroundColor:"#F2FAED"
                 }}>
-                    <span className='mx-2'>{route?.Name}</span>
+                    <span className='mx-2'>{route?.name}</span>
               </Container>  
               <div className='d-flex flex-column align-items-center rounded' style={{height:"80%"}}>
-                <img src={route?.Images[0]} alt="img" className='rounded' style={{height:"80%"}}/>
+                <img src={route?.images[0]} alt="img" className='rounded' style={{height:"80%"}}/>
               </div>
               
           </Container>

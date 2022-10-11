@@ -8,7 +8,7 @@ using WebServerAsp.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-//builder.Services.AddCors(o=>o.AddDefaultPolicy(b=>b.AllowAnyOrigin().AllowAnyHeader()));
+builder.Services.AddCors(o=>o.AddDefaultPolicy(b=>b.AllowAnyOrigin().AllowAnyHeader()));
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationContext>(o=>o.UseNpgsql(connection));
 
@@ -35,10 +35,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 var app = builder.Build();
 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+    await next(context);
+});
+
 app.UseRouting();
 app.UseAuthorization().UseAuthentication();
 app.UseEndpoints(e => e.MapControllers());
-//app.UseCors();
+app.UseCors();
 app.Use(async (context, next) => { context.Response.Headers.Add("Access-Control-Allow-Origin", "*"); await next(context); });
 app.Run();
 public class AuthOptions
