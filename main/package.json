@@ -34,6 +34,7 @@
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.0",
+    "react-signalr": "^0.2.14",
     "sha256": "^0.2.0",
     "typescript": "^4.6.3",
     "typescript-cookie": "^1.0.3",

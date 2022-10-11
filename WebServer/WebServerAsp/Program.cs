@@ -5,12 +5,15 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebServerAsp.Services;
 using WebServerAsp.Repositories;
+using WebServerAsp.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddCors(o=>o.AddDefaultPolicy(b=>b.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000").AllowCredentials()));
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationContext>(o=>o.UseNpgsql(connection));
+
+builder.Services.AddSignalR();
 
 builder.Services.AddTransient<IRouteRepository, RouteService>();
 builder.Services.AddTransient<IInstructorRepository, InstructorService>();
@@ -50,6 +53,9 @@ app.UseRouting();
 app.UseAuthorization().UseAuthentication();
 app.UseEndpoints(e => e.MapControllers());
 app.UseCors();
+
+app.MapHub<ChatHub>("/chat");
+
 app.Run();
 public class AuthOptions
 {

@@ -19,33 +19,41 @@ import {Provider} from "react-redux";
 import {store} from './redux/store';
 import HikeFullInfo from './routes/HikeFullInfo';
 import OrderFullInfo from './routes/OrderFullInfo';
+import Chat from './routes/Chat';
+import {createSignalRContext} from 'react-signalr';
+
+export const SignalRContext = createSignalRContext();
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-    <BrowserRouter>
-    <div className="d-flex row" style={{overflowX:"hidden", backgroundColor:"#F2FAED",height:"100%"}}>
-      <div className='col p-0' style={{maxWidth:"250px"}}>
-        <SideBar/>  
-      </div> 
-      <div className='col p-0' style={{maxWidth:"100%"}}>
-        <Header/>
-        <Routes>
-          <Route path={"/"} element={<HikeRoutes/>} />
-          <Route path={"/my-team"} element={<MyTeam/>} />
-          <Route path={"/my-hikes"} element={<MyHikes/>} />      
-          <Route path={"/route"} element={<HikeRoute/>} />
-          <Route path={"/order"} element={<Order/>} />
-          <Route path={"/order-partisipants"} element={<OrderParticiapnt/>} />
-          <Route path={"/order-features"} element={<OrderFeatures/>} />
-          <Route path={"/hike-info"} element={<HikeFullInfo/>} />
-          <Route path={"/order-info"} element={<OrderFullInfo/>} />
-          <Route path={"/register"} element={<Registration/>} />
-        </Routes>
-      </div>
-    </div>   
-    </BrowserRouter> 
-    </Provider>
+    <SignalRContext.Provider url={"http://localhost:8080/chat"}>
+      <Provider store={store}>
+      <BrowserRouter>
+      <div className="d-flex row" style={{overflowX:"hidden", backgroundColor:"#F2FAED",height:"100%"}}>
+        <div className='col p-0' style={{maxWidth:"250px"}}>
+          <SideBar/>  
+        </div> 
+        <div className='col p-0' style={{maxWidth:"100%"}}>
+          <Header/>
+          <Routes>
+            <Route path={"/"} element={<HikeRoutes/>} />
+            <Route path={"/my-team"} element={<MyTeam/>} />
+            <Route path={"/my-hikes"} element={<MyHikes/>} />      
+            <Route path={"/route"} element={<HikeRoute/>} />
+            <Route path={"/order"} element={<Order/>} />
+            <Route path={"/order-partisipants"} element={<OrderParticiapnt/>} />
+            <Route path={"/order-features"} element={<OrderFeatures/>} />
+            <Route path={"/hike-info"} element={<HikeFullInfo/>} />
+            <Route path={"/order-info"} element={<OrderFullInfo/>} />
+            <Route path={"/register"} element={<Registration/>} />
+            <Route path={"/chat"} element={<Chat/>} />
+          </Routes>
+        </div>
+      </div>   
+      </BrowserRouter> 
+      </Provider>
+    </SignalRContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
