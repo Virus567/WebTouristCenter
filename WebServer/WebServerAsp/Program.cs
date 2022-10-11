@@ -38,21 +38,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 var app = builder.Build();
 
-app.Use(async (context, next) =>
-{
-    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-    context.Response.Headers.Add("Access-Control-Allow-Methods", "*");
-    ////if(context.Request.Method == HttpMethods.Options)
-    ////{
-    //    context.Response.StatusCode = 200;
-    //}  
-    await next(context);
-});
+//app.Use(async (context, next) =>
+//{
+//    context.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:3000");
+   
+//    ////if(context.Request.Method == HttpMethods.Options)
+//    ////{
+//    //    context.Response.StatusCode = 200;
+//    //}  
+//    await next(context);
+//});
 
+app.UseCors();
+app.UseWebSockets();
 app.UseRouting();
 app.UseAuthorization().UseAuthentication();
 app.UseEndpoints(e => e.MapControllers());
-app.UseCors();
+
 
 app.MapHub<ChatHub>("/chat");
 
