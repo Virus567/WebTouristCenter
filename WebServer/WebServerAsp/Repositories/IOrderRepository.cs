@@ -7,5 +7,6 @@ namespace WebServerAsp.Repositories
     {
         public List<OrderModel> GetOrders(int userId);
         public bool AddOrder(NewOrderModel order, User user);
+        public Order.OrderView? GetViewById(int orderId);
     }
 }

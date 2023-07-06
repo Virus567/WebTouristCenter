@@ -8,29 +8,29 @@ using WebServerAsp.Models;
 
 namespace WebServerAsp.Controllers
 {
-
-    [Authorize]
     [ApiController]
     [Route("orders")]
     public class OrderController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly IRouteRepository _routeRepository;
 
-        public OrderController(IUserRepository userRepository, IOrderRepository orderRepository)
+        public OrderController(IUserRepository userRepository, IOrderRepository orderRepository, IRouteRepository routeRepository)
         {
             _userRepository = userRepository;
             _orderRepository = orderRepository;
+            _routeRepository = routeRepository;
         }
         [HttpGet("{id:int}")]
-        public IActionResult GetOrderFullInfo(int id = 0)
+        public IActionResult GetOrderFullInfo(int id)
         {
-            var order = Order.GetViewById(Convert.ToInt32(id));
+            var order = _orderRepository.GetViewById(id);
             if (order == null)
             {
                 return BadRequest("Incorrect request");
             }
-            var route = t.Route.GetRouteByRouteName(order.RouteName);
+            var route = _routeRepository.GetRouteByName(order.RouteName);
 
             var orderModel = new OrderModel(order);
             return Ok(new { route = route, order = orderModel });
@@ -47,7 +47,7 @@ namespace WebServerAsp.Controllers
             if (!NewOrderModel.Check(order)) return BadRequest("Incorrect request");
 
             if(!_orderRepository.AddOrder(order, user)) return BadRequest("Error adding");
-            return Ok(new { email = user.Email });
+            return Ok(new { email = user.Email, status = true });
         }
 
     }

@@ -23,5 +23,10 @@ namespace WebServerAsp.Services
         {
             return _context.Route;
         }
+
+        public t.Route? GetRouteByName(string name)
+        {
+           return _context.Route.FirstOrDefault(r=>r.Name == name);
+        }
     }
 }

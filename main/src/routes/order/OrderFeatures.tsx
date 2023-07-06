@@ -47,7 +47,7 @@ const [order, setOrder] = useState<FinalOrderInfo> (
     hermeticBag: 0
   }
 );
-const [email, setEmail] = useState<string>(user.client.client!.Email);
+const [email, setEmail] = useState<string>(user.client.client!.email);
 const [status, setStatus] = useState<boolean>(false);
 
 const [show, setShow] = useState(false);

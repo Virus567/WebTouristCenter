@@ -1,43 +1,43 @@
 export interface Team {
-	ID: number,
-    Name: string,
-    MainUser: {
-        ID: number,
-        Login: string,
-        Surname: string,
-        Name: string,
-        MiddleName: string
+	id: number,
+    name: string,
+    mainUser: {
+        id: number,
+        login: string,
+        surname: string,
+        name: string,
+        middleName: string
      },
-     Teammates: Teammate[]
+     teammates: Teammate[]
 }
 
 export interface Teammate {
-    ID: number,
-    User:{
-        ID: number,
-        Login: string,
-        Surname: string,
-        Name: string,
-        MiddleName: string,
+    id: number,
+    user:{
+        id: number,
+        login: string,
+        surname: string,
+        name: string,
+        middleName: string,
     }
-    IsActive: boolean
+    isActive: boolean
 
 }
 
 export interface InviteModel {
-    MainUser: {
-        ID: number,
-        Login: string,
-        Surname: string,
-        Name: string,
-        MiddleName: string
+    mainUser: {
+        id: number,
+        login: string,
+        surname: string,
+        name: string,
+        middleName: string
     }
-    User: {
-        ID: number,
-        Login: string,
-        Surname: string,
-        Name: string,
-        MiddleName: string
+    user: {
+        id: number,
+        login: string,
+        surname: string,
+        name: string,
+        middleName: string
     }
 	
 }

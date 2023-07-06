@@ -64,25 +64,25 @@ function MyHikes() {
                 style={{
                 backgroundColor:"#B4C3B1"
                 }}>
-                    <span style={{width:"8%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{moment(order.StartTime).format("DD.MM.YYYY")}</span>
+                    <span style={{width:"8%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{moment(order.startTime).format("DD.MM.YYYY")}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <span className='mx-2' style={{width:"90%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.RouteName}</span>
+                    <span className='mx-2' style={{width:"90%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.routeName}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
                     <div style={{width:"10%"}}>
                       <img src={green} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>
-                      <span style={{fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.Status}</span>
+                      <span style={{fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{order.status}</span>
                     </div>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <Button href="#" onClick= {() => {navigate("/order-info?id=" + order.ID)}} className='text-sm mx-2 pt-0 pb-0 px-2'
+                    <Button href="#" onClick= {() => {navigate("/order-info?id=" + order.id)}} className='text-sm mx-2 pt-0 pb-0 px-2'
                      style={{backgroundColor:"#F2FAED",fontWeight:"normal", borderColor:"#89A889", color:"#89A889", height:"27px"}}
                      >
                          Подробнее
@@ -148,27 +148,27 @@ function MyHikes() {
                 style={{
                 backgroundColor:"#B4C3B1"
                 }}>
-                    <span style={{width:"8%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{moment(hike.StartTime).format("DD.MM.YYYY")}</span>
+                    <span style={{width:"8%", fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{moment(hike.startTime).format("DD.MM.YYYY")}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <span className='mx-2' style={{width:"90%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.RouteName}</span>
+                    <span className='mx-2' style={{width:"90%",fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.routeName}</span>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
                     <div style={{width:"12%"}}>
-                      {hike.Status === "В сборке"?(
+                      {hike.status === "В сборке"?(
                       <img src={yellow} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>
                       ):(<img src={red} className="mx-2" style={{width:"12px", marginBottom:"3px"}} alt='color'/>)}
-                      <span style={{fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.Status}</span>
+                      <span style={{fontStyle: "normal",fontWeight:"700", fontSize: "14px", lineHeight: "28px"}}>{hike.status}</span>
                     </div>
                     <div
                     style={{width: "0px", 
                             float: "left", 
                             border: "1px inset #000000"}} />
-                    <Button onClick= {() => {navigate("/hike-info?id="+ hike.ID)}} className='text-sm mx-2 pt-0 pb-0 px-2'
+                    <Button onClick= {() => {navigate("/hike-info?id="+ hike.id)}} className='text-sm mx-2 pt-0 pb-0 px-2'
                      style={{backgroundColor:"#F2FAED",fontWeight:"normal", borderColor:"#89A889", color:"#89A889", height:"27px"}}
                      >
                          Подробнее
@@ -189,7 +189,7 @@ function MyHikes() {
           <Modal.Title className='text-white' style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>Сформировать отчет за период</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{backgroundColor:"#B4C3B1", color:"#ffffff"}}>
-            <p className='text-white'>Вы можете сформировать отчет о ваших походах за определенный период. Отчет придет к вам на почту {user.client.client?.Email}</p>
+            <p className='text-white'>Вы можете сформировать отчет о ваших походах за определенный период. Отчет придет к вам на почту {user.client.client?.email}</p>
             <h6 className='text-white p-0 mt-3' 
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   Даты:

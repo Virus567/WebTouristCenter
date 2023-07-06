@@ -8,16 +8,17 @@ using WebServerAsp.Repositories;
 
 namespace WebServerAsp.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("teams")]
     public class TeamController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly ITeamRepository _teamRepository;
 
-        public TeamController(IUserRepository userRepository, IOrderRepository orderRepository)
+        public TeamController(IUserRepository userRepository, ITeamRepository teamRepository)
         {
             _userRepository = userRepository;
+            _teamRepository = teamRepository;
         }
         [HttpGet]
         public IActionResult GetTeams()
@@ -26,7 +27,7 @@ namespace WebServerAsp.Controllers
             if (userId is null) return BadRequest("Incorrect token");
             var user = _userRepository.GetUserByID(Convert.ToInt32(userId.Value));
             if (user is null) return BadRequest("Incorrect user");
-            List<Team> teams = Team.GetTeamsByUserLogin(user.Login);
+            List<Team> teams = _teamRepository.GetTeamsByUserLogin(user.Login);
             List<TeamModel> teamsModel = new List<TeamModel>();
             foreach (var t in teams)
             {
@@ -43,7 +44,7 @@ namespace WebServerAsp.Controllers
             if (myTeam != null)
             {
 
-                teammates = Teammate.GetTeammatesByTeam(myTeam);
+                teammates = _teamRepository.GetTeammatesByTeam(myTeam);
 
                 foreach (var teammate in teammates)
                 {
@@ -61,15 +62,15 @@ namespace WebServerAsp.Controllers
             return Ok(new { teams = teamsModel, teammates = teammatesModel, invites = invites, invitesTeammates = invitesTeammatesModel, team = myTeamModel });
         }
 
-        [HttpGet("team-id")]
-        public IActionResult GetTeammatesByTeamID(int id = 0)
+        [HttpGet("team-id/{id:int}")]
+        public IActionResult GetTeammatesByTeamID(int id)
         {
             if (id != 0)
             {
-                var team = Team.GetTeamsByID(id);
+                var team = _teamRepository.GetTeamsByID(id);
                 if (team == null) return BadRequest("Incorrect request");
 
-                var teammates = Teammate.GetTeammatesByTeam(team);
+                var teammates = _teamRepository.GetTeammatesByTeam(team);
                 List<TeammateModel> teammatesModel = new List<TeammateModel>();
                 foreach (var teammate in teammates)
                 {
@@ -81,16 +82,16 @@ namespace WebServerAsp.Controllers
             else return BadRequest("Incorrect request");
         }
 
-        [HttpGet("change-team")]
-        public IActionResult ChangeTeam(int id = 0)
+        [HttpGet("change-team/{id:int}")]
+        public IActionResult ChangeTeam(int id)
         {
             if (id != 0)
             {
-                var team = Team.GetTeamsByID(id);
+                var team = _teamRepository.GetTeamsByID(id);
                 TeamModel teamModel = new TeamModel(team);
                 if (team == null) return BadRequest("Incorrect request");
 
-                var teammates = Teammate.GetTeammatesByTeam(team);
+                var teammates = _teamRepository.GetTeammatesByTeam(team);
                 List<TeammateModel> teammatesModel = new List<TeammateModel>();
                 List<TeammateModel> invitesTeammatesModel = new List<TeammateModel>();
                 foreach (var teammate in teammates)
@@ -115,20 +116,20 @@ namespace WebServerAsp.Controllers
             var user = _userRepository.GetUserByID(Convert.ToInt32(userId.Value));
             if (user is null) return BadRequest("Incorrect user");
 
-            List<Team> teams = Team.GetTeamsByUserLogin(user.Login);
+            List<Team> teams = _teamRepository.GetTeamsByUserLogin(user.Login);
             var myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда");
             if (myTeam == null) return BadRequest("Incorrect request")
                     ;        
 
-           return Ok(new { team = new TeamModel(myTeam), teammates = Teammate.GetTeammatesByTeam(myTeam).Select(t=> new TeammateModel(t)) });
+           return Ok(new { team = new TeamModel(myTeam), teammates = _teamRepository.GetTeammatesByTeam(myTeam).Select(t=> new TeammateModel(t)) });
         }
 
-        [HttpGet("find-by-login")]
-        public IActionResult FindUserByLogin(string login="")
+        [HttpGet("find-by-login/{login}")]
+        public IActionResult FindUserByLogin(string login)
         {
             if (login!="")
             {
-                var user = t.User.GetUserByLogin(login);
+                var user = _userRepository.GetUserByLogin(login);
                 if (user == null) return BadRequest("Incorrect request");
                 var userModel = new UserModel(user);
                 string fullName = user.GetFullName();
@@ -138,12 +139,12 @@ namespace WebServerAsp.Controllers
             else return BadRequest("Incorrect request");
         }
 
-        [HttpGet("find-by-phone")]
-        public IActionResult FindUserByPhone(string phone = "")
+        [HttpGet("find-by-phone/{phone}")]
+        public IActionResult FindUserByPhone(string phone )
         {
             if (phone!="")
             {
-                var user = t.User.GetUserByPhoneNumber(phone);
+                var user = _userRepository.GetUserByPhoneNumber(phone);
                 if (user == null) return BadRequest("Incorrect request");
 
                 var userModel = new UserModel(user);
@@ -157,10 +158,10 @@ namespace WebServerAsp.Controllers
         public IActionResult ChangeInvites(ChangeInvitesModel body)
         {
             if (body.flag == null || body.userId == null) return BadRequest("Incorrect request");
-            var mainUser = t.User.GetUserByID(body.userId);
+            var mainUser = _userRepository.GetUserByID(body.userId);
             if (mainUser is null) return BadRequest("Incorrect request"); ;
 
-            var teams = Team.GetTeamsByUserLogin(mainUser.Login);
+            var teams = _teamRepository.GetTeamsByUserLogin(mainUser.Login);
             Team myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда" && t.MainUser == mainUser);
             if (myTeam == null) return BadRequest("Incorrect request");
 
@@ -175,10 +176,10 @@ namespace WebServerAsp.Controllers
                 {
                     teammate.IsActive = true;
                     teammate.IsTeammate = body.flag;
-                    teammate.Update();
+                    _teamRepository.UpdateTeammate(teammate);
                 }
             }
-            teams = Team.GetTeamsByUserLogin(user.Login);
+            teams = _teamRepository.GetTeamsByUserLogin(user.Login);
             var invites = InviteModel.GetInvites(user);
             List<TeamModel> teamsModel = new List<TeamModel>();
             foreach (var t in teams)
@@ -193,7 +194,7 @@ namespace WebServerAsp.Controllers
         public IActionResult KickTeammate(ChangeInvitesModel body)
         {
             if (body.flag == null || body.userId == null) return BadRequest("Incorrect request");
-            var user = t.User.GetUserByID(body.userId);
+            var user = _userRepository.GetUserByID(body.userId);
             if (user is null) return BadRequest("Incorrect request");
 
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "user");
@@ -201,7 +202,7 @@ namespace WebServerAsp.Controllers
             var mainUser = _userRepository.GetUserByID(Convert.ToInt32(userId.Value));
             if (mainUser is null) return BadRequest("Incorrect user");
 
-            var teams = Team.GetTeamsByUserLogin(mainUser.Login);
+            var teams = _teamRepository.GetTeamsByUserLogin(mainUser.Login);
             Team myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда" && t.MainUser == mainUser);
             if (myTeam == null) return BadRequest("Incorrect request");
 
@@ -210,10 +211,10 @@ namespace WebServerAsp.Controllers
                 if (teammate.User.Login == user.Login && teammate.IsTeammate && teammate.IsActive)
                 {
                     teammate.IsTeammate = body.flag;
-                    teammate.Update();
+                    _teamRepository.UpdateTeammate(teammate);
                 }
             }
-            List<Teammate> teammates = Teammate.GetTeammatesByTeam(myTeam);
+            List<Teammate> teammates = _teamRepository.GetTeammatesByTeam(myTeam);
             List<TeammateModel> teammatesModel = new List<TeammateModel>();
 
             foreach (var teammate in teammates)
@@ -235,10 +236,10 @@ namespace WebServerAsp.Controllers
  
             if (body.flag == null || body.userId == null) return BadRequest("Incorrect request");
 
-            var mainUser = t.User.GetUserByID(body.userId);
+            var mainUser = _userRepository.GetUserByID(body.userId);
             if (mainUser is null) return BadRequest("Incorrect request");
 
-            var teams = Team.GetTeamsByUserLogin(mainUser.Login);
+            var teams = _teamRepository.GetTeamsByUserLogin(mainUser.Login);
             Team myTeam = teams.FirstOrDefault(t => t.Name == "Моя команда" && t.MainUser == mainUser);
             if (myTeam == null) return BadRequest("Incorrect request");
             TeamModel myTeamModel = new TeamModel(myTeam);
@@ -247,10 +248,10 @@ namespace WebServerAsp.Controllers
                 if (teammate.User.Login == user.Login && teammate.IsTeammate && teammate.IsActive)
                 {
                     teammate.IsTeammate = body.flag;
-                    teammate.Update();
+                    _teamRepository.UpdateTeammate(teammate);
                 }
             }
-            List<Teammate> teammates = Teammate.GetTeammatesByTeam(myTeam);
+            List<Teammate> teammates = _teamRepository.GetTeammatesByTeam(myTeam);
             List<TeammateModel> teammatesModel = new List<TeammateModel>();
             List<TeammateModel> invitesTeammatesModel = new List<TeammateModel>();
             foreach (var teammate in teammates)
@@ -263,7 +264,7 @@ namespace WebServerAsp.Controllers
                 }
             }
 
-            teams = Team.GetTeamsByUserLogin(user.Login);
+            teams = _teamRepository.GetTeamsByUserLogin(user.Login);
             List<TeamModel> teamsModel = new List<TeamModel>();
             foreach (var t in teams)
             {
@@ -273,19 +274,19 @@ namespace WebServerAsp.Controllers
             return Ok(new { teams = teamsModel, team = myTeamModel, invitesTeammates = invitesTeammatesModel, teammates = teammatesModel, });
         }
 
-        [HttpPost("add-teammate")]
+        [HttpGet("add-teammate/{phone}/{login}")]
         public IActionResult AddTeammate(string phone= "", string login ="")
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "user");
             if (userId is null) return BadRequest("Incorrect token");
             var mainUser = _userRepository.GetUserByID(Convert.ToInt32(userId.Value));
             if (mainUser is null) return BadRequest("Incorrect user");
-            var team = Team.GetTeamsByUserLogin(mainUser.Login).FirstOrDefault(x => x.Name == "Моя команда");
+            var team = _teamRepository.GetTeamsByUserLogin(mainUser.Login).FirstOrDefault(x => x.Name == "Моя команда");
             if (team == null) return BadRequest("Incorrect request");
 
             if (phone != "" && phone != "+7" && phone != "+")
             {
-                var user = t.User.GetUserByPhoneNumber(phone);
+                var user = _userRepository.GetUserByPhoneNumber(phone);
                 if (user == null) return BadRequest("Incorrect request");
 
                 if (team.Teammates.Any(x => x.User.Login == user.Login))
@@ -294,7 +295,7 @@ namespace WebServerAsp.Controllers
                     if (!teammate.IsTeammate)
                     {
                         teammate.IsTeammate = true;
-                        teammate.Update();
+                        _teamRepository.UpdateTeammate(teammate);
                     }
                 }
                 else
@@ -302,7 +303,7 @@ namespace WebServerAsp.Controllers
                     if (!team.AddTeammate(user)) return BadRequest("Incorrect request");
                 }
 
-                var teammates = Teammate.GetTeammatesByTeam(team);
+                var teammates = _teamRepository.GetTeammatesByTeam(team);
                 List<TeammateModel> teammatesModel = new List<TeammateModel>();
                 List<TeammateModel> invitesTeammatesModel = new List<TeammateModel>();
                 foreach (var teammate in teammates)
@@ -318,7 +319,7 @@ namespace WebServerAsp.Controllers
             }
             else if (login != "")
             {
-                var user = t.User.GetUserByLogin(login);
+                var user = _userRepository.GetUserByLogin(login);
                 if (user == null) return BadRequest("Incorrect request");
 
                 if (team.Teammates.Any(x => x.User.Login == user.Login))
@@ -327,12 +328,12 @@ namespace WebServerAsp.Controllers
                     if (!teammate.IsTeammate)
                     {
                         teammate.IsTeammate = true;
-                        teammate.Update();
+                        _teamRepository.UpdateTeammate(teammate);
                     }
                 }
-                else if (!team.AddTeammate(user)) return BadRequest("Incorrect request");
+                else if (!_teamRepository.AddTeammate(user,team)) return BadRequest("Incorrect request");
 
-                var teammates = Teammate.GetTeammatesByTeam(team);
+                var teammates = _teamRepository.GetTeammatesByTeam(team);
                 List<TeammateModel> teammatesModel = new List<TeammateModel>();
                 List<TeammateModel> invitesTeammatesModel = new List<TeammateModel>();
                 foreach (var teammate in teammates)

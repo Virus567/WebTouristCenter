@@ -33,7 +33,6 @@ namespace WebServerAsp.Controllers
         }
 
         [HttpPost("signon")]
-
         public IActionResult Register(RegModel model)
         {
             if (!_userRepository.RegisterUser(model))

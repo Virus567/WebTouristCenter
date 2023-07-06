@@ -14,8 +14,8 @@ namespace WebServerAsp.Controllers
             _routeRepository = routeRepository;
         }
 
-        [HttpGet]
-        public IActionResult GetRoutes(int sort = 1, string? river = null, string? search = "", int days = 0)
+        [HttpGet ("{sort:int}/{river}/{search}/{days:int}")]
+        public IActionResult GetRoutes(int sort, string? river, string? search, int days)
         {
             var routes = _routeRepository.GetRoutes().ToList();
             if (sort == 1)
@@ -30,9 +30,9 @@ namespace WebServerAsp.Controllers
             {
                 routes = routes.OrderBy(r => r.NumberDays).ToList();
             }
-            if (river is not null) routes = routes.Where(r => r.River == river).ToList();
+            if (river is not null && river !=" ") routes = routes.Where(r => r.River == river).ToList();
 
-            if (search is not null) routes = routes.Where(r => r.Name.ToLower().Contains(search.ToLower())).ToList();
+            if (search is not null && search !=" ") routes = routes.Where(r => r.Name.ToLower().Contains(search.ToLower())).ToList();
 
             if (days != 0)
             {

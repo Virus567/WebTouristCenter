@@ -1,4 +1,4 @@
-using Tourist—enterLibrary;
+using Tourist–°enterLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -20,6 +20,7 @@ builder.Services.AddTransient<IInstructorRepository, InstructorService>();
 builder.Services.AddTransient<IHikeRepository, HikeService>();
 builder.Services.AddTransient<IUserRepository, UserService>();
 builder.Services.AddTransient<IOrderRepository, OrderService>();
+builder.Services.AddTransient<ITeamRepository, TeamService>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o => 
@@ -55,15 +56,12 @@ app.UseRouting();
 app.UseAuthorization().UseAuthentication();
 app.UseEndpoints(e => e.MapControllers());
 
-
-app.MapHub<ChatHub>("/chat");
-
 app.Run();
 public class AuthOptions
 {
-    public const string ISSUER = "ServerTouristCenter"; // ËÁ‰‡ÚÂÎ¸ ÚÓÍÂÌ‡
-    public const string AUDIENCE = "ClientTouristCenter"; // ÔÓÚÂ·ËÚÂÎ¸ ÚÓÍÂÌ‡
-    const string KEY = "2292779d8d66ef1a6de3a02eb409efa9932d9cdb";   // ÍÎ˛˜ ‰Îˇ ¯ËÙÓ‚‡ÌËˇ
+    public const string ISSUER = "ServerTouristCenter"; // ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
+    public const string AUDIENCE = "ClientTouristCenter"; // ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
+    const string KEY = "2292779d8d66ef1a6de3a02eb409efa9932d9cdb";   // ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
     public static readonly SigningCredentials SigningCredentials = new(GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256);
     public static SymmetricSecurityKey GetSymmetricSecurityKey() => new(Encoding.UTF8.GetBytes(KEY));
 }

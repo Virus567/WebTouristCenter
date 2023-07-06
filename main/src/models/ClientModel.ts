@@ -1,10 +1,10 @@
 export interface Client {
-	ID: number
-	Surname: string,
-	Name: string,
-	Middlename: string | null,
-	Email: string,
-	PhoneNumber: string,
-	Login: string,
-	NameOfCompany: string | null
+	id: number
+	surname: string,
+	name: string,
+	middleName: string | null,
+	email: string,
+	phoneNumber: string,
+	login: string,
+	nameOfCompany: string | null
 }

@@ -10,8 +10,6 @@ using System.Net;
 
 namespace WebServerAsp.Controllers
 {
-
-    [Authorize]
     [ApiController]
     [Route("hikes")]
     public class HikeController : ControllerBase
@@ -39,8 +37,8 @@ namespace WebServerAsp.Controllers
             return Ok(new {hikes = hikes, orders = orders});
         }
 
-        [HttpGet("get-with-params")]
-        public IActionResult GetHikesWithParams(string date = "", string route = "", string status = "")
+        [HttpGet("get-with-params/{date}/{route}/{status}")]
+        public IActionResult GetHikesWithParams(string date, string route, string status)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "user");
             if (userId is null) return BadRequest("Incorrect token");
@@ -61,7 +59,7 @@ namespace WebServerAsp.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult GetHikeFullInfo(int id = 0)
+        public IActionResult GetHikeFullInfo(int id)
         {
             var hike = Hike.GetViewByID(Convert.ToInt32(id));
             if (hike == null)

@@ -42,7 +42,7 @@ function Register() {
 
   const onClick = (event: any) => {
 		if (values.mainpassword !== values.passwordcheck) {setShowToast(true); return;};
-    if(values.login===''|| values.surname ==='' || values.name === '' || values.phone  === '+7' || values.phone  === '+' || values.phone  === '' || values.email === '' || values.mainpassword === ''){setShow(true);return;}
+    if(values.login===''|| values.surname ==='' || values.name === '' || values.phone  === '+7' || values.phone  === '+' || values.phone  === '' || values.email === '' || values.mainpassword === ''){setShow(true);console.log(values);return;}
 		const data: RegistrationModel = {
 			login: values.login,
 			password: sha256(values.mainpassword),

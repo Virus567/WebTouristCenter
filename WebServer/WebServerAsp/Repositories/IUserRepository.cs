@@ -9,5 +9,6 @@ namespace WebServerAsp.Repositories
         public User? GetUserByLogin(string login);
         public bool RegisterUser(RegModel regModel);
         public User? GetUserAuth(string login, string password);
+        public User? GetUserByPhoneNumber(string phoneNumber);
     }
 }

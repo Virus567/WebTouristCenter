@@ -1,18 +1,18 @@
 export interface Hike {
-	ID: number
-	StartTime: string,
-    FinishTime: string,
-    RouteName: string,
-	WayToTravel: string,
-	PeopleAmount:  number,
-    CompanyName: string,
-    Status: string,
+	id: number
+	startTime: string,
+    finishTime: string,
+    routeName: string,
+	wayToTravel: string,
+	peopleAmount:  number,
+    companyName: string,
+    status: string,
     isPhotograph: boolean
-    Users: { 
-        ID: number,
-        Login: string,
-        Surname: string,
-        Name: string,
-        MiddleName: string
+    users: {
+        id: number,
+        login: string,
+        surname: string,
+        name: string,
+        middleName: string
     }[]
 }

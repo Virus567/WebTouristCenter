@@ -253,5 +253,6 @@ namespace TouristСenterLibrary.Entity
             }
             return enumElement.ToString();
         }
+        
     }
 }

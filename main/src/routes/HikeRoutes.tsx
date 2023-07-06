@@ -8,10 +8,10 @@ import {Route} from "../models/RoutesModel";
 function HikeRoutes() {
   const navigate = useNavigate();
   const [routes, setRoutes] = useState<Route[]>([]);
-  const [sort, setSort] = useState<string>('');
-  const [river, setRiver] = useState<string>('');
-  const [search, setSearch] = useState<string>('');
-  const [days, setDays] = useState<string>('');
+  const [sort, setSort] = useState<string>('1');
+  const [river, setRiver] = useState<string>(' ');
+  const [search, setSearch] = useState<string>(' ');
+  const [days, setDays] = useState<string>('0');
   const [key, setKey] = useState<boolean>(false);
 
   const getRoutesWithParams =(sort:string, river:string, search:string, days:string) =>{
@@ -23,6 +23,7 @@ function HikeRoutes() {
   React.useEffect(() => {
     if (key) return;
     RouteService.getRoutes().then((res) => {
+      console.log(res)
       setRoutes(res);
     })
     setKey(true);
@@ -66,7 +67,7 @@ function HikeRoutes() {
                           setRiver(e.target.value);
                           getRoutesWithParams(sort, e.target.value, search, days);
                       }}  aria-label="Река">
-                        <option value="All">Все</option>
+                        <option value=" ">Все</option>
                         <option value="Nemda">Немда</option>
                         <option value="Vyatka">Вятка</option>
                         <option value="Bystrica">Быстрица</option>

@@ -28,6 +28,7 @@ function Order() {
 
   React.useEffect(() => {
     if (key) return;
+    console.log(user.client.client)
     RouteService.getRouteById(routeId!).then((res) => {
       if(res!== undefined){
         setRoute(res);
@@ -55,12 +56,12 @@ function Order() {
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   Представитель:
               </h6>
-              <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-2" readOnly value={user.client.client?.Surname + " " + user.client.client?.Name + " " + user.client.client?.Middlename}  placeholder="ФИО представителя"/>     
+              <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-2" readOnly value={user.client.client?.surname + " " + user.client.client?.name + " " + user.client.client?.middleName} placeholder="ФИО представителя"/>
               <h6 className='text-white p-0 mt-2' 
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   Телефон Представителя:
               </h6>
-              <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-2" readOnly value={user.client.client?.PhoneNumber} placeholder="Номер телефона представителя"/>
+              <Form.Control style={{backgroundColor:"#F2FAED"}} type="text" className="mt-2" readOnly value={user.client.client?.phoneNumber} placeholder="Номер телефона представителя"/>
               <h6 className='text-white p-0 mt-3' 
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   Даты:

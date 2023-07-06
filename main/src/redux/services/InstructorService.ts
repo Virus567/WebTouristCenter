@@ -9,7 +9,7 @@ class InstructorService {
 		return axios.get(API_URL + "")
         .then((response) => {
             console.log(response.data);
-              const instructors: Instructor[] = response.data.answer.instructors
+              const instructors: Instructor[] = response.data.instructors
               return instructors;
             })
           .catch((error) => {

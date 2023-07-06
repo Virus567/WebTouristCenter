@@ -5,16 +5,57 @@ using WebServerAsp.Models;
 using ExcelLibrary;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebServerAsp.Services
 {
     public class HikeService : IHikeRepository
     {
+        private readonly ApplicationContext _context;
+
+        public HikeService(ApplicationContext context)
+        {
+            _context = context;
+        }
         public bool AddReport(DatesModel body, User user)
         {
             try
             {
-                List<Hike.HikeView> hikes = Hike.GetViewByUserID(user.ID);
+                List<Hike.HikeView> hikes = _context.Hike.Include(h=>h.OrdersList)
+                    .ThenInclude(h => h.TouristGroup)
+                    .ThenInclude(h => h.User )
+                    .Include(h => h.OrdersList)
+                    .ThenInclude(h => h.TouristGroup)
+                    .ThenInclude(h => h.ParticipantsList) 
+                    .ThenInclude(h=>h.User)
+                    .Select(h => new Hike.HikeView()
+                    {
+                        ID = h.ID,
+                        OrdersList = h.OrdersList,
+                        RouteName = h.Route.Name,
+                        WayToTravel = h.OrdersList.FirstOrDefault().WayToTravel,
+                        CompanyName = h.OrdersList.FirstOrDefault().TouristGroup.GetCompanyNameForHike(),
+                        StartTime = h.OrdersList.FirstOrDefault().StartTime.ToString("d"),
+                        FinishTime = h.OrdersList.FirstOrDefault().FinishTime.ToString("d"),
+                        Status = h.Status
+                    }).ToList();
+
+                foreach (Hike.HikeView hike in hikes)
+                {
+                    hike.PeopleAmount = 0;
+                    foreach (var order in hike.OrdersList)
+                    {
+                        hike.PeopleAmount += order.TouristGroup.PeopleAmount;
+                        hike.Users.Add(order.TouristGroup.User);
+                        foreach (var participant in order.TouristGroup.ParticipantsList)
+                        {
+                            var p = participant;
+                            p.TouristGroup = null;
+                            hike.Users.Add(p.User);
+                        }
+                    }
+                }
+                hikes = hikes.Where(h => h.Users.Contains(_context.User.First(u => u.ID == user.ID))).ToList();
 
                 DateTime startdt = DateTime.Parse(body.startDate);
                 DateTime finishdt = DateTime.Parse(body.finishDate);
@@ -45,7 +86,7 @@ namespace WebServerAsp.Services
                 msg.Body = "Сформирован отчет по пройденным вами маршрутам с " + startdt.ToString("d") + " по " + finishdt.ToString("d") + ".";
                 using (var smtp = new SmtpClient("smtp.mail.ru", 587))
                 {
-                    smtp.Credentials = new NetworkCredential("tourist-center-vyatsu@mail.ru", "KHJGuMh1AMswAADBP9CL");
+                    smtp.Credentials = new NetworkCredential("tourist-center-vyatsu@mail.ru", "PgbQ8YpGhzZzuWMJkU4p");
                     smtp.EnableSsl = true;
                     smtp.Send(msg);
                 }
@@ -63,7 +104,41 @@ namespace WebServerAsp.Services
 
         public List<HikeModel> GetHikes(int id)
         {
-            List<Hike.HikeView> hikes = Hike.GetViewByUserID(id);           
+            List<Hike.HikeView> hikes =_context.Hike.Include(h=>h.OrdersList)
+                .ThenInclude(h => h.TouristGroup)
+                .ThenInclude(h => h.User )
+                .Include(h => h.OrdersList)
+                .ThenInclude(h => h.TouristGroup)
+                .ThenInclude(h => h.ParticipantsList) 
+                .ThenInclude(h=>h.User)
+                .Select(h => new Hike.HikeView()
+                {
+                    ID = h.ID,
+                    OrdersList = h.OrdersList,
+                    RouteName = h.Route.Name,
+                    WayToTravel = h.OrdersList.FirstOrDefault().WayToTravel,
+                    CompanyName = h.OrdersList.FirstOrDefault().TouristGroup.GetCompanyNameForHike(),
+                    StartTime = h.OrdersList.FirstOrDefault().StartTime.ToString("d"),
+                    FinishTime = h.OrdersList.FirstOrDefault().FinishTime.ToString("d"),
+                    Status = h.Status
+                }).ToList();
+
+            foreach (Hike.HikeView hike in hikes)
+            {
+                hike.PeopleAmount = 0;
+                foreach (var order in hike.OrdersList)
+                {
+                    hike.PeopleAmount += order.TouristGroup.PeopleAmount;
+                    hike.Users.Add(order.TouristGroup.User);
+                    foreach (var participant in order.TouristGroup.ParticipantsList)
+                    {
+                        var p = participant;
+                        p.TouristGroup = null;
+                        hike.Users.Add(p.User);
+                    }
+                }
+            }
+            hikes = hikes.Where(h => h.Users.Contains(User.GetUserByID(id))).ToList();;           
             var hikesModel = new List<HikeModel>();
             foreach (var hike in hikes)
             {

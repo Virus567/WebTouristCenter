@@ -12,16 +12,27 @@ namespace WebServerAsp.Services
         {
             _context = context;
         }
-        public IQueryable<InstructorModel> GetInstructors()
+        public List<InstructorModel> GetInstructors()
         {
-            var instructors = Instructor.GetInstructors();
+            var instructors = (from i in _context.Instructor
+                select new Instructor.InstructorView()
+                {
+                    ID = i.ID,
+                    Surname = i.Surname,
+                    Name = i.Name,
+                    Middlename = i.Middlename,
+                    InstructorTelefonNumber = i.PhoneNumber,
+                    Image = i.Image,
+                    Discription = i.Discription,
+                    InHike = false
+                }).ToList();
             var instructorModels = new List<InstructorModel>();
             foreach (var i in instructors)
             {
                 instructorModels.Add(new InstructorModel(i.ID, i.Surname, i.Name, i.Middlename, i.Image, i.Discription));
             }
 
-            return (IQueryable<InstructorModel>) instructorModels;
+            return instructorModels;
         }
     }
 }

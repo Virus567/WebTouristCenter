@@ -15,8 +15,8 @@ class HikeService {
 		return axios.get(API_URL, {headers: authHeader()})
         .then((response) => {
             console.log(response.data);
-            const hikes: Hike[] = response.data.answer.hikes;
-            const orders: Order[] = response.data.answer.orders;
+            const hikes: Hike[] = response.data.hikes;
+            const orders: Order[] = response.data.orders;
             return {hikes: hikes, orders: orders};
             })
           .catch((error) => {
@@ -38,10 +38,10 @@ class HikeService {
   
 
     getHikesWithParams(date:string, route:string, status:string) {
-      return axios.get(API_URL + "get-with-params?date="+ date +"&route="+ route +"&status="+ status, {headers: authHeader()})
+      return axios.get(API_URL + "get-with-params/"+ date +"/"+ route +"/"+ status, {headers: authHeader()})
           .then((response) => {
               console.log(response.data);
-              const hikes: Hike[] = response.data.answer.hikes;
+              const hikes: Hike[] = response.data.hikes;
               return hikes;
               })
             .catch((error) => {
@@ -54,9 +54,9 @@ class HikeService {
       return axios.get(API_URL +id,{headers: authHeader()})
           .then((response) => {
               console.log(response.data);
-              const route: Route = response.data.answer.route;
-              const hike: Hike = response.data.answer.hike;
-              const instructors: Instructor[] = response.data.answer.instructors;
+              const route: Route = response.data.route;
+              const hike: Hike = response.data.hike;
+              const instructors: Instructor[] = response.data.instructors;
               return {hike: hike, instructors: instructors, route: route};
               })
             .catch((error) => {

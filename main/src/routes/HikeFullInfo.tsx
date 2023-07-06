@@ -63,13 +63,13 @@ function HikeFullInfo() {
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   Команда:
               </h6>
-              <Form.Control style={{backgroundColor:"#F2FAED"}} value={hike?.CompanyName} readOnly type="text" className="mt-2" placeholder="Команда"/>     
+              <Form.Control style={{backgroundColor:"#F2FAED"}} value={hike?.companyName} readOnly type="text" className="mt-2" placeholder="Команда"/>
               <h6 className='text-white p-0 mt-3' 
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   Количество человек:
               </h6>
               <div className='d-flex'>
-                <Form.Control style={{backgroundColor:"#F2FAED", width:"220px"}} value={hike?.PeopleAmount} readOnly type="text" className="mt-2" maxLength={2} placeholder="Количество человек"/>
+                <Form.Control style={{backgroundColor:"#F2FAED", width:"220px"}} value={hike?.peopleAmount} readOnly type="text" className="mt-2" maxLength={2} placeholder="Количество человек"/>
                 <Button onClick={handleShow} className='p-0 rounded mt-2' style={{backgroundColor:"#F2FAED",fontWeight:"bold",  border:" 2px solid #89A889", color:"#89A889", height:"38px", width:"30%", marginLeft:"9rem"}}>
                           <h6 className='m-0 p-0'>Сотстав</h6> 
                 </Button> 
@@ -92,18 +92,18 @@ function HikeFullInfo() {
                   Даты:
               </h6>
               <div className='d-flex justify-content-between mt-1'>
-                <Form.Control style={{backgroundColor:"#F2FAED"}} value={hike?.StartTime} type="date" name="dos"/>
+                <Form.Control style={{backgroundColor:"#F2FAED"}} value={hike?.startTime} type="date" name="dos"/>
                 <h5 className='text-white p-0 ' 
               style={{margin:"3px 10px 0 10px",textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   —
               </h5>
-                <Form.Control style={{backgroundColor:"#F2FAED"}} value={hike?.FinishTime} type="date" name="dof" readOnly/>
+                <Form.Control style={{backgroundColor:"#F2FAED"}} value={hike?.finishTime} type="date" name="dof" readOnly/>
               </div>
               <h6 className='text-white p-0 mt-3' 
               style={{textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                   Способ передвижения:
               </h6>
-              <Form.Select  style={{backgroundColor:"#F2FAED"}} value={hike?.WayToTravel} className="mt-2" aria-label="Способ передвижения" >
+              <Form.Select  style={{backgroundColor:"#F2FAED"}} value={hike?.wayToTravel} className="mt-2" aria-label="Способ передвижения" >
                 <option value="Рафты">Рафты</option>
                 <option value="Байдарки">Байдарки</option>
               </Form.Select> 
@@ -159,12 +159,12 @@ function HikeFullInfo() {
                {instructors.map((i)=>(
                
                   <Container className='d-flex mt-3 p-0'>
-                      <Image src={i.Image} alt='Фото' style={{width:"13rem"}}/>
+                      <Image src={i.image} alt='Фото' style={{width:"13rem"}}/>
                       <Card style={{ width: '22rem' }}>
                         <Card.Body >
-                          <Card.Title>{i.Surname} {i.Name}</Card.Title>
+                          <Card.Title>{i.surname} {i.name}</Card.Title>
                           <Card.Text>
-                            {i.Discription}
+                            {i.discription}
                           </Card.Text>
                         </Card.Body>
                       </Card>
@@ -184,13 +184,13 @@ function HikeFullInfo() {
             </Modal.Header>
             <Modal.Body className='d-flex flex-column align-items-center' style={{backgroundColor:"#B4C3B1", overflowY:"scroll", overflowX:"hidden", maxHeight:"600px"}}>
                <div className='d-flex flex-column align-items-center'>
-               {hike?.Users.map((u)=>(
+               {hike?.users.map((u)=>(
                
                <Container className='d-flex mt-3 p-0'>
                    <Card style={{ width: '22rem' }}>
                      <Card.Body >
                        <Card.Text>
-                           {u.Surname} {u.Name} {u.MiddleName}
+                           {u.surname} {u.name} {u.middleName}
                        </Card.Text>
                      </Card.Body>
                    </Card>

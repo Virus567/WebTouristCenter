@@ -19,7 +19,6 @@ import {Provider} from "react-redux";
 import {store} from './redux/store';
 import HikeFullInfo from './routes/HikeFullInfo';
 import OrderFullInfo from './routes/OrderFullInfo';
-import Chat from './routes/Chat';
 import {createSignalRContext} from 'react-signalr';
 
 export const SignalRContext = createSignalRContext();
@@ -27,7 +26,6 @@ export const SignalRContext = createSignalRContext();
 
 ReactDOM.render(
   <React.StrictMode>
-    <SignalRContext.Provider url={"http://localhost:8080/chat"}>
       <Provider store={store}>
       <BrowserRouter>
       <div className="d-flex row" style={{overflowX:"hidden", backgroundColor:"#F2FAED",height:"100%"}}>
@@ -47,13 +45,11 @@ ReactDOM.render(
             <Route path={"/hike-info"} element={<HikeFullInfo/>} />
             <Route path={"/order-info"} element={<OrderFullInfo/>} />
             <Route path={"/register"} element={<Registration/>} />
-            <Route path={"/chat"} element={<Chat/>} />
           </Routes>
         </div>
       </div>   
       </BrowserRouter> 
       </Provider>
-    </SignalRContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

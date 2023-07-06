@@ -10,11 +10,12 @@ import { Route } from "../../models/RoutesModel";
 
 const API_URL = "http://localhost:8080/orders/";
 
+
 class OrderService {
     addOrder(order: FinalOrderInfo) {
 		return axios.post(API_URL + "add-order", order, {headers: authHeader()})
         .then((response) => {
-            const email: string = response.data.answer.email;
+            const email: string = response.data.email;
             return {status: response.data.status, email: email};   
             })
           .catch((error) => {
@@ -24,11 +25,11 @@ class OrderService {
     }
 
     getOrderFullInfo(id: number) {
-      return axios.get(API_URL + id,{headers: authHeader()})
+      return axios.get(API_URL +id)
           .then((response) => {
-              console.log(response.data);
-              const route: Route = response.data.answer.route;
-              const order: Order = response.data.answer.order;
+              console.log(response);
+              const route: Route = response.data.route;
+              const order: Order = response.data.order;
               return {order: order, route: route};
               })
             .catch((error) => {

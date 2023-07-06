@@ -182,7 +182,7 @@ function OrderParticiapnt() {
                         style={{
                         backgroundColor:"#F2FAED"
                         }}>
-                          <span className='mx-2'>{teammate.User.Surname} {teammate.User.Name} | {teammate.User.Login}</span>
+                          <span className='mx-2'>{teammate.user.surname} {teammate.user.name} | {teammate.user.login}</span>
 
               </Container>
               ))}
@@ -264,25 +264,25 @@ function OrderParticiapnt() {
             <Modal.Body className='d-flex flex-column align-items-center' style={{backgroundColor:"#B4C3B1"}}>
             {teams.map((team)=>(
               <div>
-              {(team.Name === 'Моя команда' && team.MainUser.ID === user.client.client?.ID )?(
-                <Button className='mt-2 mb-2 p-1 rounded' onClick={(e) => {changeTeam(team.ID)}}
+              {(team.name === 'Моя команда' && team.mainUser.id === user.client.client?.id )?(
+                <Button className='mt-2 mb-2 p-1 rounded' onClick={(e) => {changeTeam(team.id)}}
                 style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889",  border:" 2px solid #89A889"}}>
                       <span className='mx-2'>Моя команда</span>
                 </Button>
                ):(
                 <>
-                {(team.Name === 'Пойти в одиночку')?
+                {(team.name === 'Пойти в одиночку')?
                 (
-                  <Button className='mt-2 mb-2 p-1 rounded' onClick={(e) => {changeTeam(team.ID)}}
+                  <Button className='mt-2 mb-2 p-1 rounded' onClick={(e) => {changeTeam(team.id)}}
                   style={{width:"300px", backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
                   textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
                       <span className='mx-2'>Пойти в одиночку</span>
                 </Button>
                 ):(
-                  <Button className='mt-2 mb-2 p-1 rounded'  onClick={(e) => {changeTeam(team.ID)}}
+                  <Button className='mt-2 mb-2 p-1 rounded'  onClick={(e) => {changeTeam(team.id)}}
                   style={{width:"300px", backgroundColor:"#B6D3B0", color:"#ffff", border:" 1px solid #89A889",
                   textShadow:"1px 1px 0 #89A889, -1px -1px 0 #89A889, 1px -1px 0 #89A889, -1px 1px 0 #89A889, 1px 1px 0 #89A889"}}>
-                    <span className='mx-2'>Команда {team.MainUser.Surname} {team.MainUser.Name}</span>
+                    <span className='mx-2'>Команда {team.mainUser.surname} {team.mainUser.name}</span>
                 </Button>
                 )}
                 </>
@@ -347,18 +347,18 @@ function OrderParticiapnt() {
               <p style={{color:"#ffffff"}}>Вы можете выбрать старшего инструктора, с которым хотите отправиться на маршрут. Администратор по возможности учтет ваш выбор.</p>
               {instructors.map((i)=>(
                 <>
-                {(i.ID === instructor?.ID)?
+                {(i.id === instructor?.id)?
                 (
                   <Container className='d-flex mt-3 p-0'>
-                      <Image src={i.Image} alt='Фото' style={{width:"13rem"}}/>
+                      <Image src={i.image} alt='Фото' style={{width:"13rem"}}/>
                       <Card style={{ width: '22rem', backgroundColor:"#F2FAED"}}>
                         <Card.Body >
                           <Card.Title>
                             <BsCheckCircle style={{marginRight:"7px", marginBottom:"5px"}}/>
-                            Выбран(а) {i.Surname} {i.Name}
+                            Выбран(а) {i.surname} {i.name}
                             </Card.Title>
                           <Card.Text>
-                            {i.Discription}
+                            {i.discription}
                           </Card.Text>
                         </Card.Body>
                       </Card>
@@ -366,12 +366,12 @@ function OrderParticiapnt() {
 
                 ):(
                   <Container className='d-flex mt-3 p-0'>
-                      <Image src={i.Image} alt='Фото' style={{width:"13rem"}}/>
+                      <Image src={i.image} alt='Фото' style={{width:"13rem"}}/>
                       <Card style={{ width: '22rem', backgroundColor:"#F2FAED"}}>
                         <Card.Body >
-                          <Card.Title>{i.Surname} {i.Name}</Card.Title>
+                          <Card.Title>{i.surname} {i.name}</Card.Title>
                           <Card.Text>
-                            {i.Discription}
+                            {i.discription}
                           </Card.Text>
                           <Button onClick={(e) => {changeInstructor(i)}} style={{backgroundColor:"#F2FAED",fontWeight:"bold", color:"#89A889",  border:" 2px solid #89A889"}}>
                                             Выбрать

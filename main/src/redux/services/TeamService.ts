@@ -10,13 +10,15 @@ const API_URL = "http://localhost:8080/teams/";
 
 class TeamService {
     getTeams() {
-		return axios.get(API_URL + "", {headers: authHeader()})
+        console.log(authHeader())
+		return axios.get(API_URL, {headers: authHeader()})
         .then((response) => {
-              const teams: Team [] = response.data.answer.teams;
-              const team: Team = response.data.answer.team;
-              const teammates: Teammate [] = response.data.answer.teammates;
-              const invitesTeammates: Teammate [] = response.data.answer.invitesTeammates;
-              const invites: InviteModel [] = response.data.answer.invites;
+            console.log(response)
+              const teams: Team [] = response.data.teams;
+              const team: Team = response.data.team;
+              const teammates: Teammate [] = response.data.teammates;
+              const invitesTeammates: Teammate [] = response.data.invitesTeammates;
+              const invites: InviteModel [] = response.data.invites;
               return {teams: teams, team:team, teammates: teammates, invites: invites, invitesTeammates: invitesTeammates};
             }) 
           .catch((error) => {
@@ -26,11 +28,11 @@ class TeamService {
 	  }
 
     changeTeamByTeamId(id: number){
-      return axios.get(API_URL + "change-team?id=" + id)
+      return axios.get(API_URL + "change-team/" + id)
       .then((response) => {
-          const teammates : Teammate [] = response.data.answer.teammates;
-          const invitesTeammates : Teammate [] = response.data.answer.invitesTeammates;
-          const team : Team = response.data.answer.team
+          const teammates : Teammate [] = response.data.teammates;
+          const invitesTeammates : Teammate [] = response.data.invitesTeammates;
+          const team : Team = response.data.team
           return {team:team, teammates: teammates, invitesTeammates: invitesTeammates};
         })
       .catch((error) => {
@@ -42,8 +44,8 @@ class TeamService {
     getDefaultTeammatesByUser() {
       return axios.get(API_URL + "default-teammates", {headers: authHeader()})
         .then((response) => {
-          const teammates: Teammate[] = response.data.answer.teammates;
-          const team: Team = response.data.answer.team
+          const teammates: Teammate[] = response.data.teammates;
+          const team: Team = response.data.team
           return {teammates: teammates, team: team};
           })
         .catch((error) => {
@@ -52,11 +54,11 @@ class TeamService {
         });
     }
     findByLogin(login: string){
-      return axios.get(API_URL + "find-by-login?login=" + login)
+      return axios.get(API_URL + "find-by-login/" + login)
       .then((response) => {
         console.log(response.data);
-          const user : Client = response.data.answer.user;
-          const fullName : string = response.data.answer.fullName;
+          const user : Client = response.data.user;
+          const fullName : string = response.data.fullName;
           return {user: user, fullName: fullName};
         })
       .catch((error) => {
@@ -66,11 +68,11 @@ class TeamService {
     }
 
     findByPhone(phone: string){
-      return axios.get(API_URL + "find-by-phone?phone=" + phone)
+      return axios.get(API_URL + "find-by-phone/" + phone)
       .then((response) => {
         console.log(response.data);
-        const user : Client = response.data.answer.user;
-        const fullName : string = response.data.answer.fullName;
+        const user : Client = response.data.user;
+        const fullName : string = response.data.fullName;
         return {user: user, fullName: fullName};
       })
       .catch((error) => {
@@ -83,8 +85,8 @@ class TeamService {
       return axios.post(API_URL + "change-is-teammate", {flag: flag, userId: mainUserId}, {headers: authHeader()} )
       .then((response) => {
         console.log(response.data);
-          const invites:InviteModel [] = response.data.answer.invites;
-          const teams: Team[] = response.data.answer.teams;
+          const invites:InviteModel [] = response.data.invites;
+          const teams: Team[] = response.data.teams;
           return {invites: invites, teams: teams};
         })
       .catch((error) => {
@@ -97,7 +99,7 @@ class TeamService {
       return axios.post(API_URL + "kick-teammate", {flag: flag, userId: userId}, {headers: authHeader()} )
       .then((response) => {
         console.log(response.data);
-          const  teammates: Teammate [] = response.data.answer.teammates;
+          const  teammates: Teammate [] = response.data.teammates;
           return teammates;
         })
       .catch((error) => {
@@ -109,10 +111,10 @@ class TeamService {
       return axios.post(API_URL + "leave-team", {flag: flag, userId: userId}, {headers: authHeader()} )
       .then((response) => {
         console.log(response.data);
-          const  teams: Team [] = response.data.answer.teams;
-          const teammates : Teammate [] = response.data.answer.teammates;
-          const invitesTeammates : Teammate [] = response.data.answer.invitesTeammates;
-          const team: Team = response.data.answer.team;
+          const  teams: Team [] = response.data.teams;
+          const teammates : Teammate [] = response.data.teammates;
+          const invitesTeammates : Teammate [] = response.data.invitesTeammates;
+          const team: Team = response.data.team;
           return {teams: teams, teammates: teammates, invitesTeammates: invitesTeammates, team: team};
         })
       .catch((error) => {
@@ -123,10 +125,10 @@ class TeamService {
 
 
     addTeammate(phone: string, login: string){
-      return axios.post(API_URL + "add-teammate?phone=" + phone + "&login="+ login, phone, {headers: authHeader()})
+      return axios.get(API_URL + "add-teammate/"+phone+"/"+login, {headers: authHeader()})
       .then((response) => {
-          const teammates: Teammate[] = response.data.answer.teammates;
-          const invitesTeammates: Teammate[] = response.data.answer.invitesTeammates;
+          const teammates: Teammate[] = response.data.teammates;
+          const invitesTeammates: Teammate[] = response.data.invitesTeammates;
           return {teammates:teammates, invitesTeammates: invitesTeammates};
         })
       .catch((error) => {

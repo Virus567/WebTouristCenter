@@ -5,6 +5,6 @@ namespace WebServerAsp.Repositories
 {
     public interface IInstructorRepository
     {
-        public IQueryable<InstructorModel> GetInstructors();
+        public List<InstructorModel> GetInstructors();
     }
 }

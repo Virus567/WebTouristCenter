@@ -88,11 +88,11 @@ function Header() {
                 <div className="align-items-center d-flex" >
                   <div className="ml-2 d-none d-lg-block">
                   <span className="mb-0 mx-2 text-black font-bold">
-                     {(user.client.client!.NameOfCompany=== null)?
+                     {(user.client.client!.nameOfCompany=== null)?
                      (
-                        user.client.client!.Login
+                        user.client.client!.login
                      ):(
-                        user.client.client!.NameOfCompany
+                        user.client.client!.nameOfCompany
                      )
                      }
                       
