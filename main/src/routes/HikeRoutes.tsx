@@ -90,7 +90,7 @@ function HikeRoutes() {
                     </Form.Group>
                   </div>                                        
         </Container>  
-      <Container className='mt-4 mb-4 row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 col-lg-11 col-md-8' style={{marginLeft:"65px"}}>
+      <Container className='mt-4 mb-4 row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 col-lg-11 col-md-8 mx-auto align-items-center' style={{marginLeft:"65px"}}>
         {routes.map((route)=>(
             <div className='col'>
             <Card style={{ width: '22rem', height:'28rem', border:" 2px solid #89A889" }}>
