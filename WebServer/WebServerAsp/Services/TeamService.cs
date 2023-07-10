@@ -44,6 +44,18 @@ public class TeamService:ITeamRepository
 
     }
 
+    public List<Team> GetTeams()
+    {
+        try
+        {
+            return _context.Team.Include(t=>t.MainUser).Include(t=>t.Teammates).ThenInclude(t=>t.User).ToList();
+        }
+        catch (Exception ex)
+        {
+            return new List<Team>();
+        }
+    }
+
     public bool UpdateTeammate(Teammate teammate)
     {
         try

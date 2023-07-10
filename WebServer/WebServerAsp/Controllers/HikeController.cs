@@ -17,12 +17,16 @@ namespace WebServerAsp.Controllers
         private readonly IHikeRepository _hikeRepository;
         private readonly IUserRepository _userRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly IRouteRepository _routeRepository;
+        private readonly IInstructorRepository _instructorRepository;
 
-        public HikeController(IHikeRepository hikeRepository, IUserRepository userRepository, IOrderRepository orderRepository)
+        public HikeController(IHikeRepository hikeRepository, IUserRepository userRepository, IOrderRepository orderRepository, IRouteRepository routeRepository,IInstructorRepository instructorRepository )
         {
             _hikeRepository = hikeRepository;
             _userRepository = userRepository;
             _orderRepository = orderRepository;
+            _routeRepository = routeRepository;
+            _instructorRepository = instructorRepository;
         }
 
         [HttpGet]
@@ -45,7 +49,7 @@ namespace WebServerAsp.Controllers
             var user = _userRepository.GetUserByID(Convert.ToInt32(userId.Value));
             if (user is null) return BadRequest("Incorrect user");
 
-            List<Hike.HikeView> hikes = Hike.GetViewByUserID(user.ID);
+            List<Hike.HikeView> hikes = _hikeRepository.GetViewByUserID(user.ID);
             if (date != "") hikes = hikes.Where(h => h.StartTime == DateTime.Parse(date).ToString("d")).ToList();
             if (route != "") hikes = hikes.Where(h => h.RouteName == route).ToList();
             if (status != "") hikes = hikes.Where(h => h.Status == status).ToList();
@@ -61,13 +65,13 @@ namespace WebServerAsp.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetHikeFullInfo(int id)
         {
-            var hike = Hike.GetViewByID(Convert.ToInt32(id));
+            var hike = _hikeRepository.GetViewByID(Convert.ToInt32(id));
             if (hike == null)
             {
                 return BadRequest("Incorrect request");
             }
-            var route = t.Route.GetRouteByRouteName(hike.RouteName);
-            var instructors = Instructor.GetInstructorViewsByHikeID(hike.ID);
+            var route = _routeRepository.GetRouteByName(hike.RouteName);
+            var instructors = _instructorRepository.GetInstructorViewsByHikeID(hike.ID);
 
             var hikeModel = new HikeModel(hike);
             return Ok(new { route = route, hike = hikeModel, instructors = instructors });

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TouristСenterLibrary.Entity;
+using WebServerAsp.Repositories;
 
 namespace WebServerAsp.Models;
 
@@ -18,9 +19,8 @@ public class InviteModel
         this.User =new UserModel(User);
     }
 
-    public static List<InviteModel> GetInvites(User user)
+    public static List<InviteModel> GetInvites(User user, List<Team> tmpTeams)
     {
-        List<Team> tmpTeams = Team.GetTeams();
         List<InviteModel> invites = new List<InviteModel>();
         foreach (var team in tmpTeams)
         {

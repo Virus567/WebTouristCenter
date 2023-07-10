@@ -8,7 +8,6 @@ namespace TouristСenterLibrary.Entity
 {
     public class Instructor : Human
     {
-        private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [Required] public string PassportData { get; set; }
         [Required] public DateTime EmploymentDate { get; set; }
@@ -40,74 +39,6 @@ namespace TouristСenterLibrary.Entity
             public string Image { get; set; }
             public string Discription { get; set; }
         }
-        public static List<InstructorView> GetInstructors()
-        {
-            return (from i in db.Instructor
-                    select new InstructorView()
-                    {
-                        ID = i.ID,
-                        Surname = i.Surname,
-                        Name = i.Name,
-                        Middlename = i.Middlename,
-                        InstructorTelefonNumber = i.PhoneNumber,
-                        Image = i.Image,
-                        Discription = i.Discription,
-                        InHike = false
-                    }).ToList();
-        }
         
-        public static Instructor GetInstructorByID(int id)
-        {
-            return db.Instructor.Include(i => i.InstructorGroups).Where(i => i.ID == id).FirstOrDefault();
-        }
-
-        public static List<InstructorView> GetInstructorViewsByHikeID(int hikeId)
-        {
-            List<int> intList = new List<int>();
-            InstructorGroup instructorGroup =InstructorGroup.GetInstructorGroupByHikeID(hikeId);
-            foreach (var ii in instructorGroup.InstructorsList)
-            {
-                intList.Add(ii.ID);
-            }  
-            List<InstructorView> list = Instructor.GetInstructorViewsByListID(intList);
-            return list;
-        }
-
-        public static List<string> GetFullNameInstructorsByHikeID(int hikeId)
-        {
-            List<InstructorView> list = Instructor.GetInstructorViewsByHikeID(hikeId);
-            string str;
-            List<string> strlist = new List<string>();
-            foreach(InstructorView i in list)
-            {
-                str = $"{i.Surname} {i.Name} ";
-                if (i.Middlename != null)
-                    str += $"{i.Middlename} ";
-                str += $"{i.InstructorTelefonNumber}";
-                strlist.Add(str);
-            }
-            return strlist;
-        }
-
-        public static List<InstructorView> GetInstructorViewsByListID(List<int> instructorsID)
-        {
-            List<InstructorView> instructors= new List<InstructorView>();
-            foreach(int instructorId in instructorsID)
-            {
-                instructors.Add((from i in db.Instructor
-                    where i.ID == instructorId
-                    select new InstructorView()
-                    {
-                        ID = instructorId,
-                        Surname = i.Surname,
-                        Name = i.Name,
-                        Middlename = i.Middlename,
-                        InstructorTelefonNumber = i.PhoneNumber,
-                        Discription = i.Discription,
-                        Image = i.Image
-                    }).FirstOrDefault());
-            }
-            return instructors;
-        }
     }
 }

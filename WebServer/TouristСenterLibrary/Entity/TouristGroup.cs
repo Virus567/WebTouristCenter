@@ -8,7 +8,6 @@ namespace TouristСenterLibrary.Entity
 {
     public class TouristGroup
     {
-        private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [Required] public int PeopleAmount { get; set; }
         [Required] public int ChildrenAmount { get; set; }
@@ -31,16 +30,6 @@ namespace TouristСenterLibrary.Entity
         {
             return User.GetFullName();
         }
-        public static void Add(TouristGroup client)
-        {
-            db.TouristGroup.Add(client);
-            db.SaveChanges();
-        }
-        public static void Update(TouristGroup client)
-        {
-            db.TouristGroup.Update(client);
-            db.SaveChanges();
-        }
         public string GetCompanyNameForHike()
         {
             return User.GetCompanyNameForHike();
@@ -50,19 +39,5 @@ namespace TouristСenterLibrary.Entity
             return User.GetCompanyNameForOrder();
         }
 
-
-        public static TouristGroup GetGroupByID(int groupId)
-        {
-            var client = db.TouristGroup.Where(c => c.ID == groupId).FirstOrDefault();
-            db.Participant.Where(p => p.TouristGroupID == groupId).Load();
-            return client;
-        }
-        public static TouristGroup GetGroupByOrderId(int orderId)
-        {
-            return (from c in db.TouristGroup
-                    join o in db.Order on c.ID equals o.TouristGroup.ID
-                    where o.ID == orderId
-                    select c).FirstOrDefault();
-        }
     }
 }

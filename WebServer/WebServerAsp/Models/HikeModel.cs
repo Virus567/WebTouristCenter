@@ -36,14 +36,6 @@ namespace WebServerAsp.Models
             PeopleAmount = hike.PeopleAmount;
             Status = hike.Status;
             IsPhotograph = hike.IsPhotograph;
-            var orders = hike.OrdersList;
-            var ordersModel = new List<OrderModel>();
-            foreach(var order in orders)
-            {
-                var orderView = Order.GetViewById(order.ID);
-                ordersModel.Add(new OrderModel(orderView));
-
-            }
             var users = hike.Users;
             foreach (var user in users)
             {

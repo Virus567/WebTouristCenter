@@ -57,7 +57,8 @@ namespace WebServerAsp.Controllers
                 }
             }
 
-            List<InviteModel> invites = InviteModel.GetInvites(user);
+            var allTeams = _teamRepository.GetTeams();
+            List<InviteModel> invites = InviteModel.GetInvites(user, allTeams);
 
             return Ok(new { teams = teamsModel, teammates = teammatesModel, invites = invites, invitesTeammates = invitesTeammatesModel, team = myTeamModel });
         }
@@ -180,7 +181,8 @@ namespace WebServerAsp.Controllers
                 }
             }
             teams = _teamRepository.GetTeamsByUserLogin(user.Login);
-            var invites = InviteModel.GetInvites(user);
+            var allTeams = _teamRepository.GetTeams();
+            var invites = InviteModel.GetInvites(user, allTeams);
             List<TeamModel> teamsModel = new List<TeamModel>();
             foreach (var t in teams)
             {
@@ -300,7 +302,7 @@ namespace WebServerAsp.Controllers
                 }
                 else
                 {
-                    if (!team.AddTeammate(user)) return BadRequest("Incorrect request");
+                    if (!_teamRepository.AddTeammate(user, team)) return BadRequest("Incorrect request");
                 }
 
                 var teammates = _teamRepository.GetTeammatesByTeam(team);

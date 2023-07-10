@@ -8,6 +8,7 @@ public interface ITeamRepository
     public List<Team> GetTeamsByUserLogin(string login);
     public List<Teammate> GetTeammatesByTeam(Team team);
     public Team? GetTeamsByID(int id);
+    public List<Team> GetTeams();
     public bool UpdateTeammate(Teammate teammate);
     public bool AddTeammate(User user, Team team);
 }

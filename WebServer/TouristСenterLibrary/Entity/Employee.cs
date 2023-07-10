@@ -6,7 +6,6 @@ namespace TouristСenterLibrary.Entity
 {
     public class Employee : Human
     {
-        private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [Required] public string PassportData { get; set; }
         [Required] public Role Role { get; set; }
@@ -26,11 +25,6 @@ namespace TouristСenterLibrary.Entity
             this.PassportData = PassportData;
             this.PhoneNumber = PhoneNumber;
             this.EmploymentDate = EmploymentDate;
-        }
-
-        public static Employee GetEmployeeById(int empId)
-        {
-            return db.Employee.Where(e => e.ID == empId).FirstOrDefault();
         }
     }
 }

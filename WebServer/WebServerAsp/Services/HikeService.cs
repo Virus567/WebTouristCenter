@@ -101,6 +101,97 @@ namespace WebServerAsp.Services
             
         }
 
+        public List<Hike.HikeView> GetViewByUserID(int userId)
+        {
+            try
+            {
+                var hikeList = _context.Hike.Include(h=>h.OrdersList)
+                            .ThenInclude(h => h.TouristGroup)
+                            .ThenInclude(h => h.User )
+                            .Include(h => h.OrdersList)
+                            .ThenInclude(h => h.TouristGroup)
+                            .ThenInclude(h => h.ParticipantsList) 
+                            .ThenInclude(h=>h.User)
+                            .Select(h => new Hike.HikeView()
+                        {
+                            ID = h.ID,
+                            OrdersList = h.OrdersList,
+                            RouteName = h.Route.Name,
+                            WayToTravel = h.OrdersList.FirstOrDefault().WayToTravel,
+                            CompanyName = h.OrdersList.FirstOrDefault().TouristGroup.GetCompanyNameForHike(),
+                            StartTime = h.OrdersList.FirstOrDefault().StartTime.ToString("d"),
+                            FinishTime = h.OrdersList.FirstOrDefault().FinishTime.ToString("d"),
+                            Status = h.Status
+                        }).ToList();
+
+                        foreach (Hike.HikeView hike in hikeList)
+                        {
+                            hike.PeopleAmount = 0;
+                            foreach (var order in hike.OrdersList)
+                            {
+                                hike.PeopleAmount += order.TouristGroup.PeopleAmount;
+                                hike.Users.Add(order.TouristGroup.User);
+                                foreach (var participant in order.TouristGroup.ParticipantsList)
+                                {
+                                    var p = participant;
+                                    p.TouristGroup = null;
+                                    hike.Users.Add(p.User);
+                                }
+                            }
+                        }
+                        hikeList = hikeList.Where(h => h.Users.Any(u=>u.ID == userId)).ToList();
+                        return hikeList;
+            }
+            catch (Exception ex)
+            {
+                return new List<Hike.HikeView>();
+            }
+        }
+
+        public Hike.HikeView? GetViewByID(int hikeId)
+        {
+            try
+            {
+                var hike = _context.Hike.Include(h => h.OrdersList)
+                    .ThenInclude(h => h.TouristGroup)
+                    .ThenInclude(h => h.User)
+                    .Include(h => h.OrdersList)
+                    .ThenInclude(h => h.TouristGroup)
+                    .ThenInclude(h => h.ParticipantsList)
+                    .ThenInclude(h=>h.User)
+                    .Where(h=>h.ID == hikeId)
+                    .Select(h => new Hike.HikeView()
+                    {
+                        ID = h.ID,
+                        OrdersList = h.OrdersList,
+                        RouteName = h.Route.Name,
+                        WayToTravel = h.OrdersList.FirstOrDefault().WayToTravel,
+                        CompanyName = h.OrdersList.FirstOrDefault().TouristGroup.GetCompanyNameForHike(),
+                        StartTime = h.OrdersList.FirstOrDefault().StartTime.ToString("d"),
+                        FinishTime = h.OrdersList.FirstOrDefault().FinishTime.ToString("d"),
+                        Status = h.Status
+                    }).FirstOrDefault();
+                if (hike != null)
+                {
+                    hike.PeopleAmount = 0;
+                    foreach (var order in hike.OrdersList)
+                    {
+                        hike.PeopleAmount += order.TouristGroup.PeopleAmount;
+                        foreach (var participant in order.TouristGroup.ParticipantsList)
+                        {
+                            participant.TouristGroup = null;
+                            hike.Users.Add(participant.User);
+                        }
+                    }
+                }            
+                return hike;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         public List<HikeModel> GetHikes(int id)
         {
@@ -138,7 +229,7 @@ namespace WebServerAsp.Services
                     }
                 }
             }
-            hikes = hikes.Where(h => h.Users.Contains(User.GetUserByID(id))).ToList();;           
+            hikes = hikes.Where(h => h.Users.Contains(_context.User.First(u => u.ID == id))).ToList();;           
             var hikesModel = new List<HikeModel>();
             foreach (var hike in hikes)
             {

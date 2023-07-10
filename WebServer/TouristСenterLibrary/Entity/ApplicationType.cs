@@ -5,7 +5,7 @@ namespace TouristСenterLibrary.Entity
 {
     public class ApplicationType
     {
-        private static ApplicationContext db = ContextManager.db;
+        
         public int ID { get; set; }
         [Required] public string Name { get; set; }
 
@@ -17,15 +17,7 @@ namespace TouristСenterLibrary.Entity
         {
             this.Name = Name;
         }
-
-        public static ApplicationType GetTeamType()
-        {
-            return db.ApplicationType.Where(a => a.ID == 2).ToList()[0];
-        }
-        public static ApplicationType GetFamilyType()
-        {
-            return db.ApplicationType.Where(a => a.ID == 1).ToList()[0];
-        }
+        
     }
 
 }

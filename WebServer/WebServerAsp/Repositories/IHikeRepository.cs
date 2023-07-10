@@ -8,5 +8,7 @@ namespace WebServerAsp.Repositories
         public List<HikeModel> GetHikes(int userId);
 
         public bool AddReport(DatesModel dates, User user);
+        public List<Hike.HikeView> GetViewByUserID(int userId);
+        public Hike.HikeView? GetViewByID(int hikeId);
     }
 }

@@ -8,7 +8,6 @@ namespace TouristСenterLibrary.Entity
 {
     public class Route
     {
-        private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [Required] public string Name { get; set; }
         [Required] public int NumberDays { get; set; }
@@ -31,59 +30,6 @@ namespace TouristСenterLibrary.Entity
             this.Name = Name;
             this.NumberDays = NumberDays;
             this.Description = Description;
-        }
-
-        public bool Update()
-        {
-            try
-            {
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-
-        }
-        public static List<Route> GetRouters()
-        {
-            try
-            {
-                return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).ToList();
-            }
-            catch (Exception ex)
-            {
-                return new List<Route>();
-            }
-            
-        }
-
-        public static Route? GetRouteByID(int id)
-        {
-            try
-            {
-                return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).FirstOrDefault(r => r.ID == id);
-            }
-            catch(Exception ex)
-            {
-                return null;
-            }
-            
-        }
-
-        public static List<string> GetNameRoute()
-        {
-             return db.Route.Select(x => x.Name).ToList();
-        }
-        public static int GetDaysAmountByRouteName(string routeName)
-        {
-            Route route = db.Route.Where(r => r.Name == routeName).FirstOrDefault();
-            return route.NumberDays;
-        }
-        public static Route GetRouteByRouteName(string routeName)
-        {
-            return db.Route.Where(r=>r.Name == routeName).FirstOrDefault();
         }
     }
 }
